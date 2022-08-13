@@ -9,3 +9,7 @@ requests
 scikit_learn
 spacy
 textstat
+django-cors-headers
+googletrans
+transformers
+torch
