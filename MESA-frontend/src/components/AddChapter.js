@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/styles";
 import lightblue from "@material-ui/core/colors/lightBlue";
@@ -60,7 +59,7 @@ function AddStudyChapter() {
     fetch(con.BASE_URI + "/chapters", requestOptions)
       .then(response => {
         console.log(response)
-        if (response.status == 201)
+        if (response.status === 201)
           navigate("/home");
         else
           sethasErr(true)
