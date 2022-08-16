@@ -1,0 +1,15 @@
+Django
+djangorestframework
+nltk
+numpy
+pandas
+PyMySQL
+rake_nltk
+requests
+scikit_learn
+spacy
+textstat
+django-cors-headers
+googletrans
+transformers
+torch
