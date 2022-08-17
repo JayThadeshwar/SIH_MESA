@@ -8,7 +8,7 @@ from rest_framework import viewsets
 
 from Mesa.models import Chapter, User
 from Mesa.serializers import UserSerializer, ChapterSerializer
-# from Mesa.bl.vocabularyDev import extractKeywordsFromContent
+from Mesa.bl.vocabularyDev import extractKeywordsFromContent
 # from Mesa.bl.grammarMod import generateGrammarDetails
 # from Mesa.bl.summaryNTranslation import summarizemethod
 
@@ -30,7 +30,7 @@ def userApi(request, id=0):
         data=User(userName=user_info["userName"],emailId=user_info["emailId"],password=user_info["password"],contactNumber='9820998981',dateOfBirth= datetime.date(1997, 10, 19))
         data.save()
         return JsonResponse("User information added successfully.", safe=False)
-        # return JsonResponse("Failed to add information.", safe=False)
+
     elif request.method == 'PUT':
         user_info = JSONParser().parse(request)
         user = User.objects.get(UserId = user_info['userId'])

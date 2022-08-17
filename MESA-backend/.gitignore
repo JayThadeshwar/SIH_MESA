@@ -1,3 +1,4 @@
-.\Mesa\__pycache__
-.\Ipd\__pycache__
-.\Mesa\migrations
+Mesa/__pycache__/
+Mesa/bl/__pycache__/
+Ipd/__pycache__/
+Mesa/migrations/
