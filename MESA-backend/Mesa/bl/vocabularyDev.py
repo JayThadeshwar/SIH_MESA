@@ -2,10 +2,11 @@ import types
 from typing import Dict
 import nltk
 
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
+# nltk.download('punkt')
+# nltk.download('stopwords')
+# nltk.download('wordnet')
+# nltk.download('omw-1.4')
+# pip install googletrans==3.1.0a0
 
 import string
 import pandas as pd
@@ -262,7 +263,7 @@ def extractKeywordsFromContent(content):
     for word in list(res.keys())[:10]:
         req = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
         data = req.json()
-        print(word)
+        # print(word)
 
         audioLink = list()
         examples = list()
@@ -279,17 +280,17 @@ def extractKeywordsFromContent(content):
         definition = list()
 
         for syn in syns:
-            synon = [word.name() for word in syn.lemmas()]
+            synon = [word.name().replace("_"," ") for word in syn.lemmas()]
             anton= [lemma.antonyms()[0].name() for lemma in syn.lemmas() if lemma.antonyms()]
             synonyms.update(synon)
             antonyms.update(anton)
             definition.append(syn.definition())    
-        
+                
         translated_word = translator.translate(word, src='en', dest='hi')   
         al = ''
         if len(audioLink) > 0:
             al = audioLink[0]
 
         if(isinstance(data, list)):
-            result.append(WordInformation(word, definition, list(synonyms), list(antonyms), examples, al, translated_word.text).__dict__)
+            result.append(WordInformation(word, definition[:5], list(synonyms)[:5], list(antonyms)[:5], examples, al, translated_word.text).__dict__)
     return result

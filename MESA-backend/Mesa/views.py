@@ -9,8 +9,8 @@ from rest_framework import viewsets
 from Mesa.models import Chapter, User
 from Mesa.serializers import UserSerializer, ChapterSerializer
 from Mesa.bl.vocabularyDev import extractKeywordsFromContent
-# from Mesa.bl.grammarMod import generateGrammarDetails
-# from Mesa.bl.summaryNTranslation import summarizemethod
+from Mesa.bl.summaryNTranslation import summarizemethod
+from Mesa.bl.grammarMod import generateGrammarDetails
 
 # Create your views here.
 
