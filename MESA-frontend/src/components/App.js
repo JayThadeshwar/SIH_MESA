@@ -10,6 +10,7 @@ import SummTrans from './Summarization';
 import Grammar from './Grammar';
 import Assessment from './Assessment';
 import AddChap from './AddChapter';
+import MixMatch from './MixMatch';
 
 
 function App(props) {
@@ -25,6 +26,8 @@ function App(props) {
                 <Route path='/grammar' element={<Grammar/>} />
                 <Route path='/assessment' element={<Assessment/>} />
                 <Route path='/addchapter' element={<AddChap/>} />
+                <Route path='/mixmatch' element={<MixMatch/>} />
+
             </Routes>
         </Router>
   );
