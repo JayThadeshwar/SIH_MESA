@@ -1,3 +1,4 @@
+import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 
@@ -7,9 +8,9 @@ from rest_framework import viewsets
 
 from Mesa.models import Chapter, User
 from Mesa.serializers import UserSerializer, ChapterSerializer
-from Mesa.bl.vocabularyDev import extractKeywordsFromContent
-from Mesa.bl.grammarMod import generateGrammarDetails
-from Mesa.bl.summaryNTranslation import summarizemethod
+# from Mesa.bl.vocabularyDev import extractKeywordsFromContent
+# from Mesa.bl.grammarMod import generateGrammarDetails
+# from Mesa.bl.summaryNTranslation import summarizemethod
 
 # Create your views here.
 
@@ -25,11 +26,11 @@ def userApi(request, id=0):
         return JsonResponse(users_serializer.data, safe=False)
     elif request.method == 'POST':
         user_info = JSONParser().parse(request)
-        users_serializer = UserSerializer(data = user_info)
-        if users_serializer.is_valid():
-            users_serializer.save()
-            return JsonResponse("User information added successfully.", safe=False)
-        return JsonResponse("Failed to add information.", safe=False)
+
+        data=User(userName=user_info["userName"],emailId=user_info["emailId"],password=user_info["password"],contactNumber='9820998981',dateOfBirth= datetime.date(1997, 10, 19))
+        data.save()
+        return JsonResponse("User information added successfully.", safe=False)
+        # return JsonResponse("Failed to add information.", safe=False)
     elif request.method == 'PUT':
         user_info = JSONParser().parse(request)
         user = User.objects.get(UserId = user_info['userId'])
@@ -48,10 +49,9 @@ def validateUserApi(request, id=0):
         msg = "Login successfully"
         info = None
 
-        try:
-            user = User.objects.get(emailId = user_info['emailId'], password = user_info['password'])
-            info = UserSerializer(user, many = False).data
-        except:
+       
+        user = User.objects.filter(emailId = user_info['emailId'], password = user_info['password'])
+        if not user.exists():
             isValid = False
             msg = "Either username or password is invalid"            
         
