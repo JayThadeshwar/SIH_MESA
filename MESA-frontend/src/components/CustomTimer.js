@@ -5,7 +5,6 @@ function CustomTimer({
     start,
     reset = false,
     msg,
-    restart,
     setMd = 0,
 
 }) {
@@ -31,7 +30,7 @@ function CustomTimer({
 
     const handleReset = () => {
         clearInterval(increment.current);
-        setTimer(100);
+       
     };
 
     const formatTime = () => {
@@ -45,17 +44,15 @@ function CustomTimer({
         if (start) {
             handleStart();
         }
-       if (reset) {
+        if (reset) {
             handleReset();
         }
-        else
-        handleStart();
 
         return () => {
             setTimer();
             clearInterval(increment.current);
         };
-    }, [start, reset,restart]);
+    }, [start, reset]);
 
     return (
         <>

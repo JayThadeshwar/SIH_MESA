@@ -1,9 +1,23 @@
-
 import { useState, useEffect } from 'react';
 import SingleCard from './SingleCard';
 import CustomTimer from './CustomTimer';
 import '../css/MixMatch.css';
+import { Box } from "@material-ui/core";
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
 
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 function MixMatch() {
   const [cards, setCards] = useState([])
   const [checkWord, setCheckWord] = useState({})
@@ -14,12 +28,16 @@ function MixMatch() {
   const [allWords, setAllWords] = useState([])
   const [md, setMd] = useState(false)
   const [isClick, setIsClick] = useState(false)
-  
+  const [isCount, setIsCount] = useState(1)
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   //shuffling the cards
   const shuffleCards = (words) => {
     const shuffledCards = words.sort(() => Math.random() - 0.5)
       .map((word) => ({ word, id: Math.random(), match: false }))
-     
+
     setIsClick(!isClick)
     setCards(shuffledCards)
     setTurns(0)
@@ -30,26 +48,32 @@ function MixMatch() {
   const handleChoice = (card) => {
     choiceOne ? setChoiceTwo(card) : setChoiceOne(card)
   }
-  
+
   useEffect(() => {
 
     if (choiceOne && choiceTwo) {
       setDisabled(true)
       if (choiceOne.word === checkWord[choiceTwo.word] || choiceTwo.word === checkWord[choiceOne.word]) {
+
         setCards(prevCards => {
           return prevCards.map(card => {
             if (card.word === choiceOne.word || card.word === choiceTwo.word) {
-              
+              setIsCount(prevIsCount => {
+                return prevIsCount + 1
+              })
+              if (isCount === 11) {
+                handleShow()
+                setMd(true)
+              }
               return { ...card, match: true }
             }
             else {
               return card
             }
-
           }
           )
         })
-        
+
         resetTurn()
       }
       else {
@@ -99,6 +123,23 @@ function MixMatch() {
 
   return (
     <div className="MixMatch">
+
+      <Modal
+        open={show}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Congratulations!!!!!!!!!
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            You did it in {turns} turns
+          </Typography>
+          <button id="new" onClick={() => { window.location.reload(); }}>New Game</button>
+        </Box>
+      </Modal>
       <h1>Mix and Match</h1>
 
       <div class="flex3">
@@ -107,11 +148,10 @@ function MixMatch() {
           reset={md}
           time={100}
           start={true}
-          restart={isClick}
           setMd={setMd}
 
         ></CustomTimer></div>
-        <div class="flex-items"> <button onClick={() => shuffleCards(allWords)}>New Game</button></div>
+        <div class="flex-items"> <button onClick={() => { window.location.reload(); }}>New Game</button></div>
 
       </div>
 
@@ -124,7 +164,9 @@ function MixMatch() {
         ))}
       </div>
       <p>Turns:{turns}</p>
+
     </div>
+
 
 
   );
