@@ -12,5 +12,6 @@ urlpatterns=[
      re_path(r'^keyword/(?P<chapter_id>\d+)/$', views.keywordApi, name='keyword'),
      re_path(r'^grammar/(?P<chapter_id>\d+)/$', views.grammarApi, name='grammar'),
      re_path(r'^summarize/(?P<chapter_id>\d+)/$', views.summarizeApi, name='summarize'),
+     re_path(r'^game/(?P<game_no>\d+)$', views.gameApi, name='game')
      # re_path(r'^mcq/(?P<chapter_id>\d+)/$', views.mcqApi, name='mcq')
 ]

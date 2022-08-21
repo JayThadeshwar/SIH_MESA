@@ -11,6 +11,7 @@ from Mesa.serializers import UserSerializer, ChapterSerializer
 from Mesa.bl.vocabularyDev import extractKeywordsFromContent
 from Mesa.bl.summaryNTranslation import summarizemethod
 from Mesa.bl.grammarMod import generateGrammarDetails
+from Mesa.bl.game import mixNMatch
 
 # Create your views here.
 
@@ -79,6 +80,14 @@ def summarizeApi(request, chapter_id):
         chapter=Chapter.objects.get(id = chapter_id)                    
         result = summarizemethod(chapter.content)   
         return JsonResponse(result, safe=False)
+
+@csrf_exempt
+def gameApi(request, game_no):
+    if request.method=='GET':
+        result = {}
+        if(int(game_no) == 1):
+            result['words'] = mixNMatch()
+        return JsonResponse(result, safe=False)        
 
 # @csrf_exempt
 # def mcqApi(request, chapter_id):
