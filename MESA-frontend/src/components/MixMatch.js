@@ -5,6 +5,7 @@ import '../css/MixMatch.css';
 import { Box } from "@material-ui/core";
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 
 
 const style = {
@@ -89,25 +90,30 @@ function MixMatch() {
     setTurns(prevTurns => prevTurns + 1)
     setDisabled(false)
   }
-  useEffect(() => {
-    const res_dict =
-    {
-      "Hunger": "भूख",
-      "Tools": "साधन",
-      "Reach": "पहुँच",
-      "Appropriate": "उचित",
-      "Approval": "मंजूरी",
-      "Bond": "बंधन",
-    }
-    setCheckWord(res_dict)
-    let words = []
-    for (const key of Object.keys(res_dict)) {
-      words.push(key)
-      words.push(res_dict[key])
-    }
 
-    shuffleCards(words)
-    setAllWords(words)
+  useEffect(() => {
+    let dict;
+
+
+    axios.get('http://127.0.0.1:8000/game/1').then(resp => {
+      let d = resp.data.words
+
+      dict = Object.assign({}, ...d.map((x) => ({ [x.enWord]: x.transWord })));
+      const res_dict = dict
+      setCheckWord(res_dict)
+      let words = []
+      for (const key of Object.keys(res_dict)) {
+        words.push(key)
+        words.push(res_dict[key])
+      }
+
+      shuffleCards(words)
+      setAllWords(words)
+
+    }).catch(error => {
+      console.log(error);
+    })
+
   }, [])
   useEffect(() => {
     if (md) {
