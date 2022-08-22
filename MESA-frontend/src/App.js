@@ -10,6 +10,8 @@ import SummTrans from './components/Summarization';
 import Grammar from './components/Grammar';
 import Assessment from './components/Assessment';
 import AddChap from './components/AddChapter';
+import Chatbot from "./components/Chatbot/Chatbot"
+import Scenarios from './Scenarios';
 
 
 function App(props) {
@@ -25,6 +27,9 @@ function App(props) {
                 <Route path='/grammar' element={<Grammar/>} />
                 <Route path='/assessment' element={<Assessment/>} />
                 <Route path='/addchapter' element={<AddChap/>} />
+                <Route path='/chatbot' element={<Chatbot/>} />
+                <Route path='/scenarios' element={<Scenarios/>} />
+
             </Routes>
         </Router>
   );
