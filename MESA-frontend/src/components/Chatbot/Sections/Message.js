@@ -13,7 +13,7 @@ function Message(props) {
                     description={props.text}
                 />
             </List.Item>
-            <div style={{ marginLeft: '60px' }}>{props.translation}</div>
+            <div style={{ marginLeft: '60px' }}>{props?.translation||''}</div>
         </>
     )
 }
