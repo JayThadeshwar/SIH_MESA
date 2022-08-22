@@ -41,6 +41,7 @@ function Signup() {
       "emailId": event.target.email.value,
       "password": event.target.password.value,
     }
+    
     axios.post(con.BASE_URI + '/user', data)
       .then(response => {
         navigate("/login");
