@@ -12,6 +12,10 @@ import TextField from "@mui/material/TextField";
 import Grid from "@material-ui/core/Grid";
 import Footer from "./Footer";
 import head from "../images/Home.png";
+import card from "../images/card.jpg";
+import balloon from "../images/balloon.jpg";
+import bot from "../images/bot.png";
+
 import Carousel from "better-react-carousel";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -189,7 +193,99 @@ function Homepage() {
           <br />
         </Paper>
       </div>
+      <div style={{ marginTop: '20px' }}><Paper elevation={3}>
+      
+          <Box p={1.5} className={classes.bluecolor}>
+            <Typography
+              variant="h4"
+              style={{
+                textAlign: "left",
+                color: "black",
+                paddingLeft: 35,
+                fontFamily: "fantasy",
+              }}
+            >
+              GAMES
+            </Typography>
+            </Box>
+           
+        <Carousel cols={3} rows={1} gap={10} loop>
+          <Carousel.Item>
+            <Card style={{height:'100%'}}>
+              <CardMedia
+                component="img"
+                height="180"
+                image={card}
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Mix And Match
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  A fun way to match hindi and english words to increase your vocabulary!
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small"
+                  onClick={() => {
+                    navigate("/mixmatch")
+                  }}>Play Now!!</Button>
+              </CardActions>
+            </Card>
+          </Carousel.Item>
+          <Carousel.Item>
+            <Card style={{height:'100%'}}>
+              <CardMedia
+                component="img"
+                height="180"
+                image={balloon}
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  Flying Balloon
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Burst some balloons and learn your way up to the sky!!By bursting similar words
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small"
+                  onClick={() => {
+                    navigate("/home")
+                  }}>Play Now!!</Button>
+              </CardActions>
+            </Card>
+          </Carousel.Item>
+          <Carousel.Item>
+            <Card style={{height:'100%'}}>
+              <CardMedia
+                component="img"
+                height="180"
+                image={bot}
+                alt="green iguana"
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  ChatBot
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  A fun way to enchance yor speaking skills in different scenarios
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small"
+                  onClick={() => {
+                    navigate("/scenarios")
+                  }}>Chat</Button>
+              </CardActions>
+            </Card>
+          </Carousel.Item>
 
+        </Carousel>
+      </Paper>
+      </div>
       <div>
         <br />
         <Footer></Footer>
