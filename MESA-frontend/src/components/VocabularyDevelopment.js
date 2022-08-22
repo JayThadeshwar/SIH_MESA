@@ -14,6 +14,7 @@ import LoadingSpinner from "../utility/LoadingSpinner";
 import * as con from "../constants";
 import Chip from "@mui/material/Chip";
 import Divider from "@material-ui/core/Divider";
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 const useStyles = makeStyles((theme) => ({
   vocabdevelopment: {
@@ -58,14 +59,15 @@ function VocabDevComp() {
   };
 
   const fetchVocab = async () => {
+  
     setIsKeywordLoading(true);
     const response = await fetch(
       con.BASE_URI + "/keyword/" + location.state.id
     );
     const data = await response.json();
     const renderData = data["keywords"].map((item) => {
-      if(item["definition"].length <= 0 && item["synonyms"].length <= 0)
-        return <div></div>   
+      if (item["definition"].length <= 0 && item["synonyms"].length <= 0)
+        return <div></div>
       return (
         <Typography style={{ textAlign: "left", padding: 10 }}>
           <>
@@ -74,6 +76,17 @@ function VocabDevComp() {
               <span>
                 <Chip label={item["word"]} color="primary" variant="outlined" />
               </span>
+              {                                
+              item["audioLink"].length > 0 ? 
+              (
+              <span onClick={() => {                
+                const audio = new Audio(item["audioLink"][0]);
+                audio.play();
+              }}>
+                <VolumeUpIcon />
+              </span>
+              ) : <></>              
+              }
             </div>
             <div>
               <span style={{ marginRight: "5px" }}>Translation of Word:</span>
@@ -90,7 +103,7 @@ function VocabDevComp() {
               </ol>
             </div>
             {item["synonyms"].length > 0 ? (
-              <div style={{marginBottom: '5px'}}>
+              <div style={{ marginBottom: '5px' }}>
                 <span style={{ marginRight: "5px" }}>Synonyms:</span>
                 <span>
                   {item["synonyms"].map((item) => {
@@ -128,7 +141,7 @@ function VocabDevComp() {
               <></>
             )}
             {item["example"].length > 0 ? (
-              <div style={{marginBottom: '5px'}}>
+              <div style={{ marginBottom: '5px' }}>
                 <span style={{ marginRight: "5px" }}>Example:</span>
                 <ul>
                   {item["example"].map((item) => {
@@ -147,11 +160,9 @@ function VocabDevComp() {
         </Typography>
       );
     });
-    console.log("HERE");
-    console.log(typeof renderData);
     setIsKeywordLoading(false);
     setVocabContent(renderData);
-  };
+  }
 
   useEffect(() => {
     fetchChp();
