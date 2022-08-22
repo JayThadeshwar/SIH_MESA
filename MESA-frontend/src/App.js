@@ -1,17 +1,16 @@
 import React from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from  'react-router-dom';
-import LandingPage from './LandingPage';
-import LogIn from './Login';
-import SignUp from './SignUp';
-import Home from './HomePage';
-import VocabDev from './VocabularyDevelopment';
-import SummTrans from './Summarization';
-import Grammar from './Grammar';
-import Assessment from './Assessment';
-import AddChap from './AddChapter';
-import MixMatch from './MixMatch';
-
+import LandingPage from './components/LandingPage';
+import LogIn from './components/Login';
+import SignUp from './components/SignUp';
+import Home from './components/HomePage';
+import VocabDev from './components/VocabularyDevelopment';
+import SummTrans from './components/Summarization';
+import Grammar from './components/Grammar';
+import Assessment from './components/Assessment';
+import AddChap from './components/AddChapter';
+import MixMatch from './components/MixMatch';
 
 function App(props) {
   return (
