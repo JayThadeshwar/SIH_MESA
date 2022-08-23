@@ -31,11 +31,11 @@ def mixNMatch():
     numGen.clear()
     return res
 
-def flyingBallon():
 
+def flyingBallon():
     res = list()    
 
-    for i in range(10):      
+    for i in range(20):      
         word_dict = {}
         index = getRandomNum()                  
         word = list_of_words[index]        

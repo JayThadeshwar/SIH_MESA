@@ -79,16 +79,16 @@ WSGI_APPLICATION = 'Ipd.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-import pymysql
-pymysql.install_as_MySQLdb()
+# import pymysql
+# pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mesadb',
-        'USER': 'root',
-        'PASSWORD': 'Password123#@!',
-        'HOST': 'localhost',
-        'PORT': '3306'        
+        'ENGINE': 'djongo',
+        'NAME': 'mesa',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'mongodb+srv://sih:sih@cluster0.nendvbn.mongodb.net/?retryWrites=true&w=majority'
+        }  
     }
 }
 

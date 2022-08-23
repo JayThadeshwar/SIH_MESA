@@ -4,6 +4,7 @@ from django.http.response import JsonResponse
 
 from rest_framework.parsers import JSONParser
 from rest_framework import viewsets
+from rest_framework.response import Response
 # from Mesa.bl.mcq import extractMCQ
 
 from Mesa.models import Chapter, User
@@ -17,8 +18,10 @@ from Mesa.bl.game import flyingBallon
 # Create your views here.
 
 class ChapterViewSet(viewsets.ModelViewSet):
-    queryset = Chapter.objects.all()
-    serializer_class = ChapterSerializer
+    def list(self, request):
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        
 
 @csrf_exempt
 def userApi(request, id=0):
@@ -50,7 +53,6 @@ def validateUserApi(request, id=0):
         isValid = True
         msg = "Login successfully"
         info = None
-
        
         user = User.objects.filter(emailId = user_info['emailId'], password = user_info['password'])
         if not user.exists():
@@ -63,7 +65,7 @@ def validateUserApi(request, id=0):
 @csrf_exempt
 def keywordApi(request, chapter_id):
     if request.method=='GET':
-        chapter=Chapter.objects.get(id = chapter_id)                    
+        chapter = Chapter.objects.get(id = chapter_id)                    
         result = extractKeywordsFromContent(chapter.content)   
         finalRes = {"keywords": result}     
         return JsonResponse(finalRes, safe=False)
@@ -71,14 +73,14 @@ def keywordApi(request, chapter_id):
 @csrf_exempt
 def grammarApi(request, chapter_id):
     if request.method=='GET':
-        chapter=Chapter.objects.get(id = chapter_id)
+        chapter = Chapter.objects.get(id = chapter_id)
         result = generateGrammarDetails(chapter.content,3)        
         return JsonResponse(result, safe=False)
 
 @csrf_exempt
 def summarizeApi(request, chapter_id):
     if request.method=='GET':
-        chapter=Chapter.objects.get(id = chapter_id)                    
+        chapter = Chapter.objects.get(id = chapter_id)                    
         result = summarizemethod(chapter.content)   
         return JsonResponse(result, safe=False)
 
@@ -92,6 +94,11 @@ def gameApi(request, game_no):
             result['words'] = flyingBallon()
         return JsonResponse(result, safe=False)        
 
+@csrf_exempt
+def storeChapter(request, id=0):
+    if request.method == 'POST':
+        chapterData = JSONParser().parse(request)
+        
 # @csrf_exempt
 # def mcqApi(request, chapter_id):
 #     if request.method=='GET':

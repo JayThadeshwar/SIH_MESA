@@ -1,12 +1,36 @@
 import googletrans
-from transformers import pipeline
 from googletrans import Translator
 
-summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+import requests
+import json
 
 def summarizemethod(content):
+    url = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
+
+    mxLen = len(content) * 0.25
+    if(mxLen > 1024):
+        mxLen = 1024
+
+    payload = json.dumps({
+    "inputs": content,
+    "parameters": {
+        "min_length": int(len(content) * 0.1),
+        "max_length": int(mxLen)
+    }
+    })
+    headers = {
+        'Authorization': 'Bearer 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',
+        'Content-Type': 'application/json'
+    }
+    print(payload)
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+    data = json.loads(response._content)
+
+    summary_text = data[0]['summary_text']
     translator = Translator()
-    summary_text = summarizer(content, max_length=200, min_length=50, do_sample=False)[0]['summary_text']
-    translated_text = translator.translate(summary_text, src='en', dest='hi')    
+    
+    translated_text = translator.translate(summary_text, src='en', dest='hi') 
     resp = {"summary": summary_text, "translation":translated_text.text}
+    
     return resp
