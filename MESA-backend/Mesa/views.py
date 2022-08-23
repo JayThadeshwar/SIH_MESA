@@ -12,6 +12,7 @@ from Mesa.bl.vocabularyDev import extractKeywordsFromContent
 from Mesa.bl.summaryNTranslation import summarizemethod
 from Mesa.bl.grammarMod import generateGrammarDetails
 from Mesa.bl.game import mixNMatch
+from Mesa.bl.game import flyingBallon
 
 # Create your views here.
 
@@ -87,6 +88,8 @@ def gameApi(request, game_no):
         result = {}
         if(int(game_no) == 1):
             result['words'] = mixNMatch()
+        if(int(game_no) == 2):
+            result['words'] = flyingBallon()
         return JsonResponse(result, safe=False)        
 
 # @csrf_exempt

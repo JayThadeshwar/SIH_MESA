@@ -37,7 +37,6 @@ class TextRank4Keyword():
         self.min_diff = 1e-5 # convergence threshold
         self.steps = 10 # iteration steps
         self.node_weight = None # save keywords and its weight
-
     
     def set_stopwords(self, stopwords):  
         """Set stop words"""
@@ -267,7 +266,7 @@ def extractKeywordsFromContent(content):
 
         audioLink = list()
         examples = list()
-
+ 
         if(isinstance(data, list)):
             for obj in data:                
                 audioLink.append([info['audio'] for info in obj['phonetics'] if 'audio' in info and info['audio'] != ""])
