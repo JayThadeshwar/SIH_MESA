@@ -1,23 +1,21 @@
 import React from 'react'
 import '../css/SingleCard.css'
 import back from "../images/back.jpg";
-export default function SingleCard({card, handleChoice,flipped,disabled }) {
-  const handleClick=()=>
-{
-  if(!disabled)
-  {
-    handleChoice(card)
+export default function SingleCard({ card, handleChoice, flipped, disabled }) {
+  const handleClick = () => {
+    if (!disabled) {
+      handleChoice(card)
+    }
+
   }
-    
-}
   return (
     <div className='card' >
-      <div className={flipped?"flipped":""}>
-        <div className='front'>
+      <div className={flipped ? "flipped" : ""}  >
+        <div className='front' style={{ backgroundColor: card.color != "" ? card.color : "" }}>
 
-          <h4>{card.word}</h4>
+          <h2 style={{ color: card.color != "" ? "white" : "" }}>{card.word}  </h2>
         </div>
-        <img className='back' src={back}  alt='back' onClick={handleClick} />
+        <img className='back' src={back} alt='back' onClick={handleClick} />
       </div>
     </div>
   )
