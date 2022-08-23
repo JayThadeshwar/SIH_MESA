@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import suggestions from './suggestion';
 
 
-const socketio = io.connect("http://localhost:5000");
+const socketio = io.connect("http://localhost:5001");
 function Chatbot() {
     const [isRecording, setIsRecording] = useState(false)
     const [isTranslate, setIsTranslate] = useState(true)
@@ -102,7 +102,7 @@ function Chatbot() {
         }
         try {
             //I will send request to the textQuery ROUTE 
-            const response = await Axios.post('http://localhost:5000/api/dialogflow/textQuery', textQueryVariables)
+            const response = await Axios.post('http://localhost:5001/api/dialogflow/textQuery', textQueryVariables)
 
             for (let content of response.data.fulfillmentMessages) {
                 conversation = {
@@ -139,7 +139,7 @@ function Chatbot() {
         }
         try {
             //I will send request to the textQuery ROUTE 
-            const response = await Axios.post('http://localhost:5000/api/dialogflow/eventQuery', eventQueryVariables)
+            const response = await Axios.post('http://localhost:5001/api/dialogflow/eventQuery', eventQueryVariables)
             for (let content of response.data.fulfillmentMessages) {
 
                 let conversation = {
