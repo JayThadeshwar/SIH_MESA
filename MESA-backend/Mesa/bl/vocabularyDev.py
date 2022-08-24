@@ -284,7 +284,8 @@ def extractKeywordsFromContent(content):
             synonyms.update(synon)
             antonyms.update(anton)
             definition.append(syn.definition())    
-                
+        
+        print(word)
         translated_word = translator.translate(word, src='en', dest='hi')   
         al = ''
         if len(audioLink) > 0:

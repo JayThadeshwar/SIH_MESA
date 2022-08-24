@@ -25,11 +25,11 @@ def summarizemethod(content):
         'Authorization': 'Bearer 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',
         'Content-Type': 'application/json'
     }
-    print(payload)
+
 
     response = requests.request("POST", url, headers=headers, data=payload)
     data = json.loads(response._content)
-    print(data)
+
 
     summary_text = data[0]['summary_text']
     translator = Translator()
