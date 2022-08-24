@@ -5,6 +5,7 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework import status
 # from Mesa.bl.mcq import extractMCQ
 
 from Mesa.models import Chapter, User
@@ -18,10 +19,27 @@ from Mesa.bl.game import flyingBallon
 # Create your views here.
 
 class ChapterViewSet(viewsets.ModelViewSet):
+    queryset = Chapter.objects.all()
+    serializer_class = ChapterSerializer
+    
     def list(self, request):
-        queryset = User.objects.all()
-        serializer = UserSerializer(queryset, many=True)
-        
+        queryset = Chapter.objects.all()
+        serializer_class = ChapterSerializer(queryset, many=True)
+        return Response(serializer_class.data)
+
+    def create(self, request):
+        chapterDetails = {}
+        chpContent = request.data['content']
+
+        chapterDetails['name'] = request.data['name']
+        chapterDetails['content'] = chpContent
+        chapterDetails['vocabularyDevelopment'] = extractKeywordsFromContent(chpContent)
+        chapterDetails['summaryNTranslation'] = summarizemethod(chpContent)
+        # chapterDetails['grammarInformation'] = generateGrammarDetails(chpContent, 3)
+
+        Chapter.objects.create(chapterDetails)
+        # print(Chapter.objects.create(**request.data))
+        return Response(status=status.HTTP_201_CREATED)
 
 @csrf_exempt
 def userApi(request, id=0):
@@ -94,11 +112,6 @@ def gameApi(request, game_no):
             result['words'] = flyingBallon()
         return JsonResponse(result, safe=False)        
 
-@csrf_exempt
-def storeChapter(request, id=0):
-    if request.method == 'POST':
-        chapterData = JSONParser().parse(request)
-        
 # @csrf_exempt
 # def mcqApi(request, chapter_id):
 #     if request.method=='GET':

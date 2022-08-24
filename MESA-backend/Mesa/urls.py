@@ -3,7 +3,8 @@ from django.urls import include, path, re_path
 from rest_framework import routers
 
 router = routers.DefaultRouter(trailing_slash=False)
-router.register(r'chapters', views.ChapterViewSet)
+# router.register(r'chapters', views.ChapterViewSet)
+router.register(r'chapters', views.ChapterViewSet, basename='Chapter')
 
 urlpatterns=[
      path('', include(router.urls)),

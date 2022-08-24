@@ -8,13 +8,16 @@ def summarizemethod(content):
     url = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
 
     mxLen = len(content) * 0.25
+    mnLen = len(content) * 0.1
     if(mxLen > 1024):
-        mxLen = 1024
+        mxLen = 720
+        mnLen = 300
+    
 
     payload = json.dumps({
     "inputs": content,
     "parameters": {
-        "min_length": int(len(content) * 0.1),
+        "min_length": int(mnLen),
         "max_length": int(mxLen)
     }
     })
@@ -26,6 +29,7 @@ def summarizemethod(content):
 
     response = requests.request("POST", url, headers=headers, data=payload)
     data = json.loads(response._content)
+    print(data)
 
     summary_text = data[0]['summary_text']
     translator = Translator()
