@@ -1,0 +1,260 @@
+.category-screen .bg-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: #0c141f;
+}
+#bot-bg-landscape {
+    background-image: url('https://d37sy4vufic209.cloudfront.net/images/backgrounds/bg_category_1-1f5643acfbd7281f98c007ff721bf7e5.jpg');
+    background-size: cover!important;
+}
+.bots-screen .category-bg {
+    background-image: url('https://d37sy4vufic209.cloudfront.net/images/backgrounds/bg_category_1-1f5643acfbd7281f98c007ff721bf7e5.jpg');
+}
+.category-screen .category-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100%;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    z-index: 1;
+    background-size: 100% 100%;
+}
+.categories-index .floating-buttons .button:not(.is-loading), .categories-index .nav-btn, .category-screen .category-bg {
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.category-screen .item {
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    white-space: normal;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    position: relative;
+    z-index: 88;
+    width: 260px;
+    height: 310px;
+    color: white;
+    background: rgba(0,0,0,.65);
+    border-radius: 10px;
+    padding: 30px 0;
+}
+.ffa {
+    -webkit-transform: translate3d(0,0,0) !important;
+    transform: translate3d(0,0,0) !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    display: inline-block !important;
+    vertical-align: top !important;
+    text-align: center !important;
+    position: relative !important;
+    z-index: 88 !important;
+    width: 80% !important;
+    height: 370px !important;
+    color: white !important;
+    background: rgba(0,0,0,.65) !important;
+    border-radius: 10px !important;
+    padding: 30px 0 !important;
+    margin: 0 30px;
+}
+.bhHnmT {
+    overflow: hidden;
+    margin: 0px;
+}
+.category-screen .item .item-inner {
+    position: relative;
+    height: 100%;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.category-screen .item .info {
+    width: 100%;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    padding-top: 37px;
+}
+.category-screen .item .buttons button.btn-start {
+    min-width: 146px;
+    position: relative;
+    z-index: 2;
+}
+.category-screen .item .buttons {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    text-align: center;
+    position: relative;
+}
+.category-screen .item .info .text {
+    width: 100%;
+    font-size: 1.76471em;
+    padding: 0 10px;
+    margin: 15px auto 20px;
+}
+.category-screen .item .info .done {
+    height: 50px;
+    line-height: 1;
+    font-size: 3em;
+}
+.ffa .item-inner {
+    position: relative;
+    height: 100%;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.ffa .info {
+    width: 100%;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    padding-top: 37px;
+}
+.ffa .buttons button.btn-start {
+    min-width: 146px;
+    position: relative;
+    z-index: 2;
+}
+.ffa .buttons {
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    text-align: center;
+    position: relative;
+}
+.ffa .info .text {
+    width: 100%;
+    font-size: 1.76471em;
+    padding: 0 10px;
+    margin: 15px auto 20px;
+}
+.ffa .info .done {
+    height: 50px;
+    line-height: 1;
+    font-size: 3em;
+}
+
+.ripple-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    right: -100%;
+    bottom: -100%;
+    z-index: 2;
+    pointer-events: none;
+    -webkit-clip-path: inherit;
+    clip-path: inherit;
+    border-radius: inherit;
+    overflow: hidden!important;
+    display: none;
+    margin: auto!important;
+}
+.category-screen .items {
+    z-index: 66;
+    display: table;
+}
+.category-screen .items, .category-screen .items-inner {
+    vertical-align: middle;
+    width: auto;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.category-screen .items-inner {
+    display: table-cell;
+    white-space: nowrap;
+    z-index: 77;
+    text-align: center;
+    top: 3%;
+}
+.category-screen .sep {
+    height: 1px;
+    width: 50px;
+    display: inline-block;
+    vertical-align: top;
+}
+.category-screen .items-boxes {
+    display: inline-block;
+    vertical-align: top;
+}
+.category-screen .item {
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+    white-space: normal;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    position: relative;
+    z-index: 88;
+    width: 260px;
+    height: 310px;
+    background: rgba(0,0,0,.65);
+    border-radius: 10px;
+    padding: 30px 0;
+}
+.bots-screen {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.category-screen .items {
+    z-index: 66;
+    display: table;
+}
+.category-screen .items, .category-screen .items-inner {
+    vertical-align: middle;
+    width: auto;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+div.scroll {
+    margin: 4px, 4px;
+    padding: 400px;
+    background-color: #08c708;
+    width: 300px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
