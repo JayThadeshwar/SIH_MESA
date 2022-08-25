@@ -186,7 +186,7 @@ function VocabDevComp() {
             <Paper elevation={2}>
               <Typography style={{ textAlign: "left", padding: 10 }}>
                 {isChapterLoading&&clickableArr.length!==0 ? <LoadingSpinner /> : clickableArr.map((item)=>{
-      return <h6 id='clickHover' className={classes.clickHover} onClick={()=> speak({ text: item })}>{item}</h6>
+      return <span id='clickHover' className={classes.clickHover} onClick={()=> speak({ text: item })}>{item+". "}</span>
     })}
               </Typography>
             </Paper>
