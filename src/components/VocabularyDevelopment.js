@@ -16,6 +16,8 @@ import Chip from "@mui/material/Chip";
 import Divider from "@material-ui/core/Divider";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { useSpeechSynthesis } from 'react-speech-kit';
+import i18next from 'i18next';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   vocabdevelopment: {
@@ -38,8 +40,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: lightblue[300],
   },
 }));
-
+ 
 function VocabDevComp() {
+  const {t} = useTranslation()
+
   const [value, setValue] = useState('');
   const { speak } = useSpeechSynthesis();
   const location = useLocation();
@@ -72,7 +76,7 @@ function VocabDevComp() {
         <Typography style={{ textAlign: "left", padding: 10 }}>
           <>
             <div>
-              <span style={{ marginRight: "5px" }}>Word:</span>
+              <span style={{ marginRight: "5px" }}>{t("Word")}</span>
               <span>
                 <Chip label={item["word"]} color="primary" variant="outlined" />
               </span>
@@ -89,12 +93,12 @@ function VocabDevComp() {
               }
             </div>
             <div>
-              <span style={{ marginRight: "5px" }}>Translation of Word:</span>
+              <span style={{ marginRight: "5px" }}>{t("WordTrans")}</span>
               <span>
                 <Chip label={item["translatedWord"]} color="primary" variant="outlined" />
               </span>
             </div>
-            <div>Definition:</div>
+            <div>{t("Definition")}</div>
             <div>
               <ol>
                 {item["definition"].map((item) => {
@@ -104,7 +108,7 @@ function VocabDevComp() {
             </div>
             {item["synonyms"].length > 0 ? (
               <div style={{ marginBottom: '5px' }}>
-                <span style={{ marginRight: "5px" }}>Synonyms:</span>
+                <span style={{ marginRight: "5px" }}>{t("Synonyms")}</span>
                 <span>
                   {item["synonyms"].map((item) => {
                     return (
@@ -123,7 +127,7 @@ function VocabDevComp() {
             )}
             {item["antonyms"].length > 0 ? (
               <div>
-                <span style={{ marginRight: "5px" }}>Antonyms:</span>
+                <span style={{ marginRight: "5px" }}>{t("Antonyms")}</span>
                 <span>
                   {item["antonyms"].map((item) => {
                     return (
@@ -142,7 +146,7 @@ function VocabDevComp() {
             )}
             {item["example"].length > 0 ? (
               <div style={{ marginBottom: '5px' }}>
-                <span style={{ marginRight: "5px" }}>Example:</span>
+                <span style={{ marginRight: "5px" }}>{t("Example")}</span>
                 <ul>
                   {item["example"].map((item) => {
                     return (
@@ -222,7 +226,7 @@ function VocabDevComp() {
                   navigate("/home");
                 }}
               >
-                BACK
+                {t("Back")}
               </Button>
             </Grid>
             <Grid item>
@@ -231,7 +235,7 @@ function VocabDevComp() {
                 className={classes.bluecolorcpy}
                 onClick={handleSubmit}
               >
-                PROCEED
+                {t("Proceed")}
               </Button>
             </Grid>
           </Grid>

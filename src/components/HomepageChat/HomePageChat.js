@@ -1,3 +1,4 @@
+import { t } from 'i18next';
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 
@@ -9,8 +10,8 @@ const HomePageChat = () => {
             <div className='row'>
                 <div className='col-md-6 col-lg-6 col-sm-12 col-xs-12 d-flex flex-column align-items-start justify-content-center gap-5'>
                     <div>
-                        <h1 className='display-4 fw-bold'>Chat with your Mitra!</h1>
-                        <div className='fs-5 lead'>Start talking to your Mitra. He will never judge you whatever the way you speak. He will be your best friend preparing you to speak with confidence. Just chat with your bot..!</div>
+                        <h1 className='display-4 fw-bold'>{t('Mitra')}</h1>
+                        <div className='fs-5 lead'>{t("MitraInfo")}</div>
                         {/* <div className='fs-5'>He will be your best friend preparing you to speak with confidence</div> */}
                     </div>
                     <button onClick={(e) => { navigate("/scenarios"); }} className='btn btn-outline-primary d-flex gap-2 align-items-center btn-lg'>

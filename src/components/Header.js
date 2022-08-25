@@ -1,6 +1,8 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import { makeStyles } from "@material-ui/styles";
+import i18next from 'i18next';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   headline: {
@@ -10,11 +12,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Head() {
+  const {t} = useTranslation()
   const classes = useStyles();
 
   return (
     <AppBar position="static">
-      <h2 className={classes.headline}> MULTILINGUAL EDUCATION SYSTEM</h2>
+      <h2 className={classes.headline}>{t("headline")}</h2>
     </AppBar>
   );
 }

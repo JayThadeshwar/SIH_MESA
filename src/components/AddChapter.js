@@ -14,6 +14,8 @@ import TextField from '@mui/material/TextField';
 import * as con from '../constants'
 import FileUpload from "./FileUpload";
 import axios from 'axios';
+import i18next from 'i18next';
+import {useTranslation} from 'react-i18next';
 import LoadingSpinner from "../utility/LoadingSpinner";
 const useStyles = makeStyles((theme) => ({
   addchap: {
@@ -34,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function AddStudyChapter() {
+  const {t} = useTranslation()
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -105,7 +108,7 @@ function AddStudyChapter() {
       {hasErr ?
         <>
           <Alert severity="error">
-            Unable to add chapter, please try again.
+            {t("NoChapAdd")}
           </Alert><br />
         </>
         : <></>}
@@ -118,7 +121,7 @@ function AddStudyChapter() {
         <Paper elevation={3} style={{ width: '100%' }}>
           <Box p={1.5} className={classes.bluecolor}>
             <Typography variant="h4" style={{ textAlign: 'left', color: 'white' }}>
-              Chapter Name
+              {t("ChapName")}
             </Typography><br />
             <Paper elevation={2}>
               <TextField onChange={handleChangeForm("name")} id="outlined-basic" placeholder='Enter Chapter Name' variant="outlined" style={{ width: '100%' }} />

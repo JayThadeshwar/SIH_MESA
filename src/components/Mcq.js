@@ -15,6 +15,8 @@ import red from "@material-ui/core/colors/red";
 import CorrectTick from '../images/correctTick.png';
 import WrongTick from '../images/wrongTick.png';
 import lightblue from "@material-ui/core/colors/lightBlue";
+import i18next from 'i18next';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   evaluationpaper: {
@@ -34,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 function SelfEvalComp() {
-
+  const {t} = useTranslation()
   const classes = useStyles();
   const navigate = useNavigate();
   const [value1, setValue1] = React.useState('');
@@ -113,7 +115,7 @@ function SelfEvalComp() {
       <Paper elevation={3}>
         <Box p={1.5} className={classes.bluecolor}>
           <Typography variant="h4" style={{ textAlign: 'left' , color:'white'}}>
-            Assessment
+            {t("Assessment")}
           </Typography><br/>
           <br />
           <Grid container spacing={3}>
@@ -234,17 +236,17 @@ function SelfEvalComp() {
           <Grid container spacing={3} style={{ display: 'flex', justifyContent: 'center' }}>
             <Grid item>
               <Button variant="contained" color="primary" onClick={handleSubmit}>
-                SUBMIT
+                {t("Submit")}
               </Button>
             </Grid>
             <Grid item>
               <Button variant="contained" color="primary" onClick={handleClear}>
-                RESET
+                {t("Reset")}
               </Button>
             </Grid>
             <Grid item>
               <Button variant="contained" color="primary" onClick={handlenext}>
-                END CHAPTER
+                {t("ChapterEnd")}
               </Button>
             </Grid>
           </Grid>

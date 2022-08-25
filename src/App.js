@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Suspense} from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
@@ -17,8 +17,10 @@ import Chatbot from './components/Chatbot/Chatbot';
 import Scenarios from './components/Scenarios';
 import "./App.css";
 
+
 function App(props) {
   return (
+    <Suspense fallback="loading">
     <Router>
       <Routes>
         <Route path='/' element={<LandingPage />} />
@@ -37,6 +39,7 @@ function App(props) {
         <Route path='/chatbot' element={<Chatbot />} />
       </Routes>
     </Router>
+    </Suspense>
   );
 }
 

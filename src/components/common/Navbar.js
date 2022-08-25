@@ -1,13 +1,14 @@
 import React from 'react';
 import cx from "classnames";
 import styles from "./Navbar.module.scss"
+import { t } from 'i18next';
 
 const Navbar = () => {
 
   const Search = () => {
     const component = (
       <form className="d-flex" role="search">
-        <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+        <input className="form-control me-2" type="search" placeholder={t("Search")} aria-label="Search" />
         <button className="btn btn-outline-info" type="submit">Search</button>
       </form>
     )
@@ -24,8 +25,8 @@ const Navbar = () => {
           </svg>
         </a>
         <ul className="dropdown-menu dropdown-menu-end dropdown-menu-lg-star">
-          <li><a className="dropdown-item" href="#">Action</a></li>
-          <li><a className="dropdown-item" href="#">Another action</a></li>
+          <li><a className="dropdown-item" href="#">{t("Action")}</a></li>
+          <li><a className="dropdown-item" href="#">{t("Another_action")}</a></li>
           <li><hr className="dropdown-divider" /></li>
           <li><a className="dropdown-item" href="#">Something else here</a></li>
         </ul>
