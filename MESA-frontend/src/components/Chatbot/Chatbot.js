@@ -10,14 +10,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import suggestions from './suggestion';
 
 
-const socketio = io.connect("http://localhost:5000");
+const socketio = io.connect("http://localhost:5001");
 function Chatbot() {
     const [isRecording, setIsRecording] = useState(false)
+    const [isTranslate, setIsTranslate] = useState(true)
     const [recordAudio, setrecordAudio] = useState()
     const [msgArr, setMsgArr] = useState([])
     const [suggestArr, setSuggestArr] = useState([])
     const location = useLocation()
-    const [projectId, setProjectId] = useState(location.state.projectId || 'dinning-out') 
+    const [projectId, setProjectId] = useState(location.state.projectId || 'dinning-out')
     const { speak } = useSpeechSynthesis();
 
     useEffect(() => {
@@ -28,7 +29,7 @@ function Chatbot() {
         socketio.on('results', function (data) {
             console.log('%%%%%%%%')
             console.log(data)
-            let agentName=data[0].queryResult.intent.name.split('/agent/intents/')
+            let agentName = data[0].queryResult.intent.name.split('/agent/intents/')
             console.log(agentName)
             console.log(suggestions[agentName[0].split('/')[1]][agentName[1]])
             setSuggestArr(suggestions[agentName[0].split('/')[1]][agentName[1]])
@@ -101,7 +102,7 @@ function Chatbot() {
         }
         try {
             //I will send request to the textQuery ROUTE 
-            const response = await Axios.post('http://localhost:5000/api/dialogflow/textQuery', textQueryVariables)
+            const response = await Axios.post('http://localhost:5001/api/dialogflow/textQuery', textQueryVariables)
 
             for (let content of response.data.fulfillmentMessages) {
                 conversation = {
@@ -138,7 +139,7 @@ function Chatbot() {
         }
         try {
             //I will send request to the textQuery ROUTE 
-            const response = await Axios.post('http://localhost:5000/api/dialogflow/eventQuery', eventQueryVariables)
+            const response = await Axios.post('http://localhost:5001/api/dialogflow/eventQuery', eventQueryVariables)
             for (let content of response.data.fulfillmentMessages) {
 
                 let conversation = {
@@ -193,7 +194,7 @@ function Chatbot() {
 
         // template for normal text 
         if (message.content && message.content.text && message.content.text.text) {
-            return <Message key={i} who={message.who} text={message.content.text.text} translation={message.content.text.translation} />
+            return <Message key={i} who={message.who} text={message.content.text.text} translation={message.content.text.translation} isTranslate={isTranslate} />
         } else if (message.content && message.content.payload?.fields.card) {
 
             const AvatarSrc = message.who === 'bot' ? <Icon type="robot" /> : <Icon type="smile" />
@@ -306,26 +307,27 @@ function Chatbot() {
                     onKeyPress={keyPressHanlder}
                     type="text"
                 /> */}
-                      <hr></hr>
-                <div  style={{ height: 240, width: '100%',margin:'0 20px'}}>
+                <hr></hr>
+                <div style={{ height: 240, width: '100%', margin: '0 20px' }}>
                     <h3>
                         Suggestions
                     </h3>
-                  {suggestArr?.length!==0 &&suggestArr !== undefined &&suggestArr.map((data)=>{
-                    return (
-                        <>
-                         <p>
-                            {data}
-                        </p>
-                        <button onClick={() => speak({ text: data })}>Listen</button>
-                        </>
-                    )
-                  })}
+                    {suggestArr?.length !== 0 && suggestArr !== undefined && suggestArr.map((data) => {
+                        return (
+                            <>
+                                <p>
+                                    {data}
+                                </p>
+                                <button onClick={() => speak({ text: data })}>Listen</button>
+                            </>
+                        )
+                    })}
                 </div>
                 <hr></hr>
-                  <div>
+                <div>
                     <button id="start-recording" onClick={startRecordingF} disabled={isRecording}>Start Recording</button>
                     <button id="stop-recording" onClick={stopRecordingF} disabled={!isRecording}>Stop Recording</button>
+                    <button onClick={() => { setIsTranslate(!isTranslate) }}>Translate on/off</button>
                 </div>
             </div>
         </>
