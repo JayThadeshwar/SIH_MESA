@@ -64,11 +64,8 @@ function Homepage() {
   const [chapterContent, setChapterContent] = useState([]);
   const [isChapterLoading, setIsChapterLoading] = useState(false);
 
-  const handleSubmit = async (item) => {
-    console.log(item);
-    const response = await fetch(con.BASE_URI + "/chapter/" + item.id);
-    const data = response.json()
-    navigate("/vocabdev", { state: { id: data } });
+  const handleSubmit = (item) => {
+    navigate("/vocabdev", { state: { id: item.id } });
   };
 
   const fetchChps = async () => {
