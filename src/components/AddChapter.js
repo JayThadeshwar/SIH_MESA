@@ -12,8 +12,9 @@ import Header from "./Header";
 import Footer from "./common/Footer";
 import TextField from '@mui/material/TextField';
 import * as con from '../constants'
+import FileUpload from "./FileUpload";
+import axios from 'axios';
 import LoadingSpinner from "../utility/LoadingSpinner";
-
 const useStyles = makeStyles((theme) => ({
   addchap: {
     display: 'flex',
@@ -40,10 +41,11 @@ function AddStudyChapter() {
     name: '',
     content: ''
   });
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [hasErr, sethasErr] = useState(false);
-
+  const [file, setFile] = useState();
+  const [fileName, setFileName] = useState("");
   const handleChangeForm = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
@@ -63,7 +65,6 @@ function AddStudyChapter() {
         content: values.content
       })
     };
-    
     fetch(con.BASE_URI + "/chapters", requestOptions)
       .then(response => {
         console.log(response)
@@ -79,22 +80,40 @@ function AddStudyChapter() {
       })
 
   };
+  const uploadFile = async (e) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("url", "URL-of-Image-or-PDF-file");
+    formData.append("language", "eng");
+    formData.append("apikey", "K89640252288957");
+    formData.append("isOverlayRequired", true)
+    try {
+      const res = await axios.post(
+        "https://api.ocr.space/parse/image",
+        formData
+      );
+      let brve = values.content
 
+      setValues({ ...values, content: brve + "\n" + res.data.ParsedResults[0]?.ParsedText || "" + "\n" + res.data.ParsedResults[1]?.ParsedText || "" + "\n" + res.data.ParsedResults[2]?.ParsedText || "" + "\n" });
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
   return (
     <div>
       <Header></Header><br />
-      {hasErr ? 
-      <>
-      <Alert severity="error">
-        Unable to add chapter, please try again.
-      </Alert><br/>
-      </>
-      : <></>}
+      {hasErr ?
+        <>
+          <Alert severity="error">
+            Unable to add chapter, please try again.
+          </Alert><br />
+        </>
+        : <></>}
       {
         isLoading ? 
         <LoadingSpinner></LoadingSpinner>
         :
-        <div className={classes.addchap}>
+      <div className={classes.addchap}>
 
         <Paper elevation={3} style={{ width: '100%' }}>
           <Box p={1.5} className={classes.bluecolor}>
@@ -109,15 +128,18 @@ function AddStudyChapter() {
               Chapter Data
             </Typography><br />
             <Paper elevation={2}>
-              <TextField onChange={handleChangeForm("content")} id="outlined-multiline-static" multiline rows={10} placeholder="Enter Chapter's Content" style={{ width: '100%' }} />
+              <TextField onChange={handleChangeForm("content")} value={values.content} id="outlined-multiline-static" multiline rows={10} placeholder="Enter Chapter's Content" style={{ width: '100%' }} />
             </Paper>
           </Box>
           <br />
           <Grid container spacing={3} style={{ display: 'flex', justifyContent: 'right', paddingRight: 30 }}>
+          <Grid item>
+              <FileUpload uploadFile={uploadFile} setFile={setFile} setFileName={setFileName} />  
+              </Grid>
             <Grid item>
               <Button variant="contained" className={classes.bluecolorcpy} onClick={() => { navigate("/home"); }}>
                 BACK
-              </Button>
+              </Button>              
             </Grid>
             <Grid item>
               <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
