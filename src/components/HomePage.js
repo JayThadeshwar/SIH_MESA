@@ -26,6 +26,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea, CardActions } from "@mui/material";
+import HomePageChat from "./HomepageChat/HomePageChat";
 
 import { useLocation } from "react-router-dom";
 
@@ -145,7 +146,7 @@ function Homepage() {
       {/* Card Carousel */}
 
       <div className={"container-fluid my-5"}>        
-        <h1 className="text-center display-4">MY CHAPTERS</h1>
+        <h1 className="text-center display-4 fw-bold">MY CHAPTERS</h1>
         <div>
           {isChapterLoading ? (
             <LoadingSpinner />
@@ -166,9 +167,13 @@ function Homepage() {
 
 
       <div className={"container-fluid mt-5"}>        
-        <h1 className="text-center display-4">ACTIVITIES</h1>
+        <h1 className="text-center display-4 fw-bold">ACTIVITIES</h1>
         <GameSection />        
       </div>      
+
+      {/* ================================================================== */}
+
+      <HomePageChat />
 
       {/* ================================================================== */}
 
