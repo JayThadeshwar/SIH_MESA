@@ -76,7 +76,7 @@ function Homepage() {
     console.log(data)
     let carouselItem = data.map((item) => {
       return (
-        <Carousel.Item>          
+        <Carousel.Item>
           <div className="card border border-0 shadow mt-3 mb-5 ms-3">
             <div className="d-flex align-items-center justify-content-center">
               <img src={"https://www.productleadership.com/wp-content/uploads/2018/06/Data-Science1-1024x778.png"} className="card-img-top img-fluid mt-3 border border-0 " alt="..." />
@@ -144,35 +144,34 @@ function Homepage() {
 
       {/* Card Carousel */}
 
-      <div className={"container-fluid my-5"}>        
+      <div className={"container-fluid my-5"}>
         <h1 className="text-center display-4 fw-bold">MY CHAPTERS</h1>
         <div>
           {isChapterLoading ? (
             <LoadingSpinner />
-          ) : (            
+          ) : (
             <Carousel mobileBreakpoint={500} responsive={responsive} cols={4} rows={1} gap={20} loop>
               {chapterContent}
             </Carousel>
           )}
         </div>
         <div className="d-grid gap-2 col-3 mx-auto">
-          <button type="button" class="btn btn-primary btn-lg" onClick={() => {navigate("/addchapter");}}>ADD CHAPTER</button>
-        </div>        
+          <button type="button" class="btn btn-primary btn-lg" onClick={() => { navigate("/addchapter"); }}>ADD CHAPTER</button>
+        </div>
       </div>
 
+      {/* ================================================================== */}
+
+      <HomePageChat />
       {/* ================================================================== */}
 
       {/* Games */}
 
 
-      <div className={"container-fluid mt-5"}>        
+      <div className={"container-fluid mt-5"}>
         <h1 className="text-center display-4 fw-bold">ACTIVITIES</h1>
-        <GameSection />        
-      </div>      
-
-      {/* ================================================================== */}
-
-      <HomePageChat />
+        <GameSection />
+      </div>
 
       {/* ================================================================== */}
 
