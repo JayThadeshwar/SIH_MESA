@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 function SummarizeAndTranslate() {
 
   const location = useLocation();
+  const itemInfo = location.state.id
 
   const [stContent, setStContent] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -42,17 +43,12 @@ function SummarizeAndTranslate() {
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/grammar", {state : {id: location.state.id}});
+    console.log(itemInfo)
+    navigate("/grammar", {state : {id: itemInfo}});
   };
 
-  const fetchSummaryNTranslation = async () => {
-    setIsLoading(true)
-    const response = await fetch(
-      con.BASE_URI + "/summarize/" + location.state.id
-    );
-    const data = await response.json()    
-    setIsLoading(false)
-    setStContent(data)
+  const fetchSummaryNTranslation = async () => {    
+    setStContent(itemInfo['summaryNTranslation'])
   }
 
   useEffect(() => {

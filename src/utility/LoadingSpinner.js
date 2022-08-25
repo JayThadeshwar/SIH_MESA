@@ -3,7 +3,7 @@ import "./spinner.css";
 
 export default function LoadingSpinner() {
     return (
-        <div className="spinner-container" style={{
+        <div className="spinner-container mb-5 mt-5" style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

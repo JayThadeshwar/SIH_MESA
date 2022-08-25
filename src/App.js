@@ -11,6 +11,7 @@ import Grammar from './components/Grammar';
 import Assessment from './components/Assessment';
 import AddChap from './components/AddChapter';
 import MixMatch from './components/MixMatch';
+import "./App.css";
 
 function App(props) {
   return (

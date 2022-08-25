@@ -10,7 +10,7 @@ import lightblue from "@material-ui/core/colors/lightBlue";
 import Footer from "./common/Footer";
 import head from "../images/Home.png";
 import carouselCardImg from "../images/chapterImg.png";
-import Carousel from "react-multi-carousel";
+import Carousel from "better-react-carousel";
 import "react-multi-carousel/lib/styles.css"
 
 import Button from "@material-ui/core/Button";
@@ -22,12 +22,17 @@ import HomePageCard from "./Carousel/HomePageCard"
 import GameSection from "./GameSection/GameSection"
 import Grid from '@mui/material/Grid'; // Grid version 1
 import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import { CardActionArea, CardActions } from "@mui/material";
 
 import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   homepage: {
-    display: "flex",
+    // display: "flex",
+    width: '100%',
     "& > *": {},
   },
   bluecolor: {
@@ -59,9 +64,9 @@ function Homepage() {
   const [chapterContent, setChapterContent] = useState([]);
   const [isChapterLoading, setIsChapterLoading] = useState(false);
 
-  const handleSubmit = (chpId) => {
-    console.log(chpId);
-    navigate("/vocabdev", { state: { id: chpId } });
+  const handleSubmit = (item) => {
+    console.log(item);
+    navigate("/vocabdev", { state: { id: item } });
   };
 
   const fetchChps = async () => {
@@ -69,10 +74,23 @@ function Homepage() {
     const response = await fetch(con.BASE_URI + "/chapters?userId=" + location.state.id);
     const data = await response.json();
     console.log(data)
-    let carouselItem = data.map((item, key) => {
-      return <HomePageCard key={key} title={item["name"]} date={""} img={carouselCardImg} description={item.content} routeLink={""} downloadLink={""} />
-    }
-    );
+    let carouselItem = data.map((item) => {
+      return (
+        <Carousel.Item>          
+          <div className="card border border-0 shadow mt-3 mb-5 ms-3">
+            <div className="d-flex align-items-center justify-content-center">
+              <img src={"https://www.productleadership.com/wp-content/uploads/2018/06/Data-Science1-1024x778.png"} className="card-img-top img-fluid mt-3 border border-0 " alt="..." />
+            </div>
+            <div className="card-body">
+              <h5 className="card-title">{item.name}</h5>
+              <p class="card-text"><small class="text-muted">26th August 2022</small></p>
+              <p className="card-text">{item.content.slice(0, 100) + "..."}</p>
+              <a href="/vocabdev" className="btn btn-outline-primary" onClick={() => handleSubmit(item)}>Learn</a>
+            </div>
+          </div>
+        </Carousel.Item>
+      );
+    });
     setIsChapterLoading(false);
     setChapterContent(carouselItem);
 
@@ -126,79 +144,32 @@ function Homepage() {
 
       {/* Card Carousel */}
 
-      <div className={classes.homepage}>
-
-        {/* <Paper elevation={3} style={{}}> */}
-        <Box p={0} className={classes.bluecolor}>
-          <Typography
-            variant="h4"
-            style={{
-              textAlign: "left",
-              color: "black",
-              paddingLeft: 35,
-              fontFamily: "fantasy",
-            }}
-          >
-            CHAPTERS
-          </Typography>
-          <br />
-
+      <div className={"container-fluid my-5"}>        
+        <h1 className="text-center display-4">MY CHAPTERS</h1>
+        <div>
           {isChapterLoading ? (
             <LoadingSpinner />
-          ) : (
-
-            // <Carousel cols={6} rows={1} gap={1} loop>
-
-            <Carousel responsive={responsive}>
-              {
-                chapterContent
-              }
+          ) : (            
+            <Carousel mobileBreakpoint={500} responsive={responsive} cols={4} rows={1} gap={20} loop>
+              {chapterContent}
             </Carousel>
-
-            // </Carousel>
           )}
-          <br />
-        </Box>
-
-        <br />
-        {/* <Grid
-            container
-            spacing={3}
-            style={{
-              display: "flex",
-              justifyContent: "right",
-              paddingRight: 30,
-            }}
-          >
-            <Grid item>
-              <Button
-                variant="contained"
-                className={classes.bluecolorcpy}
-                onClick={() => {
-                  navigate("/addchapter");
-                }}
-              >
-                ADD CHAPTER
-              </Button>
-            </Grid>
-          </Grid> */}
-
+        </div>
+        <div className="d-grid gap-2 col-3 mx-auto">
+          <button type="button" class="btn btn-primary btn-lg" onClick={() => {navigate("/addchapter");}}>ADD CHAPTER</button>
+        </div>        
       </div>
 
       {/* ================================================================== */}
 
       {/* Games */}
 
-      <GameSection></GameSection>
-      {/* <Grid container spacing={0}>
-            <Grid xs={12} s={12} md={6} lg={6} xl={6}>Image</Grid>
-            <Grid xs={0} s={0} md={6} lg={6} xl={6}>Description</Grid>
-          </Grid>
 
-          <Grid container spacing={0}>
-            <Grid xs={0} s={0} md={6} lg={6} xl={6}>Description</Grid>
-            <Grid xs={12} s={12} md={6} lg={6} xl={6}>Image</Grid>
-          </Grid> */}
+      <div className={"container-fluid mt-5"}>        
+        <h1 className="text-center display-4">ACTIVITIES</h1>
+        <GameSection />        
+      </div>      
+
       {/* ================================================================== */}
 
       {/* Footer */}

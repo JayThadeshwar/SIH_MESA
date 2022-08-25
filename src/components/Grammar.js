@@ -40,7 +40,8 @@ function GrammaticalAndAssessment() {
   const [isLoading, setIsLoading] = useState(false);
 
   const location = useLocation();
-
+  const chpInfo = location.state.id
+  
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -50,12 +51,9 @@ function GrammaticalAndAssessment() {
   };
 
   const fetchGrammar = async () => {
-    setIsLoading(true)
-    const response = await fetch(
-      con.BASE_URI + "/grammar/" + location.state.id
-    );
-    const data = await response.json()
-
+    
+    const data = chpInfo['grammarInformation']
+    console.log(data)
     let renderGrammar = (data["grammarticalInfo"]).map((item) => {
       return GmCard(item["sentence"], item["noun"], item["adjective"], item["verb"], item["coordinating conjunction"], item["adposition"])
     });
@@ -64,7 +62,6 @@ function GrammaticalAndAssessment() {
       return SvoCard(item["sentence"], item["subject"], item["verb"], item["object"], item["phrase"])
     });
 
-    setIsLoading(false)
     setGrammarUnderstanding(renderGrammar)
     setSvoInfo(renderSvo)
   }
