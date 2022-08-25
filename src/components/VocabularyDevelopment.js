@@ -15,6 +15,7 @@ import * as con from "../constants";
 import Chip from "@mui/material/Chip";
 import Divider from "@material-ui/core/Divider";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import { useSpeechSynthesis } from 'react-speech-kit';
 
 const useStyles = makeStyles((theme) => ({
   vocabdevelopment: {
@@ -22,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
     "& > *": {
       //   backgroundColor: blue[50],
     },
+  },
+  clickHover:{
+    "&:hover":{
+      cursor:'pointer',
+      backgroundColor:'#D4F1F4'
+    }
   },
   bluecolor: {
     backgroundColor: lightblue[300],
@@ -33,11 +40,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function VocabDevComp() {
+  const [value, setValue] = useState('');
+  const { speak } = useSpeechSynthesis();
   const location = useLocation();
   const itemInfo = location.state.id
 
   const [chapterContent, setChapterContent] = useState("");
   const [vocabContent, setVocabContent] = useState([]);
+  const [clickableArr, setclickableArr] = useState([]);
   const [isChapterLoading, setIsChapterLoading] = useState(false);
   const [isVocabContentLoading, setIsKeywordLoading] = useState(false);
 
@@ -154,6 +164,7 @@ function VocabDevComp() {
   }
 
   useEffect(() => {
+    setclickableArr(itemInfo["content"].split('.'))
     fetchChp();
     fetchVocab();
   }, []);
@@ -174,7 +185,9 @@ function VocabDevComp() {
             <br />
             <Paper elevation={2}>
               <Typography style={{ textAlign: "left", padding: 10 }}>
-                {isChapterLoading ? <LoadingSpinner /> : chapterContent}
+                {isChapterLoading&&clickableArr.length!==0 ? <LoadingSpinner /> : clickableArr.map((item)=>{
+      return <h6 id='clickHover' className={classes.clickHover} onClick={()=> speak({ text: item })}>{item}</h6>
+    })}
               </Typography>
             </Paper>
             <br />
