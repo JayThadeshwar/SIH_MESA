@@ -89,7 +89,7 @@ const Footer = () => {
   const links = [
     {rlink: "", title:"Home"},
     {rlink: "", title:"Mix & Match"},
-    {rlink: "", title:"Balloon Spill"},
+    {rlink: "", title:"Flying Balloon"},
     {rlink: "", title:"Contact Us"},
   ]
 
