@@ -12,6 +12,7 @@ export default function MediaCard({title="Title", date="date", img = "https://ww
       <CardMedia
         component="img"
         height="140"
+        width={500}
         image={img}
         alt="learning"
       />
