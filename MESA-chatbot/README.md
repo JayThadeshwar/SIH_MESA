@@ -1,3 +1,5 @@
+-----> Run this project on CMD only  #important
+
 -----> npm install
 
 write this command on root directory of this project
