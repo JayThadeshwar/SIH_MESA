@@ -1,21 +1,39 @@
 import { useState, useEffect } from 'react';
 import SingleCard from './SingleCard';
 import CustomTimer from './CustomTimer';
+import Grid from '@mui/material/Grid';
 import '../css/MixMatch.css';
 import { Box } from "@material-ui/core";
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import Paper from '@mui/material/Paper';
+import { useNavigate } from "react-router-dom";
 const color = ["", "#bee9e8", "", "#62b6cb", "", "#1b4965", "", "#cae9ff", "", "#5fa8d3", "", "#2ec4b6"]
 const color1 = ["#bee9e8", "#62b6cb", "#1b4965", "#cae9ff", "#5fa8d3", "#2ec4b6"]
+// const style = {
+//   position: 'absolute',
+//   top: '50%',
+//   left: '50%',
+//   transform: 'translate(-50%, -50%)',
+//   width: 400,
+//   bgcolor: 'background.paper',
+//   border: '2px solid #000',
+//   boxShadow: 24,
+//   p: 4,
+// };
 const style = {
-  position: 'absolute',
+  position: 'fixed',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  // width: 400,
+  // height: 190,
   bgcolor: 'background.paper',
   border: '2px solid #000',
+  borderRadius: '10px',
   boxShadow: 24,
   p: 4,
 };
@@ -31,7 +49,7 @@ function MixMatch() {
   const [isClick, setIsClick] = useState(false)
   const [isCount, setIsCount] = useState(1)
   const [show, setShow] = useState(false);
-
+  const navigate = useNavigate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   //shuffling the cards
@@ -131,37 +149,55 @@ function MixMatch() {
 
   return (
     <div className="MixMatch">
-
       <Modal
         open={show}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Congratulations!!!!!!!!!
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            You did it in {turns} turns
-          </Typography>
-          <button id="new" onClick={() => { window.location.reload(); }}>New Game</button>
-        </Box>
+        <Paper elevation={3}>
+                <Box sx={style} style={{paddingLeft:'7em',paddingRight:'7em'}}>
+                    <Typography align="center" variant="h4">
+                        Game Over
+                    </Typography>
+                    <Typography align="center" variant="h5" sx={{ mt: 2 }}>
+                      You did it in {turns} turns      
+                    </Typography>
+                    <Stack direction={'row'} spacing={2} justifyContent="center" paddingTop={2}>
+                        <Button variant="contained" color="success" onClick={() => { window.location.reload();}}>Play Again</Button>
+                        <Button variant="contained" color="error" onClick={()=>{navigate('/home')}}> 
+                            EXIT
+                        </Button> 
+                        {/* transfer to home page */}
+                    </Stack>
+                </Box>
+            </Paper>
       </Modal>
-      <h1>Mix and Match</h1>
-
-      <div class="flex3">
-        <div class="flex-items"> <CustomTimer
+  
+      <div className='' style={{ height: '100vh' }}>
+        <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={2}>
+                            <Typography align="center" style={{ fontFamily: 'Tourney', fontWeight: 'bold', fontSize: 25, paddingTop: 25 }}>
+                            <CustomTimer
           msg={"Time left :"}
           reset={md}
           time={100}
           start={true}
           setMd={setMd}
 
-        ></CustomTimer></div>
-        <div class="flex-items"> <button onClick={() => { window.location.reload(); }}>New Game</button></div>
-
-      </div>
+        ></CustomTimer>
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography align="center" style={{ fontFamily: 'Tourney', fontWeight: 'bold', fontSize: 25, paddingTop: 25 }}>Mix and match</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                        <Button  align="center" style={{ fontFamily: 'Tourney', fontWeight: 'bold', fontSize: 25, paddingTop: 25 }} variant="contained" color="success" onClick={() => { window.location.reload();}}>Play Again</Button>
+                        </Grid>
+                    </Grid>
+            </Box>
+     
 
       <div className='cardgrid'>
         {cards.map(card =>
@@ -173,6 +209,7 @@ function MixMatch() {
       </div>
       <p>Turns:{turns}</p>
 
+    </div>
     </div>
 
 

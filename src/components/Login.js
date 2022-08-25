@@ -17,10 +17,10 @@ const Login = () => {
     }
 
     axios.post(con.BASE_URI + '/user/validate', data)
-      .then(response => {
-
-        if (response.data.isValid) {          
-          navigate("/home", { state: { id: response.data['info'] } })
+      .then(response => {        
+        if (response.data.isValid) {      
+          localStorage.setItem('userId', response.data['info'])    
+          navigate("/home")
         }
         else
           alert("Invalid credentials");

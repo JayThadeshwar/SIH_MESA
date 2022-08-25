@@ -1,10 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import studentswebinar from '../images/landpageimage.png';
+import { useEffect } from "react";
 
 const LandingPage = () => {
 
   const navigate = useNavigate();
+  const uId = localStorage.getItem('userId') || 0  
+
+  useEffect(() => {
+    if(uId != 0)
+      navigate('/home')
+  }, []);
 
 
   return (

@@ -12,6 +12,7 @@ import Header from "./Header";
 import Footer from "./common/Footer";
 import TextField from '@mui/material/TextField';
 import * as con from '../constants'
+import LoadingSpinner from "../utility/LoadingSpinner";
 
 const useStyles = makeStyles((theme) => ({
   addchap: {
@@ -40,6 +41,7 @@ function AddStudyChapter() {
     content: ''
   });
   
+  const [isLoading, setIsLoading] = useState(false);
   const [hasErr, sethasErr] = useState(false);
 
   const handleChangeForm = name => event => {
@@ -47,23 +49,31 @@ function AddStudyChapter() {
   };
 
   const handleSubmit = (event) => {
+    setIsLoading(true)
     event.preventDefault();
+
+    const uId = localStorage.getItem('userId')
+
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        userId: uId,
         name: values.name,
         content: values.content
       })
     };
+    
     fetch(con.BASE_URI + "/chapters", requestOptions)
       .then(response => {
         console.log(response)
+        setIsLoading(false)
         if (response.status === 201)
           navigate("/home");
         else
           sethasErr(true)
       }).catch(err => {
+        setIsLoading(false)
         console.log(err)
         sethasErr(true)
       })
@@ -80,8 +90,11 @@ function AddStudyChapter() {
       </Alert><br/>
       </>
       : <></>}
-
-      <div className={classes.addchap}>
+      {
+        isLoading ? 
+        <LoadingSpinner></LoadingSpinner>
+        :
+        <div className={classes.addchap}>
 
         <Paper elevation={3} style={{ width: '100%' }}>
           <Box p={1.5} className={classes.bluecolor}>
@@ -115,6 +128,7 @@ function AddStudyChapter() {
           <br />
         </Paper>
       </div>
+      }      
       <div><br />
         <Footer></Footer>
       </div>

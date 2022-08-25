@@ -56,10 +56,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Homepage() {
-  const location = useLocation();
-
   const classes = useStyles();
   const navigate = useNavigate();
+  const userId = localStorage.getItem('userId')
 
   const [chapterContent, setChapterContent] = useState([]);
   const [isChapterLoading, setIsChapterLoading] = useState(false);
@@ -71,7 +70,7 @@ function Homepage() {
 
   const fetchChps = async () => {
     setIsChapterLoading(true);
-    const response = await fetch(con.BASE_URI + "/chapters?userId=" + location.state.id);
+    const response = await fetch(con.BASE_URI + "/chapters?userId=" + userId);
     const data = await response.json();
     console.log(data)
     let carouselItem = data.map((item) => {
