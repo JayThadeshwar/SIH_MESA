@@ -11,6 +11,7 @@ import b1 from './images/b1.png';
 import b2 from './images/b2.png';
 import b3 from './images/b3.png';
 import b4 from './images/b4.png';
+import * as con from '../../constants'
 import './game_page.css';
     // "react": "^16.8.0",
 
@@ -51,7 +52,7 @@ const Game_page = () => {
     const [options, setOptions] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:8000/game/2`)
+        fetch(con.BASE_URI + '/game/2')
             .then((response) => response.json())
             .then((actualData) => {
                 setOptions(actualData['words']);

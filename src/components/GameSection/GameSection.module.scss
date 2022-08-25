@@ -1,0 +1,43 @@
+.gameSec {
+
+    .gameImgDiv {
+        position: relative;        
+
+    }
+
+    img {
+        transition-duration: 0.6s;
+
+        &:hover {
+            opacity: 0.7;
+        }
+
+        &:hover {
+            ~.playNowBtn {
+                opacity: 1;
+            }
+        }
+    }
+
+
+
+    .playNowBtn {
+        position: absolute;
+        bottom: 3%;
+        left: 3%;
+
+        background-color: #383A3D;
+        opacity: 0.7;
+        transition-duration: 0.6s;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .lowerGame {
+            margin-top: 20px;
+        }
+    }
+}
