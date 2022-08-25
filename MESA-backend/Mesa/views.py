@@ -83,7 +83,8 @@ def validateUserApi(request, id=0):
 
         user = User.objects.filter(
             emailId=user_info['emailId'], password=user_info['password'])
-        if not user.exists():
+
+        if user[0].emailId != user_info['emailId']:
             isValid = False
             msg = "Either username or password is invalid"
 

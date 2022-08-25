@@ -4,7 +4,7 @@ class User(models.Model):
     userId = models.AutoField(primary_key=True)
     userName = models.CharField(max_length=500)
     contactNumber = models.CharField(max_length=500)
-    emailId = models.CharField(max_length=500)
+    emailId = models.CharField(max_length=500, unique=True)
     password = models.CharField(max_length=500)
     dateOfBirth = models.DateField()
     markForDelete = models.BooleanField(default=False)
