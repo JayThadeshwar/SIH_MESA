@@ -10,6 +10,6 @@ urlpatterns=[
      re_path(r'^user$',views.userApi),
      # re_path(r'^home$',views.homeApi),
      re_path(r'^user/validate$',views.validateUserApi),     
-     re_path(r'^game/(?P<game_no>\d+)$', views.gameApi, name='game')
-     # re_path(r'^mcq/(?P<chapter_id>\d+)/$', views.mcqApi, name='mcq')
+     re_path(r'^game/(?P<game_no>\d+)$', views.gameApi, name='game'),
+     re_path(r'^mcq/(?P<chapter_id>\d+)/$', views.mcqApi, name='mcq')
 ]

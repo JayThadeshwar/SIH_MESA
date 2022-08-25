@@ -30,7 +30,7 @@ def summarizemethod(content):
     response = requests.request("POST", url, headers=headers, data=payload)
     data = json.loads(response._content)
 
-
+    print("Summary length:", len(data))
     summary_text = data[0]['summary_text']
     translator = Translator()
     

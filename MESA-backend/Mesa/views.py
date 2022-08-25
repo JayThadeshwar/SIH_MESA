@@ -6,16 +6,15 @@ from rest_framework.parsers import JSONParser
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-# from Mesa.bl.mcq import extractMCQ
 
 from Mesa.models import Chapter, User
 from Mesa.serializers import UserSerializer, ChapterSerializer
 from Mesa.bl.vocabularyDev import extractKeywordsFromContent
 from Mesa.bl.summaryNTranslation import summarizemethod
 from Mesa.bl.grammarMod import generateGrammarDetails
+from Mesa.bl.mcq import extractMCQ
 from Mesa.bl.game import mixNMatch
 from Mesa.bl.game import flyingBallon
-
 # Create your views here.
 
 class ChapterViewSet(viewsets.ModelViewSet):
@@ -84,9 +83,11 @@ def validateUserApi(request, id=0):
         user = User.objects.filter(
             emailId=user_info['emailId'], password=user_info['password'])
 
-        if user[0].emailId != user_info['emailId']:
+        if len(user) <= 0:
             isValid = False
             msg = "Either username or password is invalid"
+        else:
+            info = user[0].userId
 
         resp = {"msg": msg, "isValid": isValid, "info": info}
         return JsonResponse(resp, safe=False)
@@ -111,9 +112,19 @@ def gameApi(request, game_no):
 #         result = ChapterSerializer(chpData, many=True)        
 #         return JsonResponse(result.data, safe=False)        
 
+@csrf_exempt
+def mcqApi(request, chapter_id):
+    if request.method=='GET':
+        chapter=Chapter.objects.get(id = chapter_id)
+        result = extractMCQ(chapter.content, chapter.summaryNTranslation['summary'])        
+        return JsonResponse(result, safe=False)
+
+
 # @csrf_exempt
-# def mcqApi(request, chapter_id):
-#     if request.method=='GET':
-#         chapter=Chapter.objects.get(id = chapter_id)
-#         result = extractMCQ(chapter.content)
-#         return JsonResponse(result, safe=False)
+# def audioRecorderApi(request, id=0):
+#     if request.method == 'POST':
+#         blob_url = JSONParser().parse(request)
+        
+
+     
+#         return JsonResponse(resp, safe=False)

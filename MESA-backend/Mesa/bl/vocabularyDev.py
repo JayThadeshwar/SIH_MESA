@@ -259,7 +259,7 @@ def extractKeywordsFromContent(content):
     translator = Translator()
 
 
-    for word in list(res.keys())[:10]:
+    for word in list(res.keys())[:7]:
         req = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
         data = req.json()
         # print(word)
@@ -290,7 +290,13 @@ def extractKeywordsFromContent(content):
         al = ''
         if len(audioLink) > 0:
             al = audioLink[0]
+        
+        finDefination = list()
+        for defin in definition:
+            translated_text = translator.translate(defin, src='en', dest='hi') 
+            definationStr = translated_text.text + ' [' + defin + ']'
+            finDefination.append(definationStr)
 
         if(isinstance(data, list)):
-            result.append(WordInformation(word, definition[:5], list(synonyms)[:5], list(antonyms)[:5], examples, al, translated_word.text).__dict__)
+            result.append(WordInformation(word, finDefination[:5], list(synonyms)[:5], list(antonyms)[:5], examples, al, translated_word.text).__dict__)
     return result

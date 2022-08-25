@@ -11,6 +11,7 @@ class User(models.Model):
 
 class Chapter(models.Model):
     userId = models.IntegerField()
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=500)
     content = models.TextField()
     vocabularyDevelopment = models.JSONField()
