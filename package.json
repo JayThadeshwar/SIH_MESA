@@ -15,6 +15,7 @@
     "axios": "^0.27.2",
     "better-react-carousel": "^1.1.1",
     "bootstrap-icons": "^1.9.1",
+    "classnames": "^2.3.1",
     "material-ui": "^0.20.2",
     "material-ui-search-bar": "^1.0.0",
     "react": "^16.8.0",
