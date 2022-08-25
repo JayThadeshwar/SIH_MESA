@@ -10,6 +10,7 @@ import axios from 'axios';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
+import * as con from '../constants'
 import { useNavigate } from "react-router-dom";
 const color = ["", "#bee9e8", "", "#62b6cb", "", "#1b4965", "", "#cae9ff", "", "#5fa8d3", "", "#2ec4b6"]
 const color1 = ["#bee9e8", "#62b6cb", "#1b4965", "#cae9ff", "#5fa8d3", "#2ec4b6"]
@@ -115,7 +116,7 @@ function MixMatch() {
     let dict;
 
 
-    axios.get('http://127.0.0.1:8000/game/1').then(resp => {
+    axios.get(con.BASE_URI +'/game/1').then(resp => {
       let d = resp.data.words
 
       dict = Object.assign({}, ...d.map((x) => ({ [x.enWord]: x.transWord })));
