@@ -443,6 +443,10 @@ const VocabularyDevelopment = () => {
 
         </div>
       </div>
+
+      <div className={cx("container text-center mb-5 btn-lg")}>
+        <button type="button" className="btn btn-outline-primary" onClick={handleSubmit}>NEXT</button>
+      </div>
       <Footer />
     </div>
   )
