@@ -13,6 +13,8 @@ import AddChap from './components/AddChapter';
 import MixMatch from './components/MixMatch';
 import Chatbot from "./components/Chatbot/Chatbot"
 import Scenarios from './components/Scenarios';
+import GamePage from './components/FlyingBalloon/Game_page'
+import GameOver from './components/FlyingBalloon/Game_Over'
 
 
 function App(props) {
@@ -31,6 +33,9 @@ function App(props) {
         <Route path='/mixmatch' element={<MixMatch />} />
         <Route path='/chatbot' element={<Chatbot />} />
         <Route path='/scenarios' element={<Scenarios />} />
+        <Route path='/flyingballoon' element={<GamePage />} />
+        <Route path="/balloonresult" element={<GameOver />}> </Route>
+
 
       </Routes>
     </Router>

@@ -253,7 +253,7 @@ function Homepage() {
               <CardActions>
                 <Button size="small"
                   onClick={() => {
-                    navigate("/home")
+                    navigate("/flyingballoon")
                   }}>Play Now!!</Button>
               </CardActions>
             </Card>
