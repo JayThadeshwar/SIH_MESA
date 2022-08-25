@@ -6,8 +6,8 @@ import { Box } from "@material-ui/core";
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-
-
+const color = ["", "#bee9e8", "", "#62b6cb", "", "#1b4965", "", "#cae9ff", "", "#5fa8d3", "", "#2ec4b6"]
+const color1 = ["#bee9e8", "#62b6cb", "#1b4965", "#cae9ff", "#5fa8d3", "#2ec4b6"]
 const style = {
   position: 'absolute',
   top: '50%',
@@ -36,8 +36,9 @@ function MixMatch() {
   const handleShow = () => setShow(true);
   //shuffling the cards
   const shuffleCards = (words) => {
-    const shuffledCards = words.sort(() => Math.random() - 0.5)
-      .map((word) => ({ word, id: Math.random(), match: false }))
+    const shuffledCards = words
+      .map((word, index) => ({ word, id: Math.random(), match: false, color: "", colorId: Math.floor(index / 2) }))
+      .sort(() => Math.random() - 0.5)
 
     setIsClick(!isClick)
     setCards(shuffledCards)
@@ -66,7 +67,8 @@ function MixMatch() {
                 handleShow()
                 setMd(true)
               }
-              return { ...card, match: true }
+
+              return { ...card, match: true, color: color1[card.colorId] }
             }
             else {
               return card
@@ -121,7 +123,7 @@ function MixMatch() {
       setCards(prevCards => {
         return prevCards.map(card => {
 
-          return { ...card, match: true }
+          return { ...card, match: true, color: color1[card.colorId] }
         })
       })
     }
