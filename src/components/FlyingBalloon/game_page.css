@@ -1,0 +1,104 @@
+.demo{
+    /* background-color: black; */
+    /* max-width: 85%;
+    align-items: center;
+    align-self: center; */
+    background-image: url('./images/tr2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+}
+
+.img1{
+    width: 300px;
+    filter: brightness(110%);
+}
+.b1{
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    position: absolute;
+    top: 15%;
+    bottom: 70%;
+    left: 0;
+    right: 0;
+    height: fit-content;
+    margin: auto;
+}
+.img2{
+    width: 180px;
+}
+.b2{
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    position: absolute;
+    top: 45%;
+    bottom: 70%;
+    left: 0;
+    right: 0;
+    height: fit-content;
+    margin: auto;
+}
+.img3{
+    width: 330px;
+}
+.b3{
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    position: absolute;
+    top: 50;
+    bottom: 70%;
+    left: 8px;
+    right: 0;
+    height: fit-content;
+    margin: auto;
+}
+.img4{
+    width: 120%;
+    filter: brightness(140%);
+}
+.b4{
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    position: absolute;
+    top: 20%;
+    /* bottom: 70%; */
+    left: 27%;
+    right: 10%;
+    height: fit-content;
+    margin: auto;
+}
+.art1{
+    position: fixed;
+    /* object-position: left bottom; */
+    bottom: 0;
+    left: 10%;
+}
+.art2{
+    position: fixed;
+    bottom: 0;
+    left: 35%;
+}
+
+.art3{   
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+}
+.art4{
+    position: fixed;
+    bottom: 0;
+    right: 10%;
+}
+div.demo{
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+div.demo article {
+    display: table-cell;
+    text-align: center;
+}

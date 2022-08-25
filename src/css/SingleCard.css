@@ -14,7 +14,7 @@ transform: rotateY(90deg);
 transition: all ease-in 0.2s;
 position: absolute;
 }
-.flipped .front h4,.card .front h4{
+.flipped .front h2,.card .front h2{
 padding-top: 25%;
 text-align: center;
 }
@@ -37,8 +37,7 @@ text-align: center;
     transition-delay: 0s;
 }
 .front{
-    text-align: center;
-    
+    text-align: center;   
     height: 100%;
     width: 100%;
 }
