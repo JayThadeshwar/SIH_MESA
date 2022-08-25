@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 function VocabDevComp() {
   const location = useLocation();
+  const itemInfo = location.state.id
 
   const [chapterContent, setChapterContent] = useState("");
   const [vocabContent, setVocabContent] = useState([]);
@@ -49,23 +50,12 @@ function VocabDevComp() {
   };
 
   const fetchChp = async () => {
-    setIsChapterLoading(true);
-    const response = await fetch(
-      con.BASE_URI + "/chapters/" + location.state.id
-    );
-    const data = await response.json();
-    setIsChapterLoading(false);
-    setChapterContent(data["content"]);
+    setChapterContent(itemInfo["content"]);
   };
 
   const fetchVocab = async () => {
-  
-    setIsKeywordLoading(true);
-    const response = await fetch(
-      con.BASE_URI + "/keyword/" + location.state.id
-    );
-    const data = await response.json();
-    const renderData = data["keywords"].map((item) => {
+    const data = itemInfo['vocabularyDevelopment'];
+    const renderData = data.map((item) => {
       if (item["definition"].length <= 0 && item["synonyms"].length <= 0)
         return <div></div>
       return (
@@ -160,7 +150,6 @@ function VocabDevComp() {
         </Typography>
       );
     });
-    setIsKeywordLoading(false);
     setVocabContent(renderData);
   }
 

@@ -27,7 +27,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea, CardActions } from "@mui/material";
 
-
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   homepage: {
@@ -56,62 +56,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Homepage() {
+  const location = useLocation();
+
   const classes = useStyles();
   const navigate = useNavigate();
 
   const [chapterContent, setChapterContent] = useState([]);
   const [isChapterLoading, setIsChapterLoading] = useState(false);
 
-  const handleSubmit = (chpId) => {
-    console.log(chpId);
-    navigate("/vocabdev", { state: { id: chpId } });
+  const handleSubmit = (item) => {
+    console.log(item);
+    navigate("/vocabdev", { state: { id: item } });
   };
 
   const fetchChps = async () => {
     setIsChapterLoading(true);
-    console.log(con.BASE_URI + "/chapters");
-    const response = await fetch(con.BASE_URI + "/chapters");
+    const response = await fetch(con.BASE_URI + "/chapters?userId=" + location.state.id);
     const data = await response.json();
-
     console.log(data)
     let carouselItem = data.map((item) => {
       return (
-        <Carousel.Item>
-          {/* <Card sx={{ maxWidth: 300 }} variant="outlined">
-            <CardActionArea>
-              <CardContent style={{ flex: "1 0 auto" }}>
-                <div style={{ position: "relative" }}>
-                  <CardMedia
-                    style={{ display: "flex", objectFit: "contain" }}
-                    component="img"
-                    image="/Group 53.png"
-                    alt="chpbg"
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      color: "white",
-                      top: 20,
-                      left: "18%",
-                      fontSize: 20,
-                    }}
-                  >
-                    {item.name}
-                  </div>
-                </div>
-                <CardActions style={{ paddingLeft: 70 }}>
-                  <Button
-                    variant="contained"
-                    className={classes.bluecolorcpy1}
-                    onClick={() => handleSubmit(item.id)}
-                  >
-                    LEARN
-                  </Button>
-                </CardActions>
-              </CardContent>
-            </CardActionArea>
-          </Card> */}
-
+        <Carousel.Item>          
           <div className="card border border-0 shadow mt-3 mb-5 ms-3">
             <div className="d-flex align-items-center justify-content-center">
               <img src={"https://www.productleadership.com/wp-content/uploads/2018/06/Data-Science1-1024x778.png"} className="card-img-top img-fluid mt-3 border border-0 " alt="..." />
@@ -120,7 +85,7 @@ function Homepage() {
               <h5 className="card-title">{item.name}</h5>
               <p class="card-text"><small class="text-muted">26th August 2022</small></p>
               <p className="card-text">{item.content.slice(0, 100) + "..."}</p>
-              <a href="#" className="btn btn-outline-primary" onClick={() => handleSubmit(item.id)}>Learn</a>
+              <a href="/vocabdev" className="btn btn-outline-primary" onClick={() => handleSubmit(item)}>Learn</a>
             </div>
           </div>
         </Carousel.Item>
@@ -193,12 +158,12 @@ function Homepage() {
         <div className="d-grid gap-2 col-3 mx-auto">
           <button type="button" class="btn btn-primary btn-lg" onClick={() => {navigate("/addchapter");}}>ADD CHAPTER</button>
         </div>        
-
       </div>
 
       {/* ================================================================== */}
 
       {/* Games */}
+
 
       <div className={"container-fluid mt-5"}>        
         <h1 className="text-center display-4">ACTIVITIES</h1>
