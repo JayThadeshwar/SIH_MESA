@@ -11,22 +11,23 @@ import Header from "./Header"
 import Footer from "./common/Footer"
 import LoadingSpinner from "../utility/LoadingSpinner";
 import * as con from '../constants'
+import Navbar from "./common/Navbar";
 
 const useStyles = makeStyles((theme) => ({
   summarization: {
-    display: 'flex',  
+    display: 'flex',
     '& > *': {
-    //   backgroundColor: blue[50],
+      //   backgroundColor: blue[50],
     },
   },
   bluecolor: {
     backgroundColor: lightblue[300],
-    padding:30
+    padding: 30
   },
   bluecolorcpy: {
     backgroundColor: lightblue[300],
   },
-  
+
 }));
 
 
@@ -40,26 +41,26 @@ function SummarizeAndTranslate() {
 
   const classes = useStyles();
   const navigate = useNavigate();
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(itemInfo)
-    navigate("/grammar", {state : {id: itemInfo}});
+    navigate("/grammar", { state: { id: itemInfo } });
   };
 
-  const fetchSummaryNTranslation = async () => {    
+  const fetchSummaryNTranslation = async () => {
     setStContent(itemInfo['summaryNTranslation'])
   }
 
   useEffect(() => {
     fetchSummaryNTranslation()
   }, []);
-  
+
   return (
     <div>
-        <Header></Header><br/>
-    <div className={classes.summarization}>
-      
+      <Navbar />
+      <div className="summarisation">
+        {/*       
       <Paper elevation={3} style = {{width: '100%'}}>
         <Box p={1.5} className={classes.bluecolor}>
           <Typography variant="h4" style={{ textAlign: 'left' , color:'white'}}>
@@ -99,13 +100,56 @@ function SummarizeAndTranslate() {
             </Grid>
       </Grid>
           <br/>
-      </Paper>
-    </div>
-    <div><br />
-    <Footer></Footer>  
-    </div>
-    </div>
-  );
+      </Paper> */}
+      
+      <div className="container">
+
+
+          <h1 className="display-4 text-center" style={{ "margin": "20px 30px;" }}>Summarization</h1>
+          <div className="row">
+
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+              <label for="exampleFormControlTextarea2" class="form-label">Summarization</label>
+              <textarea class="form-control" id="exampleFormControlTextarea2" rows="8">
+                {
+                  isLoading ? <LoadingSpinner /> : stContent['summary']
+                }
+              </textarea>
+
+            </div>
+            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+              <label for="exampleFormControlTextarea3" class="form-label">Translation</label>
+              <textarea class="form-control" id="exampleFormControlTextarea2" rows="8">
+                {
+                  isLoading ? <LoadingSpinner /> : stContent['translation']
+                }
+              </textarea>
+            </div>
+          </div>
+
+        
+      
+        
+         
+  <button style={{"margin":"5px"}} type="button" class="btn btn-primary" onClick={() => {navigate("/vocabdev");}}>Back</button>
+  
+  <button  style={{"margin":"5px"}} type="button" class="btn btn-primary"  onClick={handleSubmit}>Proceed</button>
+  
+  
+         
+            
+            
+         
+        </div>
+        </div>
+        <div><br />
+          <Footer></Footer>
+        </div>
+      </div>
+
+      
+      );
 }
 
-export default SummarizeAndTranslate;
+      export default SummarizeAndTranslate;
