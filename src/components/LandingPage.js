@@ -27,7 +27,7 @@ const LandingPage = () => {
               <h5>The free, fun and effective way of learning English</h5>
               <div class="d-grid gap-2 col-lg-6 col-md-6 col-sm-9 col-xs-9 mx-auto">
                 <button class="btn btn-primary" type="button" onClick={() => { navigate("/signup"); }}>GET STARTED</button>
-                <button class="btn btn-outline-dark" type="button" onClick={() => { navigate("/login"); }}>ALREADY HAVE AND ACCOUNT</button>
+                <button class="btn btn-outline-dark" type="button" onClick={() => { navigate("/login"); }}>ALREADY HAVE AN ACCOUNT?</button>
               </div>
 
             </div>
