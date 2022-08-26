@@ -16,6 +16,8 @@ import BallonGameOver from './components/FlyingBalloon/Game_Over';
 import Chatbot from './components/Chatbot/Chatbot';
 import Scenarios from './components/Scenarios';
 import "./App.css";
+// import Trials from './components/Trials';
+// import HindiTrial from './components/HindiTrial';
 
 function App(props) {
   return (
@@ -35,6 +37,8 @@ function App(props) {
         <Route path='/balloonResult' element={<BallonGameOver />} />
         <Route path='/scenarios' element={<Scenarios />} />
         <Route path='/chatbot' element={<Chatbot />} />
+        {/* <Route path='/trials' element={<Trials />} /> */}
+        {/* <Route path='/hindiTrial' element={<HindiTrial />} /> */}
       </Routes>
     </Router>
   );

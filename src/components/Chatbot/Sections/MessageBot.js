@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-export default function MessageBot({ msg, text, translation, isTranslate }) {
+export default function MessageBot({ msg, text, translation, isTranslate, isConvo, langCode }) {
   useEffect(() => {
     // console.log(msg)
 
@@ -17,7 +17,9 @@ export default function MessageBot({ msg, text, translation, isTranslate }) {
         <div class="bubble-inner ">
           <div class="text">
             <span id="ember140" class="ember-view">{text}
-            </span>                          </div>
+            </span>
+
+          </div>
 
           {translation && isTranslate && <div class="translation is-light">
             <span id="ember141" class="ember-view">{translation}
