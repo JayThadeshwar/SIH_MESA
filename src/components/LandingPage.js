@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import i18next from 'i18next';
 import {useTranslation} from 'react-i18next';
 import DropdownButton from 'react-bootstrap/DropdownButton'
-import { Dropdown } from 'bootstrap';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const languages = [
   {
