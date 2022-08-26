@@ -72,7 +72,7 @@ const Navbar = () => {
           <Search />
           <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
             <li className="nav-item">
-              <DropDown />
+              {/* <DropDown /> */}
             </li>
             <li className="nav-item">
               <UserIcon />
