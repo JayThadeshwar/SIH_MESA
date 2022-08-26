@@ -180,7 +180,7 @@ const Grammar = () => {
       <Navbar />
       <div className={cx('container-fluid', styles.Grammer)}>
         <h1 className="display-4 mt-5 mb-3" style={{ "fontWeight": "900", color: "#383A3D" }}>
-          {t("Grammar")}
+          {t("Grammar")} 
         </h1>
 
         <div className={cx('container-fluid', styles.pos)}>

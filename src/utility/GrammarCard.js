@@ -39,12 +39,12 @@ function GmCard(key, sent, nouns, adjective, verb, conjunction, adposition) {
   return (
 
 
-    <table className="p-3 table table-bordered border border-3 rounded"  style={{ marginBottom: "1%" }}>
+    <table className="p-3 table table-bordered border border-2 rounded"  style={{ marginBottom: "1%" }}>
       
       
       
       <tr>        
-        <th className="p-3">Sentence:</th>
+        <th className="p-3" style={{color: 'black', fontWeight: 800}}>Sentence:</th>
         <td className="p-1">
 
 
@@ -90,7 +90,7 @@ function GmCard(key, sent, nouns, adjective, verb, conjunction, adposition) {
         <></>
       ) : (
         <tr>
-          <th className="p-3">Noun(संज्ञा):</th>
+          <th className="p-3" style={{color: 'red', fontWeight: 800}}>Noun(संज्ञा):</th>
           {nouns.map((info, id) => {
             return (
               <td  className="p-1" key={id}>
@@ -104,7 +104,7 @@ function GmCard(key, sent, nouns, adjective, verb, conjunction, adposition) {
         <></>
       ) : (
         <tr>
-          <th className="p-3">Adjective(विशेषण):</th>
+          <th className="p-3" style={{color: 'green', fontWeight: 800}}>Adjective(विशेषण):</th>
           {adjective.map((info,id) => {
             return (
               <td  className="p-1" key={id}>
@@ -118,7 +118,7 @@ function GmCard(key, sent, nouns, adjective, verb, conjunction, adposition) {
         <></>
       ) : (
         <tr>
-          <th className="p-3">Verb(क्रिया):</th>
+          <th className="p-3" style={{color: 'purple', fontWeight: 800}}>Verb(क्रिया):</th>
           {verb.map((info,id) => {
             return (
               <td  className="p-1" key={id}>
@@ -132,7 +132,7 @@ function GmCard(key, sent, nouns, adjective, verb, conjunction, adposition) {
         <></>
       ) : (
         <tr>
-          <th className="p-3">Conjunction(संयोजक):</th>
+          <th className="p-3" style={{color: 'blue', fontWeight: 800}}>Conjunction(संयोजक):</th>
           {conjunction.map((info, id) => {
             return (
               <td  className="p-1" key={id}>
@@ -146,7 +146,7 @@ function GmCard(key, sent, nouns, adjective, verb, conjunction, adposition) {
         <></>
       ) : (
         <tr>
-          <th  className="p-3">Adposition(अनुस्थापन):</th>
+          <th  className="p-3" style={{color: 'black', fontWeight: 800}}>Adposition(अनुस्थापन):</th>
           {adposition.map((info, id) => {
             return (
               <td className="p-1" key={id}>
