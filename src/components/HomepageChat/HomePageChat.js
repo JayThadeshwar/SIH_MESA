@@ -9,7 +9,7 @@ const HomePageChat = () => {
             <div className='row'>
                 <div className='col-md-6 col-lg-6 col-sm-12 col-xs-12 d-flex flex-column align-items-start justify-content-center gap-5'>
                     <div>
-                        <h1 className='display-4 fw-bold'>Chat with your Mitra!</h1>
+                        <h1 className='display-4 fw-bold'>Learn to speak with Mitra!</h1>
                         <div className='fs-5 lead'>Start talking to your Mitra. He will never judge you whatever the way you speak. He will be your best friend preparing you to speak with confidence. Just chat with your bot..!</div>
                         {/* <div className='fs-5'>He will be your best friend preparing you to speak with confidence</div> */}
                     </div>

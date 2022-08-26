@@ -1,0 +1,37 @@
+.vocabDev {
+    .topVocabDev{
+        background-color: #E0EBFF;   
+        // border-radius: 20px;    
+        
+        & > h1 {
+            color: #0A66C2;
+            color: #383A3D;            
+            font-weight: 800;
+        }
+
+        .chapDetail{
+            font-weight: 500;
+        }
+    }
+
+    .bottomVocabDev{
+        & > h1 {
+            color: #0A66C2;
+            color: #383A3D;            
+            font-weight: 800;
+        }
+        .bottomVocabDet{
+            .acc{
+                .accBtn{
+                    background-color: #E0EBFF;
+                    font-weight: 500;
+                    color: #383A3D;         
+                }
+            }
+
+            .capSule{                
+                border-radius: 30px;
+            }
+        }
+    }
+}

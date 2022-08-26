@@ -12,6 +12,8 @@ import Footer from "./common/Footer"
 import LoadingSpinner from "../utility/LoadingSpinner";
 import * as con from '../constants'
 import Navbar from "./common/Navbar";
+import styles from "./Summarization.module.scss";
+import cx from "classnames";
 
 const useStyles = makeStyles((theme) => ({
   summarization: {
@@ -57,83 +59,48 @@ function SummarizeAndTranslate() {
     fetchSummaryNTranslation()
   }, []);
 
+  const data = [
+    { title: 'Summarization', keyword: "summary" },
+    { title: 'Translation', keyword: "translation" },
+  ]
+
   return (
     <div>
       <Navbar />
       <div className="summarisation">
-        {/*       
-      <Paper elevation={3} style = {{width: '100%'}}>
-        <Box p={1.5} className={classes.bluecolor}>
-          <Typography variant="h4" style={{ textAlign: 'left' , color:'white'}}>
-            Summarization
-          </Typography><br/>
-          <Paper elevation={2}>
-          <Typography style={{ textAlign: 'left' , padding:10}}>
-            {
-              isLoading ? <LoadingSpinner/> : stContent['summary']
-            }
-          </Typography>
-          </Paper>          
-            <br/>
-          <Typography variant="h4" style={{ textAlign: 'left' , color:'white'}}>
-            Translation
-          </Typography><br/>
-          <Paper elevation={2}>
-            <Typography style={{ textAlign: 'left', padding: 10 }}>
-            {
-              isLoading ? <LoadingSpinner/> : stContent['translation']
-            }
-            </Typography>
-          </Paper>          
 
-        </Box>
-      <br/>
-      <Grid container spacing={3} style={{ display: 'flex', justifyContent: 'right' , paddingRight: 30}}>
-            <Grid item>
-              <Button variant="contained" className={classes.bluecolorcpy} onClick={() => {navigate("/vocabdev");}}>
-                BACK
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
-                PROCEED
-              </Button>
-            </Grid>
-      </Grid>
-          <br/>
-      </Paper> */}
+        <div className="container d-flex flex-column gap-2">
 
-        <div className="container">
+          <h1 className="display-4 text-start mt-5 mb-3" style={{ "fontWeight": "900", color: "#383A3D" }}>Summarization</h1>
 
-
-          <h1 className="display-4 text-center" style={{ "margin": "20px 30px;" }}>Summarization</h1>
           <div className="row">
 
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-              <label for="exampleFormControlTextarea2" class="form-label">Summarization</label>
-              <textarea class="form-control" id="exampleFormControlTextarea2" value={stContent['summary']} rows="8">
-                {
-                  isLoading ? <LoadingSpinner /> : ''
-                }
-              </textarea>
+            {
+              data.map((item, key) => (
+                <>
+                  <div className={cx("col-lg-6 col-md-6 col-sm-12 col-xs-12", styles.responsiveDiv)}>
+                    <label for="exampleFormControlTextarea2" className={cx("form-label fs-3 rounded p-2", styles.title)}>{item.title}</label>
+                    <textarea className={cx("form-control border border-0", styles.textArea)} id="exampleFormControlTextarea2" value={stContent[item.keyword]} rows="12">
+                      {
+                        isLoading ? <LoadingSpinner /> : ''
+                      }
+                    </textarea>
 
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
-              <label for="exampleFormControlTextarea3" class="form-label">Translation</label>
-              <textarea class="form-control" id="exampleFormControlTextarea2" value={stContent['translation']} rows="8">
-                {
-                  isLoading ? <LoadingSpinner /> : ''
-                }
-              </textarea>
-            </div>
+                  </div>
+                </>
+              ))
+            }
+            
           </div>
-          <button style={{ "margin": "5px" }} type="button" class="btn btn-primary" onClick={() => { navigate("/vocabdev"); }}>Back</button>
-          <button style={{ "margin": "5px" }} type="button" class="btn btn-primary" onClick={handleSubmit}>Proceed</button>
+          <div className="my-3 mt-4 d-flex gap-3 justify-content-end">
+            <button type="button" className="btn btn-outline-dark btn-lg" onClick={() => { navigate("/vocabdev"); }}>Back</button>
+            <button type="button" className="btn btn-primary btn-lg" onClick={handleSubmit}>Proceed</button>
+          </div>
+
         </div>
       </div>
-      <div><br />
-        <Footer></Footer>
+      <div>
+        <Footer />
       </div>
     </div>
   );

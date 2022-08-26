@@ -64,17 +64,18 @@ function Homepage() {
   const [chapterContent, setChapterContent] = useState([]);
   const [isChapterLoading, setIsChapterLoading] = useState(false);
 
-  const handleSubmit = (item) => {
+  const handleSubmit = async (item) => {
     console.log(item);
-    navigate("/vocabdev", { state: { id: item } });
+    const response = await fetch(con.BASE_URI + "/chapter/" + item.id);
+    const data = response.json()
+    navigate("/vocabdev", { state: { id: data } });
   };
 
   const fetchChps = async () => {
     setIsChapterLoading(true);
     const response = await fetch(con.BASE_URI + "/chapters?userId=" + userId);
-    const data = await response.json();
-    console.log(data)
-    let carouselItem = data.map((item) => {
+    const data = await response.json();    
+    let carouselItem = data['chapterInfo'].map((item) => {
       return (
         <Carousel.Item>
           <div className="card border border-0 shadow mt-3 mb-5 ms-3">
