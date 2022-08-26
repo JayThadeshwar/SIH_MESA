@@ -66,7 +66,7 @@ const Login = () => {
               </form>
 
               <div>
-                <p className='lead'>{t('NoAccount')}<Link to="/signup">{t(" Register")}</Link></p>
+                <p className='lead'>{t('NoAccount')}<Link to="/signup">{t('Register')}</Link></p>
               </div>
             </div>
           </div>

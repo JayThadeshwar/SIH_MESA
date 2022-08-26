@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import i18next from 'i18next';
 import {useTranslation} from 'react-i18next';
 import DropdownButton from 'react-bootstrap/DropdownButton'
-import { Dropdown } from 'bootstrap';
+import  Dropdown  from 'react-bootstrap/Dropdown';
 
 const languages = [
   {
@@ -40,7 +40,7 @@ const LandingPage = () => {
   return (
     <div className='LandingPage'>
     <DropdownButton align='end' variant="" style={{paddingRight:20,paddingLeft:10}}>
-      {languages.map(({code,name,country_code})=>
+      {languages.map(({code,name,country})=>
       <Dropdown.Item onClick={()=> i18next.changeLanguage(code)}> {name} </Dropdown.Item>)}
     </DropdownButton>
       <div className='container-fluid text-center p-0 pt-5'>
