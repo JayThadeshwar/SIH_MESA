@@ -9,7 +9,7 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
-from Mesa.models import Chapter, User
+from Mesa.models import Chapter, User,Languages
 from Mesa.serializers import UserSerializer, ChapterSerializer
 from Mesa.bl.vocabularyDev import extractKeywordsFromContent
 from Mesa.bl.summaryNTranslation import summarizemethod
@@ -49,7 +49,7 @@ class ChapterViewSet(viewsets.ModelViewSet):
         chapterDetails['summaryNTranslation'] = summarizemethod(chpContent)
         chapterDetails['grammarInformation'] = generateGrammarDetails(
             chpContent, 3)
-        # chapterDetails['mcq'] = extractMCcQ(chpContent, chapterDetails['summaryNTranslation']['summary'])        
+        # chapterDetails['mcq'] = extractMCQ(chpContent, chapterDetails['summaryNTranslation']['summary'])        
         Chapter.objects.create(**chapterDetails)
         return Response(status=status.HTTP_201_CREATED)
 
@@ -85,6 +85,7 @@ def validateUserApi(request, id=0):
         isValid = True
         msg = "Login successfully"
         info = None
+        isAdmin=False
 
         user = User.objects.filter(
             emailId=user_info['emailId'], password=user_info['password'])
@@ -94,8 +95,9 @@ def validateUserApi(request, id=0):
             msg = "Either username or password is invalid"
         else:
             info = user[0].userId
+            isAdmin=True
 
-        resp = {"msg": msg, "isValid": isValid, "info": info}
+        resp = {"msg": msg, "isValid": isValid, "info": info,"isAdmin":isAdmin}
         return JsonResponse(resp, safe=False)
 
 @csrf_exempt
@@ -114,6 +116,26 @@ def chapterApi(request, chapter_id):
         chpData = Chapter.objects.get(id=chapter_id) 
         res = ChapterSerializer(chpData)  
         return JsonResponse(res.data, safe=False)        
+@csrf_exempt
+def langApi(request):    
+    if request.method == 'GET':        
+        langData = Languages.objects.all() 
+        resArr=[]
+        
+        for x in langData:
+            resDic={}
+            resDic['code']=x.code
+            resDic['name']=x.name
+            resDic['country']=x.country
+            resArr.append(resDic)
+        return JsonResponse(resArr, safe=False)  
+    if request.method=="POST":
+        data = JSONParser().parse(request)
+        chpData = Languages(code=data['code'],name=data['name'],country=data['country']) 
+        chpData.save()
+        return JsonResponse({'status':'Success','status_code':1}, safe=False)  
+    
+
 
 @csrf_exempt
 def mcqApi(request, chapter_id):
