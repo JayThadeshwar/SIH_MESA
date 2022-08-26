@@ -116,6 +116,26 @@ def chapterApi(request, chapter_id):
         chpData = Chapter.objects.get(id=chapter_id) 
         res = ChapterSerializer(chpData)  
         return JsonResponse(res.data, safe=False)        
+@csrf_exempt
+def langApi(request):    
+    if request.method == 'GET':        
+        langData = Languages.objects.all() 
+        resArr=[]
+        
+        for x in langData:
+            resDic={}
+            resDic['code']=x.code
+            resDic['name']=x.name
+            resDic['country']=x.country
+            resArr.append(resDic)
+        return JsonResponse(resArr, safe=False)  
+    if request.method=="POST":
+        data = JSONParser().parse(request)
+        chpData = Languages(code=data['code'],name=data['name'],country=data['country']) 
+        chpData.save()
+        return JsonResponse({'status':'Success','status_code':1}, safe=False)  
+    
+
 
 @csrf_exempt
 def mcqApi(request, chapter_id):
