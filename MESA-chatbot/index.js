@@ -27,7 +27,7 @@ io = new Server(server, {
     methods: ["GET", "POST"]
   }
 });
-function setupDialogflow(projectid) {
+function setupDialogflow(projectid, langCode) {
   sessionId = uuid.v4();
   sessionClient = new df.SessionsClient();
   sessionPath = sessionClient.sessionPath(projectid, sessionId);
@@ -37,7 +37,7 @@ function setupDialogflow(projectid) {
       "audioConfig": {
         "audioEncoding": "AUDIO_ENCODING_LINEAR_16",
         "sampleRateHertz": 16000,
-        "languageCode": "hi"
+        "languageCode": langCode
       }
     }
   }
@@ -73,7 +73,9 @@ io.on('connect', (client) => {
     // we get the dataURL which was sent from the client
     const dataURL = data.audio.dataURL.split(',').pop();
     let projectId = data.project_id;
-    setupDialogflow(projectId)
+    let fromLangCode = data.fromLangCode;
+    let toLangCode = data.toLangCode;
+    setupDialogflow(projectId, fromLangCode)
     // we will convert it to a Buffer
     let fileBuffer = Buffer.from(dataURL, 'base64');
     // run the simple detectIntent() function
@@ -83,7 +85,7 @@ io.on('connect', (client) => {
     console.log(results[0].queryResult.fulfillmentText)
     console.log('------------------------------------------------------------')
     if (results[0].queryResult.fulfillmentText !== "") {
-      translate(results[0].queryResult.fulfillmentText, { from: 'en', to: 'hi' }).then(res => {
+      translate(results[0].queryResult.fulfillmentText, { from: fromLangCode, to: toLangCode }).then(res => {
         // console.log(res.text); // OUTPUT: Je vous remercie
         // console.log(res.from.autoCorrected); // OUTPUT: true
         // console.log(res.from.text.value); // OUTPUT: [Thank] you
