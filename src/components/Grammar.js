@@ -50,7 +50,7 @@ function GrammaticalAndAssessment() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/assessment");
+    navigate("/assessment",{ state: { id: chpInfo } });
   };
 
   const fetchGrammar = async () => {

@@ -260,41 +260,76 @@
 import React from 'react';
 import cx from "classnames";
 import styles from "./Mcq.module.scss";
+import {useState, useEffect} from 'react';
+import { useLocation } from 'react-router-dom';
 
-const Mcq = () => {
+const Mcq = () => { 
+  const location = useLocation();
+  const chpInfo = location.state.id;
+  console.log(chpInfo['mcq'])
+  const data = chpInfo['mcq']
 
-  const data = {
-    "Under Louis XVI,  _______  helped the thirteen American colonies to gain their independence from the common enemy, Britain.": [
-      "France",
-      "Switzerland",
-      "Ukraine",
-      "Austria-Hungary"
-    ],
-    "Added to this was the cost of maintaining an extravagant court at the immense palace of  _______ .": [
-      "Versailles",
-      "Chartres",
-      "Avignon",
-      "Poitou-Charentes"
-    ],
-    "In 1774, Louis XVI of the  _______  family of kings ascended the throne of France.": [
-      "Bourbon",
-      "Basileus",
-      "Bourbon",
-      "Caliph"
-    ],
-    "The  _______  too extracted its share of taxes called tithes from the peasant, and finally, all members ofThe third estate had to pay taxes to.": [
-      "Church",
-      "Chapel Service",
-      "Church Service",
-      "Committal Service"
-    ]
+  const fetchMcq = async () => {
+    console.log(location.state.id)
+    // setStContent(location.state.id)
   }
+
+  useEffect(() => {
+    fetchMcq()
+  }, []);
+
+
+  // const data = {
+  //   "Under Louis XVI,  _______  helped the thirteen American colonies to gain their independence from the common enemy, Britain.": [
+  //     "France",
+  //     "Switzerland",
+  //     "Ukraine",
+  //     "Austria-Hungary"
+  //   ],
+  //   "Added to this was the cost of maintaining an extravagant court at the immense palace of  _______ .": [
+  //     "Versailles",
+  //     "Chartres",
+  //     "Avignon",
+  //     "Poitou-Charentes"
+  //   ],
+  //   "In 1774, Louis XVI of the  _______  family of kings ascended the throne of France.": [
+  //     "Bourbon",
+  //     "Basileus",
+  //     "Bourbon",
+  //     "Caliph"
+  //   ],
+  //   "The  _______  too extracted its share of taxes called tithes from the peasant, and finally, all members ofThe third estate had to pay taxes to.": [
+  //     "Church",
+  //     "Chapel Service",
+  //     "Church Service",
+  //     "Committal Service"
+  //   ]
+  // }
 
   const questionArr = Object.keys(data);
   const ansArr = Object.values(data);
+  const [show,setShow] = useState(false)
+  const [selection, setSelection] = useState([])
 
-  console.log(questionArr, ansArr)
+  let rightAns = [];
+  for(var i=0; i<ansArr.length; i++) {
+    rightAns[i] = ansArr[i][0]
+  }
+  // const rightAns = ansArr[0][0];
+  console.log(rightAns)
 
+  // console.log(questionArr, ansArr)
+  const handleSelection = (event, key, keyAns) =>{
+    console.log(event.target.value)
+    var res = {
+      'qNo': key,
+      'ans': keyAns
+    }
+    var selList = selection.slice()
+    selList.append(res)
+    setSelection(selList)
+    // selection.append(event.target.value)
+  }
   return (
     <div className={cx('container', styles.assessment)}>
       <h1 className="display-4 mt-5 mb-3" style={{ "fontWeight": "900", color: "#383A3D" }}>Let's Assess!</h1>      
@@ -311,10 +346,10 @@ const Mcq = () => {
               <span className={"w-75"} style={{"font-weight": "500"}}>{item}</span>
               <div>                
                 {                              
-                  ansArr[key].sort( ()=>Math.random()-0.5 ).map((ans, keyAns) => {                    
+                  ansArr[key].sort( ()=>Math.random()-0.5 ).map((ans, keyAns) => {                   
                     return (
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name={"flexRadioDefault"+key} id={"flexRadioDefault"+keyAns} />
+                        <input class="form-check-input" type="radio" name={"flexRadioDefault"+key} id={"flexRadioDefault"+keyAns} onChange={handleSelection(key, keyAns)}/>
                           <label class="form-check-label" for={"flexRadioDefault"+keyAns} style={{"font-weight": "500"}}>
                             {ans}
                           </label>
@@ -322,6 +357,7 @@ const Mcq = () => {
                     )
                 })
                 }
+                {show && <div>  </div>}
               </div>
             </div>
           )
@@ -329,7 +365,10 @@ const Mcq = () => {
       </div>
 
         <div className='my-5 text-end'>
-      <button type="button" class="btn btn-primary btn-lg" onClick={""}>Submit</button>
+      <button type="button" class="btn btn-primary btn-lg" onClick={()=>{
+        setShow(true)
+        console.log(selection)
+      }}>Submit</button>
 
         </div>
     </div>
