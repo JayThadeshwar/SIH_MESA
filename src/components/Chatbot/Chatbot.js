@@ -34,6 +34,7 @@ function Chatbot() {
             console.log('connected')
         });
         socketio.on('results', function (data) {
+            console.log(data)
             let agentName = data[0].queryResult.intent.name.split('/agent/intents/')
             let conversationBot
             if (projectId !== 'stt-ewll') {
@@ -282,7 +283,7 @@ function Chatbot() {
                         // project_id:'dinning-out'
                         project_id: projectId,
                         fromLangCode: 'en',
-                        toLangCode: 'kn',
+                        toLangCode: 'hi',
 
                     };
                     socketio.emit('message', files)

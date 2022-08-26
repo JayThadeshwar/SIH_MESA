@@ -419,6 +419,7 @@ import Navbar from './common/Navbar'
 import TextField from '@mui/material/TextField';
 import * as con from '../constants';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from "../utility/LoadingSpinner";
 
 const AddChapter = () => {
 
@@ -430,28 +431,34 @@ const AddChapter = () => {
   const navigate = useNavigate();
   const [hasErr, sethasErr] = useState(false);
   const [file, setFile] = useState(false);
+  const [load, setLoad] = useState(false);
+  const [message, setMessage] = useState('');
   const handleChangeForm = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
 
   const handleSubmit = (event) => {
+    setLoad(true);
     event.preventDefault();
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        userId: localStorage.getItem('userId'),
         name: values.name,
-        content: values.content
+        content: message
       })
     };
     fetch(con.BASE_URI + "/chapters", requestOptions)
       .then(response => {
+        setLoad(false);
         console.log(response)
         if (response.status === 201)
           navigate("/home");
         else
           sethasErr(true)
       }).catch(err => {
+        setLoad(false);
         console.log(err)
         sethasErr(true)
       })
@@ -469,14 +476,123 @@ const AddChapter = () => {
   function try1(e) {
     e.preventDefault()
     // console.log(e.target.id)
-    setTypeBtn(e.target.id)    
+    setTypeBtn(e.target.id)
   }
+
+  const handleMessageChange = event => {
+    setMessage(event.target.value);
+    console.log(event.target.value);
+  };
   return (
     <div className="addChaper">
       <Navbar />
       <div className="container d-flex flex-column gap-4">
         <h1 className="display-4 text-center mt-5" style={{ "fontWeight": "900", color: "#383A3D" }}>ADD YOUR CHAPTER</h1>
-        <form className={""} style={{ "margin": "0 300px" }}>
+        {
+          load ? <LoadingSpinner></LoadingSpinner> : (
+            <>
+              <div className="container d-flex flex-column gap-4">
+
+                <form className={""} style={{ "margin": "0 300px" }}>
+
+                  <div className="mb-3">
+                    <label for="chapterName" className="form-label fs-3">Enter Chapter Name <code>*</code></label>
+                    <input
+                      onChange={handleChangeForm("name")}
+                      type="name"
+                      className="form-control"
+                      id="chapterName"
+                      aria-describedby="chapterName"
+                      placeholder="Chapter Name"
+                    />
+
+
+                    <div className="container" style={{ "margin": "30px 0px", "padding": "0px" }}>
+                      <h3>Upload<code>*</code></h3>
+
+                      <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+
+                        {btnOptions.map((item, key) => (
+                          <>
+                            <input type="radio" className="btn-check" onClick={try1} name="btnradio" id={item.label_id} />
+                            <label className="btn btn-outline-primary" for={item.label_id}>{item.title}</label>
+                          </>
+                        ))}
+
+                      </div>
+
+                      {
+                        typeBtn === 'text' &&
+                        (
+                          <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
+                            <label for="exampleFormControlTextarea1" className="form-label fs-3">Enter Chapter Content<code>*</code></label>
+                            <textarea className="form-control"
+                              id="exampleFormControlTextarea1" rows="4" onChange={handleMessageChange}></textarea>
+                          </div>
+                        )
+                      }
+
+                      {
+                        typeBtn === 'video' &&
+                        (
+                          <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
+                            <label for="videoLink" className="form-label fs-3">Enter Video Link<code>*</code></label>
+                            <input
+                              type="link"
+                              className="form-control"
+                              id="videoLink"
+                              aria-describedby="videoLink"
+                              placeholder="URL"
+                            />
+                          </div>
+                        )
+                      }
+
+                      {
+                        typeBtn === 'image' &&
+                        (
+                          <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
+                            <label for="imageUpload" className="form-label fs-3">Upload Image<code>*</code></label>
+                            <input
+                              type="file"
+                              accept='image/*'
+                              className="form-control w-75"
+                              id="imageUpload"
+                              aria-describedby="imageUpload"
+                              placeholder="URL"
+                            />
+                          </div>
+                        )
+                      }
+
+                      {
+                        typeBtn === 'pdf' &&
+                        (
+                          <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
+                            <label for="pdfUpload" className="form-label fs-3">Upload PDF<code>*</code></label>
+                            <input
+                              type="file"
+                              accept='.pdf'
+                              className="form-control w-75"
+                              id="pdfUpload"
+                              aria-describedby="pdfUpload"
+                              placeholder="URL"
+                            />
+                          </div>
+                        )
+                      }
+
+                      <div className="mt-5">
+                        <button type="button" class="btn btn-primary btn-lg" onClick={handleSubmit}>ADD</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </>
+          )
+        }
+        {/* <form className={""} style={{ "margin": "0 300px" }}>
 
           <div className="mb-3">
             <label for="chapterName" className="form-label fs-3">Enter Chapter Name <code>*</code></label>
@@ -510,7 +626,7 @@ const AddChapter = () => {
                   <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
                     <label for="exampleFormControlTextarea1" className="form-label fs-3">Enter Chapter Content<code>*</code></label>
                     <textarea className="form-control"
-                      id="exampleFormControlTextarea1" rows="4"></textarea>
+                      id="exampleFormControlTextarea1" rows="4" onChange={handleMessageChange}></textarea>
                   </div>
                 )
               }
@@ -520,7 +636,7 @@ const AddChapter = () => {
                 (
                   <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
                     <label for="videoLink" className="form-label fs-3">Enter Video Link<code>*</code></label>
-                    <input                      
+                    <input
                       type="link"
                       className="form-control"
                       id="videoLink"
@@ -536,7 +652,7 @@ const AddChapter = () => {
                 (
                   <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
                     <label for="imageUpload" className="form-label fs-3">Upload Image<code>*</code></label>
-                    <input                      
+                    <input
                       type="file"
                       accept='image/*'
                       className="form-control w-75"
@@ -553,7 +669,7 @@ const AddChapter = () => {
                 (
                   <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
                     <label for="pdfUpload" className="form-label fs-3">Upload PDF<code>*</code></label>
-                    <input                      
+                    <input
                       type="file"
                       accept='.pdf'
                       className="form-control w-75"
@@ -564,7 +680,7 @@ const AddChapter = () => {
                   </div>
                 )
               }
-              
+
               <div className="mt-5">
                 <button type="button" class="btn btn-primary btn-lg" onClick={handleSubmit}>ADD</button>
               </div>
@@ -572,7 +688,10 @@ const AddChapter = () => {
           </div>
         </form>
       </div>
-      <Footer />
+      <Footer /> */}
+    </div>
+    <Footer />
+
     </div>
   )
 }
