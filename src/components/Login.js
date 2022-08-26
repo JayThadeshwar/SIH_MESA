@@ -6,9 +6,15 @@ import ollp from '../images/online learning login.png';
 import TextField from '@mui/material/TextField';
 import i18next from 'i18next';
 import {useTranslation} from 'react-i18next';
+import { useEffect } from 'react';
 const Login = () => {
   const {t} = useTranslation()
   const navigate = useNavigate();
+
+  // useEffect(()=>{
+  //   const lCode = localStorage.getItem('code') || 'en'
+  //   i18next.changeLanguage(lCode);
+  // },[])
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -66,7 +72,7 @@ const Login = () => {
               </form>
 
               <div>
-                <p className='lead'>{t('NoAccount')}<Link to="/signup">{t(" Register")}</Link></p>
+                <p className='lead'>{t('NoAccount')}<Link to="/signup">{t('Register')}</Link></p>
               </div>
             </div>
           </div>

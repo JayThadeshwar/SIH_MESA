@@ -202,7 +202,7 @@ const SignUp = () => {
 
 
               <div>
-                <p className='lead'>{t("AlreadyRegistered")} <Link to="/login">{" Login"}</Link></p>                
+                <p className='lead'>{t("AlreadyRegistered")} <Link to="/login">{t("loginAccount")}</Link></p>                
               </div>
             </div>
           </div>

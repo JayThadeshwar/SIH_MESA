@@ -100,7 +100,7 @@ const Footer = () => {
   return (
     <footer className={cx('pt-3 pb-3 text-light', styles.footer)}>
       <div className='d-flex flex-column align-items-center gap-4'>
-        <div className='fs-1'>{t("MESA")}</div>
+        <div className='fs-1'>MESA</div>
         <div className='d-flex justify-content-between gap-4'>
           {links.map((item, key)=>(
             <a href={item.rlink} key={key} className={"text-light"}>

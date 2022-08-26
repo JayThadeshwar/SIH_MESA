@@ -23,6 +23,7 @@ i18n
             loadPath: '/assets/locales/{{lng}}/translation.json'
         }
     });
+    localStorage.setItem('code', 'en');
 ReactDOM.render(
     <App />,
     document.getElementById('root')

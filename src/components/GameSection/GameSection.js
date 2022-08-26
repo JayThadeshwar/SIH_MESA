@@ -18,7 +18,7 @@ const GameSection = () => {
 
                     <button type="button" className={cx(styles.playNowBtn, "rounded text-light p-2")} onClick={() => {
                         navigate('/mixmatch');
-                     }}>Play Now</button>             
+                     }}>{t("Play")}</button>             
 
 
                 </div>
