@@ -13,7 +13,9 @@ import Footer from "./common/Footer"
 import GmCard from "../utility/GrammarCard";
 import SvoCard from "../utility/SvoCard";
 import LoadingSpinner from "../utility/LoadingSpinner";
-import * as con from '../constants'
+import * as con from '../constants';
+import i18next from 'i18next';
+import {useTranslation} from 'react-i18next';
 
 const useStyles = makeStyles((theme) => ({
   grammar: {
@@ -35,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 function GrammaticalAndAssessment() {
 
+  const {t} = useTranslation()
   const [grammarUnderstanding, setGrammarUnderstanding] = useState([]);
   const [svoInfo, setSvoInfo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -79,11 +82,11 @@ function GrammaticalAndAssessment() {
         <Paper elevation={3} style={{ width: '100%' }}>
           <Box p={1.5} className={classes.bluecolor}>
             <Typography variant="h4" style={{ textAlign: 'left', color: 'white' }}>
-              Grammatical Understanding
+              {t("Grammar")}
             </Typography><br />
             <Paper elevation={2}>
               <Typography variant="h6" style={{ textAlign: 'left', padding: 10 }}>
-                Parts of speech information
+                {t("POS")}
                 <Divider />
                 {isLoading ? <LoadingSpinner /> : grammarUnderstanding}
               </Typography>
@@ -91,7 +94,7 @@ function GrammaticalAndAssessment() {
             <br />
             <Paper elevation={2}>
               <Typography variant="h6" style={{ textAlign: 'left', padding: 10 }}>
-                Subject Verb Object information
+                {t("SVO")}
                 <Divider />
                 {isLoading ? <LoadingSpinner /> : svoInfo}
               </Typography>
@@ -102,12 +105,12 @@ function GrammaticalAndAssessment() {
           <Grid container spacing={3} style={{ display: 'flex', justifyContent: 'right', paddingRight: 30 }}>
             <Grid item>
               <Button variant="contained" className={classes.bluecolorcpy} onClick={() => { navigate("/summarization"); }}>
-                BACK
+                {t("Back")}
               </Button>
             </Grid>
             <Grid item>
               <Button variant="contained" className={classes.bluecolorcpy} onClick={handleSubmit}>
-                PROCEED
+                {t("Proceed")}
               </Button>
             </Grid>
           </Grid>

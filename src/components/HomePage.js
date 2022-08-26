@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import LoadingSpinner from "../utility/LoadingSpinner";
@@ -15,8 +13,6 @@ import "react-multi-carousel/lib/styles.css"
 
 import Button from "@material-ui/core/Button";
 import * as con from "../constants";
-
-
 import Navbar from "./common/Navbar";
 import HomePageCard from "./Carousel/HomePageCard"
 import GameSection from "./GameSection/GameSection"
@@ -27,7 +23,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea, CardActions } from "@mui/material";
 import HomePageChat from "./HomepageChat/HomePageChat";
-
+import i18next from 'i18next';
+import {useTranslation} from 'react-i18next';
 import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Homepage() {
+  const {t} = useTranslation()
   const classes = useStyles();
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId')
@@ -83,7 +81,7 @@ function Homepage() {
               <h5 className="card-title">{item.name}</h5>
               <p class="card-text"><small class="text-muted">26th August 2022</small></p>
               <p className="card-text">{item.content.slice(0, 100) + "..."}</p>
-              <a href="/vocabdev" className="btn btn-outline-primary" onClick={() => handleSubmit(item)}>Learn</a>
+              <a href="/vocabdev" className="btn btn-outline-primary" onClick={() => handleSubmit(item)}>{t('target')}</a>
             </div>
           </div>
         </Carousel.Item>
@@ -143,7 +141,7 @@ function Homepage() {
       {/* Card Carousel */}
 
       <div className={"container-fluid my-5"}>
-        <h1 className="text-center display-4 fw-bold">MY CHAPTERS</h1>
+        <h1 className="text-center display-4 fw-bold">{t('MyChap')}</h1>
         <div>
           {isChapterLoading ? (
             <LoadingSpinner />
@@ -154,7 +152,7 @@ function Homepage() {
           )}
         </div>
         <div className="d-grid gap-2 col-3 mx-auto">
-          <button type="button" class="btn btn-primary btn-lg" onClick={() => { navigate("/addchapter"); }}>ADD CHAPTER</button>
+          <button type="button" class="btn btn-primary btn-lg" onClick={() => { navigate("/addchapter"); }}>{t('AddChap')}</button>
         </div>
       </div>
 
@@ -167,7 +165,7 @@ function Homepage() {
 
 
       <div className={"container-fluid mt-5"}>
-        <h1 className="text-center display-4 fw-bold">ACTIVITIES</h1>
+        <h1 className="text-center display-4 fw-bold">{t('Activity')}</h1>
         <GameSection />
       </div>
 

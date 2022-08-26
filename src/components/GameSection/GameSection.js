@@ -2,8 +2,11 @@ import React from 'react';
 import cx from "classnames";
 import styles from "./GameSection.module.scss";
 import { useNavigate } from 'react-router-dom';
+import i18next from 'i18next';
+import {useTranslation} from 'react-i18next';
 
 const GameSection = () => {
+    const {t} = useTranslation()
     const navigate = useNavigate();
     return (
         <div className={cx('container-fluid text-center m-0 p-0 mt-5', styles.gameSec)}>
@@ -15,22 +18,22 @@ const GameSection = () => {
 
                     <button type="button" className={cx(styles.playNowBtn, "rounded text-light p-2")} onClick={() => {
                         navigate('/mixmatch');
-                     }}>Play Now</button>             
+                     }}>{t("Play")}</button>             
 
 
                 </div>
                 <div className={cx('col-xl-6 col-lg-6 col-md-6 col-sm-12 p-5 d-none d-md-flex d-flex flex-column align-items-center justify-content-center fs-5', styles.gameDescr)}>
                     <span>
-                        <h4 className="fs-1">Mix & Match</h4>
-                        Mix and Match is a brain training puzzle game where you need to colour each tile according to the category it fits into.
+                        <h4 className="fs-1">{t("Game1")}</h4>
+                        {t("Game1_def")}
                     </span>
                 </div>
             </div>
 
             <div className={cx('row m-0 p-0')}>
                 <div className={cx('col-xl-6 col-lg-6 col-md-6 col-sm-12 p-5 d-none d-md-flex d-flex flex-column align-items-center justify-content-center fs-5', styles.gameDescr)}>
-                    <h4 className="fs-1">Flying Balloon</h4>
-                    Burst the balloon based on the hints and learn your way upto the sky
+                    <h4 className="fs-1">{t("Game2")}</h4>
+                    {t("Game2_def")}
                 </div>
                 <div className={cx('col-xl-6 col-lg-6 col-md-6 col-sm-12 p-0', styles.gameImgDiv, styles.lowerGame)}>
                     <img
@@ -41,7 +44,7 @@ const GameSection = () => {
                     <button type="button" className={cx(styles.playNowBtn, "rounded text-light p-2")} 
                     onClick={() => { 
                         navigate('/flyingBalloon');
-                     }} >Play Now</button>
+                     }} >{t("Play")}</button>
                 </div>
             </div>
         </div>

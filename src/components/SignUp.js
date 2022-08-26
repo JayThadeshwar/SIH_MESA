@@ -1,5 +1,7 @@
 // import * as React from 'react';
 import * as con from '../constants'
+import i18next from 'i18next';
+import {useTranslation} from 'react-i18next';
 // import { Link, useNavigate } from 'react-router-dom';
 // import Button from '@mui/material/Button';
 // import TextField from '@mui/material/TextField';
@@ -128,7 +130,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SignUp = () => {
-
+    const {t} = useTranslation()
     const navigate = useNavigate();
     const handleSubmit = (event) => {
     event.preventDefault();
@@ -156,7 +158,7 @@ const SignUp = () => {
           <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 ">
             <div className="d-flex flex-column justify-content-center align-items-center h-100 gap-4">
 
-              <h1 className="font-weight-bold">Register Here!</h1>
+              <h1 className="font-weight-bold">{t("Register_Here")}</h1>
 
               <form onSubmit={handleSubmit} className="d-flex flex-column gap-3 w-75"> 
 
@@ -164,7 +166,7 @@ const SignUp = () => {
                   // style={{ width: '80%' }}
                   required
                   id="fullname"
-                  label="Full Name"
+                  label={t("FullName")}
                   name="fname"
                   autoFocus
                 />
@@ -172,7 +174,7 @@ const SignUp = () => {
                   // style={{ width: '80%' }}
                   required
                   id="uname"
-                  label="User Name"
+                  label={t("UserName")}
                   name="username"
                 />
                 <TextField 
@@ -180,7 +182,7 @@ const SignUp = () => {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label={t("EmailAddress")}
                   name="email"
                   autoComplete="email"
                 />
@@ -189,18 +191,18 @@ const SignUp = () => {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label={t("Password")}
                   type="password"
                   id="password"
                 />
                 <div className='text-center'>
-                  <button className="btn btn-outline-primary btn-lg" type="submit">REGISTER</button>
+                  <button className="btn btn-outline-primary btn-lg" type="submit">{t("Register")}</button>
                 </div>
               </form>
 
 
               <div>
-                <p className='lead'>Already have an account? <Link to="/login">{" Login"}</Link></p>                
+                <p className='lead'>{t("AlreadyRegistered")} <Link to="/login">{t("loginAccount")}</Link></p>                
               </div>
             </div>
           </div>

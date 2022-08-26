@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{Suspense} from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
@@ -19,8 +19,10 @@ import "./App.css";
 // import Trials from './components/Trials';
 // import HindiTrial from './components/HindiTrial';
 
+
 function App(props) {
   return (
+    <Suspense fallback="loading">
     <Router>
       <Routes>
         <Route path='/' element={<LandingPage />} />
@@ -41,6 +43,7 @@ function App(props) {
         {/* <Route path='/hindiTrial' element={<HindiTrial />} /> */}
       </Routes>
     </Router>
+    </Suspense>
   );
 }
 
