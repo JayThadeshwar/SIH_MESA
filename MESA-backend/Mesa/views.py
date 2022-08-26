@@ -1,4 +1,6 @@
 import datetime
+from unittest import result
+
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 
@@ -15,6 +17,8 @@ from Mesa.bl.grammarMod import generateGrammarDetails
 from Mesa.bl.mcq import extractMCQ
 from Mesa.bl.game import mixNMatch
 from Mesa.bl.game import flyingBallon
+
+from youtube_transcript_api import YouTubeTranscriptApi
 # Create your views here.
 
 class ChapterViewSet(viewsets.ModelViewSet):
@@ -25,9 +29,11 @@ class ChapterViewSet(viewsets.ModelViewSet):
         uId = request.GET.get('userId', 0)
         if (uId == 0):
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        chpData = Chapter.objects.filter(userId=uId).order_by('creationDate')        
-        result = ChapterSerializer(chpData, many=True)        
-        return JsonResponse(result.data, safe=False)
+        chpData = Chapter.objects.filter(userId=uId).order_by('-creationDate').values('id', 'name','content','creationDate')        
+        result = {
+            "chapterInfo" : list(chpData)
+        }       
+        return JsonResponse(result, safe=False)
 
     def create(self, request):
         chapterDetails = {}
@@ -43,7 +49,7 @@ class ChapterViewSet(viewsets.ModelViewSet):
         chapterDetails['summaryNTranslation'] = summarizemethod(chpContent)
         chapterDetails['grammarInformation'] = generateGrammarDetails(
             chpContent, 3)
-
+        chapterDetails['mcq'] = extractMCQ(chpContent, chapterDetails['summaryNTranslation']['summary'])        
         Chapter.objects.create(**chapterDetails)
         return Response(status=status.HTTP_201_CREATED)
 
@@ -102,15 +108,12 @@ def gameApi(request, game_no):
             result['words'] = flyingBallon()
         return JsonResponse(result, safe=False)
 
-# @csrf_exempt
-# def homeApi(request, id=0):    
-#     if request.method == 'GET':
-#         uId = request.GET.get('userId', 0)
-#         if (uId == 0):
-#             return Response(status=status.HTTP_400_BAD_REQUEST)
-#         chpData = Chapter.objects.filter(userId=uId).order_by('creationDate')        
-#         result = ChapterSerializer(chpData, many=True)        
-#         return JsonResponse(result.data, safe=False)        
+@csrf_exempt
+def chapterApi(request, chapter_id):    
+    if request.method == 'GET':        
+        chpData = Chapter.objects.get(id=chapter_id) 
+        res = ChapterSerializer(chpData)  
+        return JsonResponse(res.data, safe=False)        
 
 @csrf_exempt
 def mcqApi(request, chapter_id):
@@ -119,12 +122,16 @@ def mcqApi(request, chapter_id):
         result = extractMCQ(chapter.content, chapter.summaryNTranslation['summary'])        
         return JsonResponse(result, safe=False)
 
+@csrf_exempt
+def videoContent(request, id=0):
+    if request.method=='GET':
+        videoId = request.GET.get('id', '') 
+        res = YouTubeTranscriptApi.get_transcript(videoId)
 
-# @csrf_exempt
-# def audioRecorderApi(request, id=0):
-#     if request.method == 'POST':
-#         blob_url = JSONParser().parse(request)
-        
-
-     
-#         return JsonResponse(resp, safe=False)
+        content = ""
+        for item in res:
+            content += item['text']
+        result = {
+            "content": content 
+        }
+        return JsonResponse(result, safe=False)

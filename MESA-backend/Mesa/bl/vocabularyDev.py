@@ -237,12 +237,12 @@ def riOFWord(inputText):
 
 class WordInformation:
     word=''
-    definition=[]
+    definition={}
     synonyms=[]
     antonyms=[]
     example=[]
     audioLink=''
-    translatedWord=''
+    translatedWord={}
 
     def __init__(self,w,d,s,a,e,ad,t):
         self.word=w
@@ -258,12 +258,12 @@ def extractKeywordsFromContent(content):
     result = list()
     translator = Translator()
 
+    langSupported = ['hi', 'mr']
 
     for word in list(res.keys())[:7]:
         req = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
         data = req.json()
-        # print(word)
-
+        
         audioLink = list()
         examples = list()
  
@@ -277,7 +277,7 @@ def extractKeywordsFromContent(content):
         synonyms = set()
         antonyms = set()
         definition = list()
-
+        
         for syn in syns:
             synon = [word.name().replace("_"," ") for word in syn.lemmas()]
             anton= [lemma.antonyms()[0].name() for lemma in syn.lemmas() if lemma.antonyms()]
@@ -285,18 +285,24 @@ def extractKeywordsFromContent(content):
             antonyms.update(anton)
             definition.append(syn.definition())    
         
-        print(word)
-        translated_word = translator.translate(word, src='en', dest='hi')   
+        translatedWord = {}
+
+        for code in langSupported:
+            translatedWord[code] = translator.translate(word, src='en', dest=code).text   
+
         al = ''
         if len(audioLink) > 0:
             al = audioLink[0]
         
-        finDefination = list()
-        for defin in definition:
-            translated_text = translator.translate(defin, src='en', dest='hi') 
-            definationStr = translated_text.text + ' [' + defin + ']'
-            finDefination.append(definationStr)
+        finDefination = {}
+        for code in langSupported:
+            wordDefin = list()
+            for defin in definition:
+                translated_text = translator.translate(defin, src='en', dest=code) 
+                definationStr = translated_text.text + ' [' + defin + ']'
+                wordDefin.append(definationStr)
+            finDefination[code] = wordDefin
 
         if(isinstance(data, list)):
-            result.append(WordInformation(word, finDefination[:5], list(synonyms)[:5], list(antonyms)[:5], examples, al, translated_word.text).__dict__)
+            result.append(WordInformation(word, finDefination, list(synonyms)[:5], list(antonyms)[:5], examples, al, translatedWord).__dict__)
     return result

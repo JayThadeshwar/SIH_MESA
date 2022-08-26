@@ -26,7 +26,6 @@ def summarizemethod(content):
         'Content-Type': 'application/json'
     }
 
-
     response = requests.request("POST", url, headers=headers, data=payload)
     data = json.loads(response._content)
 
@@ -34,7 +33,12 @@ def summarizemethod(content):
     summary_text = data[0]['summary_text']
     translator = Translator()
     
-    translated_text = translator.translate(summary_text, src='en', dest='hi') 
-    resp = {"summary": summary_text, "translation":translated_text.text}
+    langSupported = ['hi', 'mr']
+
+    transl = {}
+    for code in langSupported:
+        translated_text = translator.translate(summary_text, src='en', dest=code) 
+        transl[code] = translated_text.text
+    resp = {"summary": summary_text, "translation": transl}
     
     return resp

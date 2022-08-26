@@ -17,4 +17,5 @@ class Chapter(models.Model):
     vocabularyDevelopment = models.JSONField()
     summaryNTranslation = models.JSONField()
     grammarInformation = models.JSONField()
+    mcq = models.JSONField()
     creationDate = models.DateTimeField(auto_now=True)

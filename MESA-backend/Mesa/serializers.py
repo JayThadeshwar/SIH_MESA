@@ -12,4 +12,4 @@ class UserSerializer(serializers.ModelSerializer):
 class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chapter
-        fields = ('id', 'name', 'content', 'vocabularyDevelopment', 'summaryNTranslation', 'grammarInformation')
+        fields = ('id', 'name', 'content', 'vocabularyDevelopment', 'summaryNTranslation', 'grammarInformation', 'mcq')
