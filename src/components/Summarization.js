@@ -37,6 +37,7 @@ function SummarizeAndTranslate() {
 
   const location = useLocation();
   const itemInfo = location.state.id
+  console.log("1:" + itemInfo)
 
   const [stContent, setStContent] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -51,8 +52,8 @@ function SummarizeAndTranslate() {
   };
 
   const fetchSummaryNTranslation = async () => {
-    console.log(itemInfo['summaryNTranslation'])
-    setStContent(itemInfo['summaryNTranslation'])
+    console.log("2:" + location.state.id['summaryNTranslation'])
+    setStContent(location.state.id['summaryNTranslation'])
   }
 
   useEffect(() => {
@@ -74,23 +75,37 @@ function SummarizeAndTranslate() {
           <h1 className="display-4 text-start mt-5 mb-3" style={{ "fontWeight": "900", color: "#383A3D" }}>Summarization</h1>
 
           <div className="row">
-
-            {
+            <div className={cx("col-lg-6 col-md-6 col-sm-12 col-xs-12", styles.responsiveDiv)}>
+              <label for="exampleFormControlTextarea2" className={cx("form-label fs-3 rounded p-2", styles.title)}>Summarization</label>
+              <textarea className={cx("form-control border border-0", styles.textArea)} id="exampleFormControlTextarea2" value={stContent['summary']} rows="12">
+                {
+                  isLoading ? <LoadingSpinner /> : ''
+                }
+              </textarea>
+            </div>
+            <div className={cx("col-lg-6 col-md-6 col-sm-12 col-xs-12", styles.responsiveDiv)}>
+              <label for="exampleFormControlTextarea2" className={cx("form-label fs-3 rounded p-2", styles.title)}>Translation</label>
+              <textarea className={cx("form-control border border-0", styles.textArea)} id="exampleFormControlTextarea2" value={stContent['translation'] !== undefined ? stContent['translation']['hi'] : ""} rows="12">
+                {
+                  isLoading ? <LoadingSpinner /> : ''
+                }
+              </textarea>
+            </div>
+            {/* {
               data.map((item, key) => (
                 <>
                   <div className={cx("col-lg-6 col-md-6 col-sm-12 col-xs-12", styles.responsiveDiv)}>
                     <label for="exampleFormControlTextarea2" className={cx("form-label fs-3 rounded p-2", styles.title)}>{item.title}</label>
-                    <textarea className={cx("form-control border border-0", styles.textArea)} id="exampleFormControlTextarea2" value={stContent[item.keyword]} rows="12">
+                    <textarea className={cx("form-control border border-0", styles.textArea)} id="exampleFormControlTextarea2" value={item.keyword == "translation" ? stContent[item.keyword]['hi'] : stContent[item.keyword]} rows="12">
                       {
                         isLoading ? <LoadingSpinner /> : ''
                       }
                     </textarea>
-
                   </div>
                 </>
               ))
-            }
-            
+            } */}
+
           </div>
           <div className="my-3 mt-4 d-flex gap-3 justify-content-end">
             <button type="button" className="btn btn-outline-dark btn-lg" onClick={() => { navigate("/vocabdev"); }}>Back</button>

@@ -140,6 +140,7 @@ import Navbar from './common/Navbar'
 import TextField from '@mui/material/TextField';
 import * as con from '../constants';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from "../utility/LoadingSpinner";
 
 const AddChapter = () => {
 
@@ -147,106 +148,123 @@ const AddChapter = () => {
     name: '',
     content: ''
   });
+  const [type, setType] = useState(null)
   const navigate = useNavigate();
   const [hasErr, sethasErr] = useState(false);
   const [file, setFile] = useState(false);
+  const [load, setLoad] = useState(false);
   const handleChangeForm = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
+  const [message, setMessage] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoad(true);
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        userId: localStorage.getItem('userId'),
         name: values.name,
-        content: values.content
+        content: message
       })
     };
     fetch(con.BASE_URI + "/chapters", requestOptions)
       .then(response => {
+        setLoad(false);
         console.log(response)
         if (response.status === 201)
           navigate("/home");
         else
           sethasErr(true)
       }).catch(err => {
+        setLoad(false);
         console.log(err)
         sethasErr(true)
       })
 
   };
-  function try1(e) {
 
+
+  function try1(e) {
     e.preventDefault()
-    console.log(e.target.id)
+    // console.log(e.target.id)
     {
       if (e.target.id === "btnradio1") {
         setFile(true)
       }
       else {
+        setType(e.target.id)
         setFile(false)
       }
     }
+    // console.log(file)
+
   }
+
+  const handleMessageChange = event => {
+    setMessage(event.target.value);
+    console.log(event.target.value);
+  };
+
   return (
     <div className="addChaper">
       <Navbar />
-      <div className="container">
-        <h1 className="display-4 text-center" style={{ "margin": "20px 30px;" }}>ADD YOUR CHAPTER</h1>
+      {
+        load ? <LoadingSpinner></LoadingSpinner> : (
+        <>
+        <div className="container d-flex flex-column gap-4">
+        <h1 className="display-4 text-center mt-5" style={{ "fontWeight": "900", color: "#383A3D" }}>ADD YOUR CHAPTER</h1>
         <form className={""} style={{ "margin": "0 300px" }}>
-          {/* <TextField
-            onChange={handleChangeForm("name")}
-            id="outlined-basic"
-            placeholder='Enter Chapter Name'
-            variant="outlined"
-            style={{ width: '100%' }} /> */}
-
-          <div class="mb-3">
-            <label for="chapterName" class="form-label">Enter Chapter Name</label>
+          <div className="mb-3">
+            <label for="chapterName" className="form-label fs-3">Enter Chapter Name <code>*</code></label>
             <input
               onChange={handleChangeForm("name")}
               type="name"
-              class="form-control"
+              className="form-control"
               id="chapterName"
               aria-describedby="chapterName"
               placeholder="Chapter Name"
             />
 
 
-            <div class="container" style={{ "margin": "30px 0px", "padding": "0px" }}>
-              <h3 >Upload </h3>
+            <div className="container" style={{ "margin": "30px 0px", "padding": "0px" }}>
+              <h3>Upload<code>*</code></h3>
 
-              <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                <input type="radio" class="btn-check" onChange={try1} name="btnradio" id="btnradio1" />
-                <label class="btn btn-outline-primary" for="btnradio1">Text</label>
+              <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" className="btn-check" onChange={try1} name="btnradio" id="btnradio1" />
+                <label className="btn btn-outline-primary" for="btnradio1">Text</label>
 
-                <input type="radio" class="btn-check" onChange={try1} name="btnradio" id="btnradio2" />
-                <label class="btn btn-outline-primary" for="btnradio2">Audio</label>
+                <input type="radio" className="btn-check" onChange={try1} name="btnradio" id="btnradio2" />
+                <label className="btn btn-outline-primary" for="btnradio2">Audio</label>
 
-                <input type="radio" class="btn-check" onChange={try1} name="btnradio" id="btnradio3" />
-                <label class="btn btn-outline-primary" for="btnradio3">Video </label>
-                <input type="radio" class="btn-check" onChange={try1} name="btnradio" id="btnradio4" />
-                <label class="btn btn-outline-primary" for="btnradio4">Pdf or Image</label>
+                <input type="radio" className="btn-check" onChange={try1} name="btnradio" id="btnradio3" />
+                <label className="btn btn-outline-primary" for="btnradio3">Video </label>
+                <input type="radio" className="btn-check" onChange={try1} name="btnradio" id="btnradio4" />
+                <label className="btn btn-outline-primary" for="btnradio4">Pdf or Image</label>
               </div>
               {
                 file ?
-                  <div class="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
-                    <label for="exampleFormControlTextarea1" class="form-label">Chapter Content</label>
-                    <textarea class="form-control"
-                      id="exampleFormControlTextarea1" rows="4"></textarea>
-                  </div> : <div class="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
-                    <label for="formFile" class="form-label">Default file input example</label>
-                    <input class="form-control" type="file" id="formFile" />
+                  <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
+                    <label for="exampleFormControlTextarea1" className="form-label fs-3">Chapter Content<code>*</code></label>
+                    <textarea className="form-control"
+                      id="exampleFormControlTextarea1" rows="4" onChange={handleMessageChange}></textarea>
+                  </div> : <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
+                    <label for="formFile" className="form-label fs-3">Default file input example<code>*</code></label>
+                    <input className="form-control w-50" type={"file"} id="formFile" />
                   </div>
               }
-
+              <button type="button" class="btn btn-primary" onClick={handleSubmit}>ADD</button>
             </div>
           </div>
         </form>
       </div>
       <Footer />
+      </>
+      )
+      }      
+      
     </div>
   )
 }

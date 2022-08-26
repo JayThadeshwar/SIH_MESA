@@ -1,257 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import { useLocation } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
-// import LoadingSpinner from "../utility/LoadingSpinner";
-// import * as con from "../constants";
-// import { useSpeechSynthesis } from 'react-speech-kit';
-// import Button from "@material-ui/core/Button";
-// import Typography from "@material-ui/core/Typography";
-// import Paper from "@material-ui/core/Paper";
-// import Box from "@material-ui/core/Box";
-// import { makeStyles } from "@material-ui/styles";
-// import lightblue from "@material-ui/core/colors/lightBlue";
-// import Grid from "@material-ui/core/Grid";
-// import Header from "./Header";
-// import Footer from "./common/Footer";
-// import Chip from "@mui/material/Chip";
-// import Divider from "@material-ui/core/Divider";
-// import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-
-// const useStyles = makeStyles((theme) => ({
-//   vocabdevelopment: {
-//     display: "flex",
-//     "& > *": {
-//       //   backgroundColor: blue[50],
-//     },
-//   },
-//   clickHover: {
-//     "&:hover": {
-//       cursor: 'pointer',
-//       backgroundColor: '#D4F1F4'
-//     }
-//   },
-//   bluecolor: {
-//     backgroundColor: lightblue[300],
-//     padding: 30,
-//   },
-//   bluecolorcpy: {
-//     backgroundColor: lightblue[300],
-//   },
-// }));
-
-// function VocabDevComp() {
-//   const [value, setValue] = useState('');
-//   const { speak } = useSpeechSynthesis();
-//   const location = useLocation();
-//   const itemInfo = location.state.id
-
-//   const [chapterContent, setChapterContent] = useState("");
-//   const [vocabContent, setVocabContent] = useState([]);
-//   const [clickableArr, setclickableArr] = useState([]);
-//   const [isChapterLoading, setIsChapterLoading] = useState(false);
-//   const [isVocabContentLoading, setIsKeywordLoading] = useState(false);
-
-//   const classes = useStyles();
-//   const navigate = useNavigate();
-
-//   const handleSubmit = (event) => {
-//     event.preventDefault();
-//     navigate("/summarization", { state: { id: location.state.id } });
-//   };
-
-//   const fetchChp = async () => {
-//     setChapterContent(itemInfo["content"]);
-//   };
-
-//   const fetchVocab = async () => {
-//     const data = itemInfo['vocabularyDevelopment'];
-//     const renderData = data.map((item) => {
-//       if (item["definition"].length <= 0 && item["synonyms"].length <= 0)
-//         return <div></div>
-//       return (
-//         <Typography style={{ textAlign: "left", padding: 10 }}>
-//           <>
-//             <div>
-//               <span style={{ marginRight: "5px" }}>Word:</span>
-//               <span>
-//                 <Chip label={item["word"]} color="primary" variant="outlined" />
-//               </span>
-//               {
-//                 item["audioLink"].length > 0 ?
-//                   (
-//                     <span onClick={() => {
-//                       const audio = new Audio(item["audioLink"][0]);
-//                       audio.play();
-//                     }}>
-//                       <VolumeUpIcon />
-//                     </span>
-//                   ) : <></>
-//               }
-//             </div>
-//             <div>
-//               <span style={{ marginRight: "5px" }}>Translation of Word:</span>
-//               <span>
-//                 <Chip label={item["translatedWord"]} color="primary" variant="outlined" />
-//               </span>
-//             </div>
-//             <div>Definition:</div>
-//             <div>
-//               <ol>
-//                 {item["definition"].map((item) => {
-//                   return <li> {item} </li>;
-//                 })}
-//               </ol>
-//             </div>
-//             {item["synonyms"].length > 0 ? (
-//               <div style={{ marginBottom: '5px' }}>
-//                 <span style={{ marginRight: "5px" }}>Synonyms:</span>
-//                 <span>
-//                   {item["synonyms"].map((item) => {
-//                     return (
-//                       <Chip
-//                         label={item}
-//                         color="success"
-//                         variant="outlined"
-//                         style={{ marginRight: "5px" }}
-//                       />
-//                     );
-//                   })}
-//                 </span>
-//               </div>
-//             ) : (
-//               <></>
-//             )}
-//             {item["antonyms"].length > 0 ? (
-//               <div>
-//                 <span style={{ marginRight: "5px" }}>Antonyms:</span>
-//                 <span>
-//                   {item["antonyms"].map((item) => {
-//                     return (
-//                       <Chip
-//                         label={item}
-//                         color="error"
-//                         variant="outlined"
-//                         style={{ marginRight: "5px" }}
-//                       />
-//                     );
-//                   })}
-//                 </span>
-//               </div>
-//             ) : (
-//               <></>
-//             )}
-//             {item["example"].length > 0 ? (
-//               <div style={{ marginBottom: '5px' }}>
-//                 <span style={{ marginRight: "5px" }}>Example:</span>
-//                 <ul>
-//                   {item["example"].map((item) => {
-//                     return (
-//                       <li>{item}</li>
-//                     );
-//                   })}
-//                 </ul>
-//               </div>
-//             ) : (
-//               <></>
-//             )}
-//           </>
-//           <br />
-//           <Divider />
-//         </Typography>
-//       );
-//     });
-//     setVocabContent(renderData);
-//   }
-
-//   useEffect(() => {
-//     setclickableArr(itemInfo["content"].split('.'))
-//     fetchChp();
-//     fetchVocab();
-//   }, []);
-
-//   return (
-//     <div>
-//       <Header></Header>
-//       <br />
-//       <div className={classes.vocabdevelopment}>
-//         <Paper elevation={3} style={{ width: "100%" }}>
-//           <Box p={1.5} className={classes.bluecolor}>
-//             <Typography
-//               variant="h4"
-//               style={{ textAlign: "left", color: "white" }}
-//             >
-//               Chapter Details
-//             </Typography>
-//             <br />
-//             <Paper elevation={2}>
-//               <Typography style={{ textAlign: "left", padding: 10 }}>
-
-
-//                 {/* =========== Chapter Details*/}
-//                 {isChapterLoading && clickableArr.length !== 0 ? <LoadingSpinner /> : clickableArr.map((item) => {
-//                   return <span id='clickHover' className={classes.clickHover} onClick={() => speak({ text: item })}>{item + ". "}</span>
-//                 })}
-//               </Typography>
-//             </Paper>
-//             <br />
-//             <Typography
-//               variant="h4"
-//               style={{ textAlign: "left", color: "white" }}
-//             >
-//               Vocabulary Development
-//             </Typography>
-//             <br />
-//             <Paper elevation={2}>
-//               <Typography style={{ textAlign: "left", padding: 10 }}>
-//                 {isVocabContentLoading ? <LoadingSpinner /> : vocabContent}
-//               </Typography>
-//             </Paper>
-//           </Box>
-//           <br />
-//           <Grid
-//             container
-//             spacing={3}
-//             style={{
-//               display: "flex",
-//               justifyContent: "right",
-//               paddingRight: 30,
-//             }}
-//           >
-//             <Grid item>
-//               <Button
-//                 variant="contained"
-//                 className={classes.bluecolorcpy}
-//                 onClick={() => {
-//                   navigate("/home");
-//                 }}
-//               >
-//                 BACK
-//               </Button>
-//             </Grid>
-//             <Grid item>
-//               <Button
-//                 variant="contained"
-//                 className={classes.bluecolorcpy}
-//                 onClick={handleSubmit}
-//               >
-//                 PROCEED
-//               </Button>
-//             </Grid>
-//           </Grid>
-//           <br />
-//         </Paper>
-//       </div>
-//       <div>
-//         <br />
-//         <Footer></Footer>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default VocabDevComp;
-
-
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -293,10 +39,11 @@ const VocabularyDevelopment = () => {
   const [value, setValue] = useState('');
   const { speak } = useSpeechSynthesis();
   const location = useLocation();
-  const itemInfo = location.state.id
+  const chpId = location.state.id
 
   const [chapterContent, setChapterContent] = useState("");
   const [vocabContent, setVocabContent] = useState([]);
+  const [chpData, setChpData] = useState({});
   const [clickableArr, setclickableArr] = useState([]);
   const [isChapterLoading, setIsChapterLoading] = useState(false);
   const [isVocabContentLoading, setIsKeywordLoading] = useState(false);
@@ -306,18 +53,31 @@ const VocabularyDevelopment = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/summarization", { state: { id: location.state.id } });
+    navigate("/summarization", { state: { id: chpData } });
   };
 
-  const fetchChp = async () => {
-    setChapterContent(itemInfo["content"]);
+  const fetchData = async () => {
+    const chapterDetails = await fetch(con.BASE_URI + '/chapter/' + chpId);
+    const chpDet = await chapterDetails.json();
+    setChpData(chpDet)
   };
 
+  useEffect(()=>{
+    if(Object.keys(chpData).length !== 0){
+      fetchChp();
+      fetchVocab();
+      setclickableArr(chpData["content"].split('.'))
+    }    
+  }, [chpData]);
+
+  const fetchChp = async () => {  
+    console.log("IN")  
+    setChapterContent(chpData['content']);    
+  };
 
   const fetchVocab = async () => {
-
-    const data = itemInfo['vocabularyDevelopment'];
-
+    const data = chpData['vocabularyDevelopment'];
+    console.log("Data:" + data)
     const generateRandom = () => {
       const capsuleColor = ["bg-primary text-light", "bg-secondary text-light", "bg-success text-light", "bg-danger text-light", "bg-warning text-dark", "bg-info text-dark",
       ]
@@ -349,7 +109,7 @@ const VocabularyDevelopment = () => {
                         }}><VolumeUpIcon /></span> {item.word}:
                       </h1>
                       <h3>
-                        {item.translatedWord}
+                        {item.translatedWord['hi']}
                       </h3>
                     </div>
                   </div>
@@ -360,7 +120,7 @@ const VocabularyDevelopment = () => {
                         <div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 ">
                           <h5>Definitions: </h5>
                           <ol className="list-group list-group-numbered">
-                            {item.definition.map((item, key) => (
+                            {item.definition['hi'].map((item, key) => (
                               <li className="list-group-item" key={key}>
                                 {item.split('[')[0]} {'=>'} {item.split('[')[1].slice(0, -1)}
                                 {/* {item} */}
@@ -412,10 +172,8 @@ const VocabularyDevelopment = () => {
     setVocabContent(renderData);
   }
 
-  useEffect(() => {
-    setclickableArr(itemInfo["content"].split('.'))
-    fetchChp();
-    fetchVocab();
+  useEffect(() => {    
+    fetchData();
   }, []);
 
 
