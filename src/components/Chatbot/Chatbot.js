@@ -283,7 +283,7 @@ function Chatbot() {
                         // project_id:'dinning-out'
                         project_id: projectId,
                         fromLangCode: 'en',
-                        toLangCode: 'hi',
+                        toLangCode: localStorage.getItem('code'),
 
                     };
                     socketio.emit('message', files)

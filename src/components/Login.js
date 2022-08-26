@@ -5,10 +5,10 @@ import axios from 'axios';
 import ollp from '../images/online learning login.png';
 import TextField from '@mui/material/TextField';
 import i18next from 'i18next';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 const Login = () => {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const navigate = useNavigate();
 
   // useEffect(()=>{
@@ -24,10 +24,13 @@ const Login = () => {
     }
 
     axios.post(con.BASE_URI + '/user/validate', data)
-      .then(response => {        
-        if (response.data.isValid) {      
-          localStorage.setItem('userId', response.data['info'])    
+      .then(response => {
+        if (response.data.isValid && !response.data.isAdmin) {
+          localStorage.setItem('userId', response.data['info'])
           navigate("/home")
+        } else if (response.data.isValid && response.data.isAdmin) {
+          localStorage.setItem('userId', response.data['info'])
+          navigate("/adminhome")
         }
         else
           alert("Invalid credentials");
@@ -42,7 +45,7 @@ const Login = () => {
       <div className="container-fluid">
         <div className="row m-0">
           <div className="d-none d-lg-block col-lg-6 col-md-0 col-sm-0 col-xs-0 d-flex align-items-center justify-content-content">
-            <img src={ollp} className="img-fluid w-100" alt=""/>
+            <img src={ollp} className="img-fluid w-100" alt="" />
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 col-xs-12 pt-5">
             <div className="d-flex flex-column gap-4 justify-content-center align-items-center h-100">
