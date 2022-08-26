@@ -41,6 +41,9 @@ router.post('/textQuery', async (req, res) => {
 router.post('/jsonConvertor', async (req, res) => {
     //We need to send some information that comes from the client to Dialogflow API 
     // The text query request.
+    data1 = {}
+
+    bl = false
     let data = {
         "headline": "Multilingual Education System",
         "tagline": "The free, fun and effective way of learning English",
@@ -93,25 +96,39 @@ router.post('/jsonConvertor', async (req, res) => {
         "ChapName": "Chapter Name"
     }
     console.log(Object.entries(data).length)
-    data1 = {}
-    let count = 1;
+
+    let count = 0;
     for (let [key, value] of Object.entries((data))) {
         // alert(value);
-        console.log(value)
-        count = count + 1
-        translate(value, { from: 'en', to: 'mr' }).then(async res1 => {
-            console.log(res1.text)
+        // console.log(value)
+        translate(value, { from: 'en', to: req.body.toLang }).then(async res1 => {
+            count = count + 1
+            // console.log(res1.text)
             data1[key] = res1.text
-            if (count === Object.entries(data).length - 1) {
+            console.log(count)
+            if (count === Object.entries(data).length) {
                 console.log(data1)
-                res.send({ data: data1 })
+                bl = true
+                let data = JSON.stringify(data1);
+                fs.mkdirSync(`D:/CHAITANYA/web/React/25082022/SIH_MESA/public/assets/locales/${req.body.toLang}`);
+                fs.writeFileSync(`D:/CHAITANYA/web/React/25082022/SIH_MESA/public/assets/locales/${req.body.toLang}/translation.json`, data);
+
+                res.send(true)
             }
 
         }).catch((err) => {
-            res.send(null)
+            console.log(err)
+            // res.send(null)
         });
     }
-    res.send(null)
+
+    if (bl) {
+        print('l')
+        // res.send({ data: data1 })
+    } else {
+        print('m')
+        // res.send(null)
+    }
 
 })
 router.post('/audioQuery', async (req, res) => {
