@@ -49,7 +49,7 @@ class ChapterViewSet(viewsets.ModelViewSet):
         chapterDetails['summaryNTranslation'] = summarizemethod(chpContent)
         chapterDetails['grammarInformation'] = generateGrammarDetails(
             chpContent, 3)
-        # chapterDetails['mcq'] = extractMCcQ(chpContent, chapterDetails['summaryNTranslation']['summary'])        
+        # chapterDetails['mcq'] = extractMCQ(chpContent, chapterDetails['summaryNTranslation']['summary'])        
         Chapter.objects.create(**chapterDetails)
         return Response(status=status.HTTP_201_CREATED)
 
