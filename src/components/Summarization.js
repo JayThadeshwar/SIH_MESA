@@ -47,6 +47,7 @@ function SummarizeAndTranslate() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log("From dummsry")
     console.log(itemInfo)
     navigate("/grammar", { state: { id: itemInfo } });
   };

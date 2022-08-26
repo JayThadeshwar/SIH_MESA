@@ -1,64 +1,78 @@
 import React from "react";
 
-function GmCard(sent, nouns, adjective, verb, conjunction, adposition) {
-  
+function GmCard(key, sent, nouns, adjective, verb, conjunction, adposition) {
+
   sent = sent.replace(/(\r\n|\n|\r)/gm, " ");
   const words = sent.split(" ");
-  
-  sent = sent.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+
+  sent = sent.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
   const puctLessWords = sent.split(" ");
 
   let nounsList = []
-  if(nouns !== undefined) {
+  if (nouns !== undefined) {
     nouns.forEach((element) => {
       nounsList.push(element["word"]);
     });
   }
 
   let adjectiveList = []
-  if(adjective !== undefined) {
+  if (adjective !== undefined) {
     adjective.forEach((element) => {
       adjectiveList.push(element["word"]);
     });
   }
 
   let verbList = []
-  if(verb !== undefined) {
+  if (verb !== undefined) {
     verb.forEach((element) => {
       verbList.push(element["word"]);
     });
   }
 
   let conjunctionList = []
-  if(conjunction !== undefined) {
+  if (conjunction !== undefined) {
     conjunction.forEach((element) => {
       conjunctionList.push(element["word"]);
     });
   }
 
   return (
-    <table style={{ marginBottom: "1%" }}>
-      <tr>
-        <th>Sentence:</th>
-        <td>
+
+
+    <table className="p-3 table table-bordered border border-3 rounded"  style={{ marginBottom: "1%" }}>
+      
+      
+      
+      <tr>        
+        <th className="p-3">Sentence:</th>
+        <td className="p-1">
+
+
           {words.map((element,id) => {            
+            
             let styles = {};
             console.log(puctLessWords[id] +" "+element+" "+nounsList.includes(puctLessWords[id]));
+            
+            
             if(nounsList.includes(puctLessWords[id])){
               styles = {
-                color: 'red'
+                color: 'red',
+                fontWeight: 800
               };                 
             } else if(adjectiveList.includes(puctLessWords[id])){
               styles = {
-                color: 'green'
+                color: 'green',
+                fontWeight: 800
               };
             } else if(verbList.includes(puctLessWords[id])){
               styles = {
-                color: 'purple'
+                color: 'purple',
+                fontWeight: 800
               };
             } else if(conjunctionList.includes(puctLessWords[id])){
               styles = {
-                color: 'blue'
+                color: 'blue',
+                fontWeight: 800
               };
             }
             element = element.toString() + " ";
@@ -70,14 +84,16 @@ function GmCard(sent, nouns, adjective, verb, conjunction, adposition) {
           })}
         </td>
       </tr>
+
+
       {nouns === undefined ? (
         <></>
       ) : (
         <tr>
-          <th>Noun(संज्ञा):</th>
+          <th className="p-3">Noun(संज्ञा):</th>
           {nouns.map((info, id) => {
             return (
-              <td key={id}>
+              <td  className="p-1" key={id}>
                 {info["word"]} ({info["tagExp"]})
               </td>
             );
@@ -88,10 +104,10 @@ function GmCard(sent, nouns, adjective, verb, conjunction, adposition) {
         <></>
       ) : (
         <tr>
-          <th>Adjective(विशेषण):</th>
+          <th className="p-3">Adjective(विशेषण):</th>
           {adjective.map((info,id) => {
             return (
-              <td key={id}>
+              <td  className="p-1" key={id}>
                 {info["word"]} ({info["tagExp"]})
               </td>
             );
@@ -102,10 +118,10 @@ function GmCard(sent, nouns, adjective, verb, conjunction, adposition) {
         <></>
       ) : (
         <tr>
-          <th>Verb(क्रिया):</th>
+          <th className="p-3">Verb(क्रिया):</th>
           {verb.map((info,id) => {
             return (
-              <td key={id}>
+              <td  className="p-1" key={id}>
                 {info["word"]} ({info["tagExp"]})
               </td>
             );
@@ -116,10 +132,10 @@ function GmCard(sent, nouns, adjective, verb, conjunction, adposition) {
         <></>
       ) : (
         <tr>
-          <th>Conjunction(संयोजक):</th>
+          <th className="p-3">Conjunction(संयोजक):</th>
           {conjunction.map((info, id) => {
             return (
-              <td key={id}>
+              <td  className="p-1" key={id}>
                 {info["word"]} ({info["tagExp"]})
               </td>
             );
@@ -130,10 +146,10 @@ function GmCard(sent, nouns, adjective, verb, conjunction, adposition) {
         <></>
       ) : (
         <tr>
-          <th>Adposition(अनुस्थापन):</th>
+          <th  className="p-3">Adposition(अनुस्थापन):</th>
           {adposition.map((info, id) => {
             return (
-              <td key={id}>
+              <td className="p-1" key={id}>
                 {info["word"]} ({info["tagExp"]})
               </td>
             );
