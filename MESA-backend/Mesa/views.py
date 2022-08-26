@@ -14,7 +14,7 @@ from Mesa.serializers import UserSerializer, ChapterSerializer
 from Mesa.bl.vocabularyDev import extractKeywordsFromContent
 from Mesa.bl.summaryNTranslation import summarizemethod
 from Mesa.bl.grammarMod import generateGrammarDetails
-from Mesa.bl.mcq import extractMCQ
+# from Mesa.bl.mcq import extractMCQ
 from Mesa.bl.game import mixNMatch
 from Mesa.bl.game import flyingBallon
 
@@ -49,7 +49,7 @@ class ChapterViewSet(viewsets.ModelViewSet):
         chapterDetails['summaryNTranslation'] = summarizemethod(chpContent)
         chapterDetails['grammarInformation'] = generateGrammarDetails(
             chpContent, 3)
-        chapterDetails['mcq'] = extractMCQ(chpContent, chapterDetails['summaryNTranslation']['summary'])        
+        # chapterDetails['mcq'] = extractMCcQ(chpContent, chapterDetails['summaryNTranslation']['summary'])        
         Chapter.objects.create(**chapterDetails)
         return Response(status=status.HTTP_201_CREATED)
 
@@ -115,22 +115,29 @@ def chapterApi(request, chapter_id):
         res = ChapterSerializer(chpData)  
         return JsonResponse(res.data, safe=False)        
 
-@csrf_exempt
-def mcqApi(request, chapter_id):
-    if request.method=='GET':
-        chapter=Chapter.objects.get(id = chapter_id)
-        result = extractMCQ(chapter.content, chapter.summaryNTranslation['summary'])        
-        return JsonResponse(result, safe=False)
+# @csrf_exempt
+# def mcqApi(request, chapter_id):
+#     if request.method=='GET':
+#         chapter=Chapter.objects.get(id = chapter_id)
+#         result = extractMCQ(chapter.content, chapter.summaryNTranslation['summary'])        
+#         return JsonResponse(result, safe=False)
 
 @csrf_exempt
 def videoContent(request, id=0):
     if request.method=='GET':
         videoId = request.GET.get('id', '') 
-        res = YouTubeTranscriptApi.get_transcript(videoId)
+        print(videoId)
 
         content = ""
-        for item in res:
-            content += item['text']
+        try:            
+            res = YouTubeTranscriptApi.get_transcript(videoId)            
+        except:
+            content = "Transcript is not available for this video."
+
+
+        if(content == ""):
+            for item in res:
+                content += item['text']
         result = {
             "content": content 
         }
