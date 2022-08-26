@@ -2,7 +2,7 @@ import React from 'react';
 
 function SvoCard(key, sent, subject, verb, obj, phrase) {
     return (
-        <table className="p-3 table table-bordered border border-3 rounded" style={{ marginBottom: '1%' }}>
+        <table className="p-3 table table-bordered border border-2 rounded" style={{ marginBottom: '1%' }}>
             <tr>
                 <th className="p-3">Sentence:</th>
                 <td className="p-1">{sent}</td>

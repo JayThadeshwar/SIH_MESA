@@ -61,7 +61,7 @@ const Navbar = () => {
   return (
     <nav className={cx("navbar navbar-expand-lg navbar-dark  sticky-top shadow", styles.navCol)}>
       <div className="container-fluid">
-        <a className="navbar-brand fs-3" href="#">
+        <a className="navbar-brand fs-3" onClick={() => navigate('/home')} style={{cursor: "pointer"}}>
           <img src={logo} alt="" width="30" height="24" class="d-inline-block align-text-top" />
           MESA
         </a>
