@@ -140,6 +140,7 @@ import Navbar from './common/Navbar'
 import TextField from '@mui/material/TextField';
 import * as con from '../constants';
 import { useNavigate } from 'react-router-dom';
+import LoadingSpinner from "../utility/LoadingSpinner";
 
 const AddChapter = () => {
 
@@ -151,28 +152,34 @@ const AddChapter = () => {
   const navigate = useNavigate();
   const [hasErr, sethasErr] = useState(false);
   const [file, setFile] = useState(false);
+  const [load, setLoad] = useState(false);
   const handleChangeForm = name => event => {
     setValues({ ...values, [name]: event.target.value });
   };
+  const [message, setMessage] = useState('');
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setLoad(true);
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        userId: localStorage.getItem('userId'),
         name: values.name,
-        content: values.content
+        content: message
       })
     };
     fetch(con.BASE_URI + "/chapters", requestOptions)
       .then(response => {
+        setLoad(false);
         console.log(response)
         if (response.status === 201)
           navigate("/home");
         else
           sethasErr(true)
       }).catch(err => {
+        setLoad(false);
         console.log(err)
         sethasErr(true)
       })
@@ -195,13 +202,21 @@ const AddChapter = () => {
     // console.log(file)
 
   }
+
+  const handleMessageChange = event => {
+    setMessage(event.target.value);
+    console.log(event.target.value);
+  };
+
   return (
     <div className="addChaper">
       <Navbar />
-      <div className="container d-flex flex-column gap-4">
+      {
+        load ? <LoadingSpinner></LoadingSpinner> : (
+        <>
+        <div className="container d-flex flex-column gap-4">
         <h1 className="display-4 text-center mt-5" style={{ "fontWeight": "900", color: "#383A3D" }}>ADD YOUR CHAPTER</h1>
         <form className={""} style={{ "margin": "0 300px" }}>
-
           <div className="mb-3">
             <label for="chapterName" className="form-label fs-3">Enter Chapter Name <code>*</code></label>
             <input
@@ -234,18 +249,22 @@ const AddChapter = () => {
                   <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
                     <label for="exampleFormControlTextarea1" className="form-label fs-3">Chapter Content<code>*</code></label>
                     <textarea className="form-control"
-                      id="exampleFormControlTextarea1" rows="4"></textarea>
+                      id="exampleFormControlTextarea1" rows="4" onChange={handleMessageChange}></textarea>
                   </div> : <div className="mb-3" style={{ "margin": "30px 0px", "padding": "0px" }}>
                     <label for="formFile" className="form-label fs-3">Default file input example<code>*</code></label>
                     <input className="form-control w-50" type={"file"} id="formFile" />
                   </div>
               }
-              <button type="button" class="btn btn-primary" onClick={handleSubmit}>ADD</button>              
+              <button type="button" class="btn btn-primary" onClick={handleSubmit}>ADD</button>
             </div>
           </div>
         </form>
       </div>
       <Footer />
+      </>
+      )
+      }      
+      
     </div>
   )
 }
