@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import nltk
 from summarizer import Summarizer
 import pprint
@@ -199,7 +198,6 @@ def extractMCQ(content, summaryText):
     finaldict = {mcq[i]: listofoptions[i] for i in range(len(mcq))}
     print("Final ans=",finaldict)
     return finaldict
-=======
 # import nltk
 # from summarizer import Summarizer
 # import pprint
@@ -400,4 +398,3 @@ def extractMCQ(content, summaryText):
 # #     finaldict = {mcq[i]: listofoptions[i] for i in range(len(mcq))}
 # #     print("Final ans=",finaldict)
 # #     return finaldict
->>>>>>> 9859743c7e2c37094071daf7b4a5d46b54273a52
