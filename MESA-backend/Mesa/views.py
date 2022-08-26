@@ -115,12 +115,12 @@ def chapterApi(request, chapter_id):
         res = ChapterSerializer(chpData)  
         return JsonResponse(res.data, safe=False)        
 
-# @csrf_exempt
-# def mcqApi(request, chapter_id):
-#     if request.method=='GET':
-#         chapter=Chapter.objects.get(id = chapter_id)
-#         result = extractMCQ(chapter.content, chapter.summaryNTranslation['summary'])        
-#         return JsonResponse(result, safe=False)
+@csrf_exempt
+def mcqApi(request, chapter_id):
+    if request.method=='GET':
+        chapter=Chapter.objects.get(id = chapter_id)
+        result = extractMCQ(chapter.content, chapter.summaryNTranslation['summary'])        
+        return JsonResponse(result, safe=False)
 
 @csrf_exempt
 def videoContent(request, id=0):
