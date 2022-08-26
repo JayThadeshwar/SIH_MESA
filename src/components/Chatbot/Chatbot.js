@@ -37,7 +37,9 @@ function Chatbot() {
             let agentName = data[0].queryResult.intent.name.split('/agent/intents/')
             let conversationBot
             if (projectId !== 'stt-ewll') {
-                setSuggestArr(suggestions[agentName[0].split('/')[1]][agentName[1]])
+                if (projectId === "chatbot-1-360106") {
+                    setSuggestArr(suggestions[agentName[0].split('/')[1]][agentName[1]])
+                }
 
                 conversationBot = {
                     who: 'bot',
@@ -278,7 +280,10 @@ function Chatbot() {
                             dataURL: audioDataURL
                         },
                         // project_id:'dinning-out'
-                        project_id: projectId
+                        project_id: projectId,
+                        fromLangCode: 'en',
+                        toLangCode: 'kn',
+
                     };
                     socketio.emit('message', files)
                 } else {
@@ -347,7 +352,7 @@ function Chatbot() {
             display: "flex",
             justifyContent: "center", alignItems: 'center'
         }}>
-            <FormControl style={{ marginRight: '30px' }}>
+            {projectId === 'stt-ewll' && <FormControl style={{ marginRight: '30px' }}>
                 <InputLabel id="demo-simple-select-label">From</InputLabel>
                 <Select
 
@@ -360,11 +365,12 @@ function Chatbot() {
                     }}
                 >
                     <MenuItem value={'en'}>English</MenuItem>
-                    <MenuItem value={'hi'}>Hinde</MenuItem>
+                    <MenuItem value={'hi'}>Hindi</MenuItem>
+                    <MenuItem value={'mr'}>Marathi</MenuItem>
                     <MenuItem value={'kn'}>Kannda</MenuItem>
                     <MenuItem value={'ta'}>Tamil</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl>}
             <div className="learn-main">
                 <div className="bot-view learning-unit-view has-scroll-animations ember-view">
 
@@ -476,7 +482,7 @@ function Chatbot() {
                                             <div class="type-input show" style={{ bottom: projectId !== 'stt-ewll' ? '-130px' : '-100px' }}>
                                                 <form data-ember-action="" data-ember-action-108="108">
                                                     <input placeholder="Type here to reply" id="ember109" onKeyPress={(event) => keyPressHanlder(event, false)} class="ember-text-field ember-view" type="text" />
-                                                    <button class="btn btn-send" type="button" onClick={(event) => { if (fromInput === undefined && toInput === undefined) { alert('Please select from and to language') } else { keyPressHanlder(event, true) } }} >
+                                                    <button class="btn btn-send" type="button" onClick={(event) => { if (projectId === 'stt-ewll' && fromInput === undefined && toInput === undefined) { alert('Please select from and to language') } else { keyPressHanlder(event, true) } }} >
                                                         <div id="ember110" class="ripple-container ember-view"></div>
                                                     </button>
                                                 </form>
@@ -490,7 +496,7 @@ function Chatbot() {
                                             <div class="microphone ">
                                                 <div id="ember111" class="speech-record-button ember-view">
                                                     <button class="btn btn-record" onClick={() => {
-                                                        if (fromInput === undefined && toInput === undefined) { alert('Please select from and to language') } else {
+                                                        if (projectId === 'stt-ewll' && fromInput === undefined && toInput === undefined) { alert('Please select from and to language') } else {
                                                             if (!isRecording) { startRecordingF() }
                                                             else {
                                                                 stopRecordingF()
@@ -522,14 +528,14 @@ function Chatbot() {
                         </div>
                     </div>
                     <hr></hr>
-                    <div>
+                    {/* <div>
                         <button id="start-recording" onClick={startRecordingF} disabled={isRecording}>Start Recording</button>
                         <button id="stop-recording" onClick={stopRecordingF} disabled={!isRecording}>Stop Recording</button>
                         <button onClick={() => { setIsTranslate(!isTranslate) }}>Translate on/off</button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
-            <FormControl style={{ marginLeft: '30px' }} >
+            {projectId === 'stt-ewll' && <FormControl style={{ marginLeft: '30px' }} >
                 <InputLabel id="demo-simple-select-label">To</InputLabel>
                 <Select
 
@@ -542,11 +548,12 @@ function Chatbot() {
                     }}
                 >
                     <MenuItem value={'en'}>English</MenuItem>
-                    <MenuItem value={'hi'}>Hinde</MenuItem>
+                    <MenuItem value={'hi'}>Hindi</MenuItem>
+                    <MenuItem value={'mr'}>Marathi</MenuItem>
                     <MenuItem value={'kn'}>Kannda</MenuItem>
                     <MenuItem value={'ta'}>Tamil</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl>}
         </div>
 
     )
