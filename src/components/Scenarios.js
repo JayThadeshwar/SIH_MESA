@@ -40,7 +40,7 @@ function Scenarios() {
                                             Introduction
                                         </div>
                                         <div class="done">
-                                            1/3
+                                            1/4
                                         </div>
                                     </div>
                                     <div class="buttons">
@@ -79,7 +79,7 @@ function Scenarios() {
                                             Dining
                                         </div>
                                         <div class="done">
-                                            2/3
+                                            2/4
                                         </div>
                                     </div>
                                     <div class="buttons">
@@ -117,7 +117,7 @@ function Scenarios() {
                                             Banking
                                         </div>
                                         <div class="done">
-                                            3/3
+                                            3/4
                                         </div>
                                     </div>
                                     <div class="buttons">
@@ -145,9 +145,44 @@ function Scenarios() {
 
                             </Card>
                         </Carousel.Item>
+                        <Carousel.Item>
+                            <Card className='ffa' style={{ height: '100%' }}>
+                                <div
+                                    // style={{ textAlign: 'center', marginTop: '40px' }}
+                                    className='item-inner'
+                                >
+                                    <div class="info">
+                                        <div class="text">
+                                            Converse
+                                        </div>
+                                        <div class="done">
+                                            4/4
+                                        </div>
+                                    </div>
+                                    <div class="buttons">
+                                        <button class="btn btn-primary btn-start " style={{
+                                            color: '#fff',
+                                            backgroundColor: '#f2805e',
+                                            borderColor: 'transparent',
+                                            borderRadius: '100px',
+                                            fontSize: '17px',
+                                            padding: '6px 10px',
 
+                                        }} data-ember-action="" data-ember-action-94="94"
+                                            onClick={() => { navigate('/chatbot', { state: { projectId: 'stt-ewll' } }) }}
 
+                                        >
+                                            <span>
+                                                Start
+                                            </span>
+                                            <div class="loader"></div>
+                                            <div id="ember95" class="ripple-container ember-view"></div>
+                                        </button>
+                                    </div>
+                                </div>
 
+                            </Card>
+                        </Carousel.Item>
                     </Carousel>
                 </div>
             </div>

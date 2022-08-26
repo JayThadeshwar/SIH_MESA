@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function MessageHuman({ msg, text }) {
+export default function MessageHuman({ msg, text, isConvo, langCode }) {
     return (
         <div class={msg} style={{ display: "block" }}>
             <div class="bubble" style={{ opacity: 1 }}>
