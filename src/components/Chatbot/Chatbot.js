@@ -9,44 +9,61 @@ import suggestions from './suggestion';
 import MessageBot from './Sections/MessageBot';
 import MessageHuman from './Sections/MessageHuman';
 import SuggestionMsg from './Sections/SuggestionMsg';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import "../../css/Chatbot.css"
 
 
 const socketio = io.connect("http://localhost:5001");
 function Chatbot() {
+    const location = useLocation()
     const [isRecording, setIsRecording] = useState(false)
+    const [fromInput, setFromInput] = useState()
+    const [toInput, setToInput] = useState()
     const [hideText, setHideText] = useState(true)
     const [isTranslate, setIsTranslate] = useState(true)
     const [recordAudio, setrecordAudio] = useState()
     const [msgArr, setMsgArr] = useState([])
     const [suggestArr, setSuggestArr] = useState([])
-    // const [projectId, setProjectId] = useState(location.state.projectId || 'dinning-out')
-    const [projectId, setProjectId] = useState('dinning-out')
+    const [projectId, setProjectId] = useState(location.state.projectId || 'dinning-out')
+    // const [projectId, setProjectId] = useState('dinning-out')
     const { speak } = useSpeechSynthesis();
 
     useEffect(() => {
-        eventQuery('firstMsg')
+        if (projectId !== 'stt-ewll') { eventQuery('firstMsg') }
         socketio.on('connect', function () {
             console.log('connected')
         });
         socketio.on('results', function (data) {
             let agentName = data[0].queryResult.intent.name.split('/agent/intents/')
-            setSuggestArr(suggestions[agentName[0].split('/')[1]][agentName[1]])
+            let conversationBot
+            if (projectId !== 'stt-ewll') {
+                setSuggestArr(suggestions[agentName[0].split('/')[1]][agentName[1]])
+
+                conversationBot = {
+                    who: 'bot',
+                    content: {
+                        text: {
+                            text: data[0].queryResult.fulfillmentText,
+                            translation: data[0].queryResult?.translateFulfillmentText
+                        }
+                    }
+                }
+            } else {
+                conversationBot = {
+                    who: 'bot',
+                    content: {
+                        text: {
+                            text: data[0].queryResult?.translateQueryText,
+                        }
+                    }
+                }
+            }
             let conversation = {
                 who: 'user',
                 content: {
                     text: {
                         text: data[0].queryResult.queryText,
                     },
-                }
-            }
-            let conversationBot = {
-                who: 'bot',
-                content: {
-                    text: {
-                        text: data[0].queryResult.fulfillmentText,
-                        translation: data[0].queryResult?.translateFulfillmentText
-                    }
                 }
             }
 
@@ -58,6 +75,9 @@ function Chatbot() {
             messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
             playOutput(data[0].outputAudio);
         });
+        return () => {
+
+        }
     }, [])
     function playOutput(arrayBuffer) {
         let audioContext = new AudioContext();
@@ -80,16 +100,16 @@ function Chatbot() {
             console.log(e);
         }
     }
-    const keyPressHanlder = (e,bln) => {
+    const keyPressHanlder = (e, bln) => {
         if (e.key === "Enter" || bln) {
             e.preventDefault()
-            let val=e.target.value
+            let val = e.target.value
 
             if (!e.target.value) {
                 console.log(document.getElementById('ember109').value)
-                if(document.getElementById('ember109').value){
-             val=document.getElementById('ember109').value
-                }else{
+                if (document.getElementById('ember109').value) {
+                    val = document.getElementById('ember109').value
+                } else {
 
                     return alert('you need to type somthing first')
                 }
@@ -177,11 +197,12 @@ function Chatbot() {
                 // dispatch(saveMessage(conversation))
                 setMsgArr(o => [...o, conversation])
                 console.log(agentName[1])
-                if(agentName[0].split('/')[1] ==='chatbot-1-360106'){
-                console.log(suggestions[agentName[0].split('/')[1]])
-                console.log(agentName[0].split('/')[1])
-                console.log(suggestions[agentName[0].split('/')[1]][agentName[1]])
-            setSuggestArr(suggestions[agentName[0].split('/')[1]][agentName[1]])}
+                if (agentName[0].split('/')[1] === 'chatbot-1-360106') {
+                    console.log(suggestions[agentName[0].split('/')[1]])
+                    console.log(agentName[0].split('/')[1])
+                    console.log(suggestions[agentName[0].split('/')[1]][agentName[1]])
+                    setSuggestArr(suggestions[agentName[0].split('/')[1]][agentName[1]])
+                }
             }
 
 
@@ -213,9 +234,9 @@ function Chatbot() {
         if (message.content && message.content.text && message.content.text.text) {
             if (message.who === 'bot') {
 
-                return <MessageBot msg={`conversation-item conversation-item-${i} bot`} key={i} who={message.who} text={message.content.text.text} translation={message.content.text.translation} isTranslate={isTranslate} />
+                return <MessageBot langCode={toInput} isConvo={projectId === 'stt-ewll'} msg={`conversation-item conversation-item-${i} bot`} key={i} who={message.who} text={message.content.text.text} translation={message.content.text.translation} isTranslate={isTranslate} />
             } else {
-                return <MessageHuman msg={`conversation-item conversation-item-${i} human`} key={i} who={message.who} text={message.content.text.text}></MessageHuman>
+                return <MessageHuman langCode={fromInput} isConvo={projectId === 'stt-ewll'} msg={`conversation-item conversation-item-${i} human`} key={i} who={message.who} text={message.content.text.text}></MessageHuman>
             }
         } else if (message.content && message.content.payload?.fields.card) {
 
@@ -248,16 +269,31 @@ function Chatbot() {
 
             // after stopping the audio, get the audio data
             recordAudio.getDataURL(function (audioDataURL) {
-                var files = {
-                    audio: {
-                        type: recordAudio.getBlob().type || 'audio/wav',
-                        dataURL: audioDataURL
-                    },
-                    // project_id:'dinning-out'
-                    project_id: projectId
-                };
+
                 // submit the audio file to the server
-                socketio.emit('message', files);
+                if (projectId !== 'stt-ewll') {
+                    var files = {
+                        audio: {
+                            type: recordAudio.getBlob().type || 'audio/wav',
+                            dataURL: audioDataURL
+                        },
+                        // project_id:'dinning-out'
+                        project_id: projectId
+                    };
+                    socketio.emit('message', files)
+                } else {
+                    var files = {
+                        audio: {
+                            type: recordAudio.getBlob().type || 'audio/wav',
+                            dataURL: audioDataURL
+                        },
+                        // project_id:'dinning-out'
+                        project_id: projectId,
+                        language_code: fromInput,
+                        output_langCode: toInput,
+                    };
+                    socketio.emit('message_translate', files)
+                };
             });
         });
     };
@@ -296,6 +332,7 @@ function Chatbot() {
                 desiredSampRate: 16000
             });
 
+
             rrecordAudio.startRecording();
             setrecordAudio(rrecordAudio)
         }, function (error) {
@@ -310,6 +347,24 @@ function Chatbot() {
             display: "flex",
             justifyContent: "center", alignItems: 'center'
         }}>
+            <FormControl style={{ marginRight: '30px' }}>
+                <InputLabel id="demo-simple-select-label">From</InputLabel>
+                <Select
+
+                    value={fromInput}
+                    style={{ 'width': '130px' }}
+                    label="fromInput"
+                    onChange={(e) => {
+                        console.log(e.target)
+                        setFromInput(e.target.value)
+                    }}
+                >
+                    <MenuItem value={'en'}>English</MenuItem>
+                    <MenuItem value={'hi'}>Hinde</MenuItem>
+                    <MenuItem value={'kn'}>Kannda</MenuItem>
+                    <MenuItem value={'ta'}>Tamil</MenuItem>
+                </Select>
+            </FormControl>
             <div className="learn-main">
                 <div className="bot-view learning-unit-view has-scroll-animations ember-view">
 
@@ -331,7 +386,7 @@ function Chatbot() {
                 /> */}
                     <hr></hr>
                     <div class="bot-conversation" style={{ touchAction: "none" }}>
-                        <div id='bot-convo-id' class="bot-conversation-inner" style={{ transform: "translate(0px, 0px) translateZ(0px)", maxHeight: '250px', height: '250px', overflowY: 'auto' }}>
+                        <div id='bot-convo-id' class="bot-conversation-inner" style={{ transform: "translate(0px, 0px) translateZ(0px)", maxHeight: projectId !== 'stt-ewll' ? '250px' : '370px', height: projectId !== 'stt-ewll' ? '250px' : '370px', overflowY: 'auto' }}>
                             <div class="conversation-group active done">
                                 {/* <div class="conversation-item conversation-item-0-0 bot" style={{ display: "block" }}>
                                     <div class="assistant" data-ember-action="" data-ember-action-138="138" style={{ visibility: "visible", opacity: 1, transform: "translateX(0%)" }}>
@@ -372,7 +427,7 @@ function Chatbot() {
                     </div>
                     <div className='bot-controls' >
                         <div className='bot-controls-inner' >
-                            <div class="bot-info">
+                            {projectId !== 'stt-ewll' && <div class="bot-info">
                                 <div class="bubble">
                                     <div class="text is-light is-size-7">
                                         <span id="ember292" class="auto-font-width center-text ember-view">
@@ -381,22 +436,23 @@ function Chatbot() {
                                             <div class="clearfix"></div></span>
                                     </div>
                                 </div>
-                            </div>
+                            </div>}
                             <div class="suggestions ">
                                 <div class="suggestions-inner ">
-                                {suggestArr?.length !== 0 && suggestArr !== undefined && suggestArr.map((data) => {
-                                    console.log(data)
-                                return (
-                                    <>
-                                     <SuggestionMsg suggestion={data}></SuggestionMsg>
-                                    </>)}
-                                )}
-                                   
+                                    {suggestArr?.length !== 0 && suggestArr !== undefined && suggestArr.map((data) => {
+                                        console.log(data)
+                                        return (
+                                            <>
+                                                <SuggestionMsg suggestion={data}></SuggestionMsg>
+                                            </>)
+                                    }
+                                    )}
+
                                 </div>
                             </div>
                             <div class="input-area">
                                 <div class="input-area-inner">
-                                    <div class="toggle-setting is-light is-size-7">
+                                    {projectId !== 'stt-ewll' && <div class="toggle-setting is-light is-size-7">
                                         <div class="text">Translations</div>
                                         <div id="ember294" class="switch-toggle-button ember-view">
                                             <input id="switch-toggle-translation" onInput={() => {
@@ -413,41 +469,43 @@ function Chatbot() {
                                                 </div>
                                             </label>
                                         </div>
-                                    </div>
-                                    
-                                    {!hideText?(
-                                    <>
-                                    <div class="type-input show ">
-                                        <form data-ember-action="" data-ember-action-108="108">
-                                            <input placeholder="Type here to reply"  id="ember109" onKeyPress={(event)=>keyPressHanlder(event,false)} class="ember-text-field ember-view" type="text" />
-                                            <button class="btn btn-send" type="button" onClick={(event)=>keyPressHanlder(event,true)} >
-                                                <div id="ember110" class="ripple-container ember-view"></div>
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <button class="btn btn-type-switch type" onClick={()=>setHideText(true)} data-ember-action="" data-ember-action-112="112" style={{ position: "absolute",bottom:'-130px' }}>
-                                        <div id="ember113" class="ripple-container ember-view" style={{ borderRadius: "50%", display: "none", height: "44px", width: "44px" }}></div>
-                                    </button>
-                                    </>
-                                    ):(
+                                    </div>}
+
+                                    {!hideText ? (
                                         <>
-                                        <div class="microphone ">
-                                        <div id="ember111" class="speech-record-button ember-view">
-                                            <button class="btn btn-record" onClick={() => {
-                                                if (!isRecording) { startRecordingF() }
-                                                else {
-                                                    stopRecordingF()
-                                                }
-                                            }}>
-                                            </button></div>
-                                    </div>
-                                    <button class="btn btn-type-switch" onClick={()=>setHideText(false)} data-ember-action="" data-ember-action-112="112">
-                                        <div id="ember113" class="ripple-container ember-view"></div>
-                                    </button>
-                                    </>
-                                        
-                                   )}
-                                    
+                                            <div class="type-input show" style={{ bottom: projectId !== 'stt-ewll' ? '-130px' : '-100px' }}>
+                                                <form data-ember-action="" data-ember-action-108="108">
+                                                    <input placeholder="Type here to reply" id="ember109" onKeyPress={(event) => keyPressHanlder(event, false)} class="ember-text-field ember-view" type="text" />
+                                                    <button class="btn btn-send" type="button" onClick={(event) => { if (fromInput === undefined && toInput === undefined) { alert('Please select from and to language') } else { keyPressHanlder(event, true) } }} >
+                                                        <div id="ember110" class="ripple-container ember-view"></div>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <button class="btn btn-type-switch type" onClick={() => setHideText(true)} data-ember-action="" data-ember-action-112="112" style={{ position: "absolute", bottom: projectId !== 'stt-ewll' ? '-130px' : '-100px' }}>
+                                                <div id="ember113" class="ripple-container ember-view" style={{ borderRadius: "50%", display: "none", height: "44px", width: "44px" }}></div>
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <div class="microphone ">
+                                                <div id="ember111" class="speech-record-button ember-view">
+                                                    <button class="btn btn-record" onClick={() => {
+                                                        if (fromInput === undefined && toInput === undefined) { alert('Please select from and to language') } else {
+                                                            if (!isRecording) { startRecordingF() }
+                                                            else {
+                                                                stopRecordingF()
+                                                            }
+                                                        }
+                                                    }}>
+                                                    </button></div>
+                                            </div>
+                                            <button class="btn btn-type-switch" onClick={() => setHideText(false)} data-ember-action="" data-ember-action-112="112">
+                                                <div id="ember113" class="ripple-container ember-view"></div>
+                                            </button>
+                                        </>
+
+                                    )}
+
 
                                 </div>
                             </div>
@@ -471,6 +529,24 @@ function Chatbot() {
                     </div>
                 </div>
             </div>
+            <FormControl style={{ marginLeft: '30px' }} >
+                <InputLabel id="demo-simple-select-label">To</InputLabel>
+                <Select
+
+                    value={toInput}
+                    style={{ 'width': '130px' }}
+                    label="roInput"
+                    onChange={(e) => {
+                        console.log(e.target)
+                        setToInput(e.target.value)
+                    }}
+                >
+                    <MenuItem value={'en'}>English</MenuItem>
+                    <MenuItem value={'hi'}>Hinde</MenuItem>
+                    <MenuItem value={'kn'}>Kannda</MenuItem>
+                    <MenuItem value={'ta'}>Tamil</MenuItem>
+                </Select>
+            </FormControl>
         </div>
 
     )
