@@ -78,6 +78,7 @@ import cx from "classnames";
 import styles from "./Footer.module.scss";
 import i18next from 'i18next';
 import {useTranslation} from 'react-i18next';
+import logo from "../../images/open-book.png"
 
 const Footer = () => {
   const {t} = useTranslation()
@@ -100,7 +101,9 @@ const Footer = () => {
   return (
     <footer className={cx('pt-3 pb-3 text-light', styles.footer)}>
       <div className='d-flex flex-column align-items-center gap-4'>
-        <div className='fs-1'>MESA</div>
+        <div className='fs-1'>
+          MESA
+        </div>
         <div className='d-flex justify-content-between gap-4'>
           {links.map((item, key)=>(
             <a href={item.rlink} key={key} className={"text-light"}>
@@ -115,7 +118,8 @@ const Footer = () => {
             </div>
           ))}          
         </div>
-        <div className='lead fs-6'>{t('copyright')}</div>
+        {/* <div className='lead fs-6'>{t('copyright')}</div> */}
+        <div className='lead fs-6'>&copy; 2022 MESA. All rights reserved</div>
       </div>
     </footer>
   )
