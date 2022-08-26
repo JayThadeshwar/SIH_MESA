@@ -11,3 +11,5 @@ yarn-error.log*
 .vscode
 
 ./server/config/dev.js
+../../node_modules
+node_modules
