@@ -264,11 +264,12 @@ import {useState, useEffect} from 'react';
 import { useLocation } from 'react-router-dom';
 
 const Mcq = () => { 
+  
   const location = useLocation();
   const chpInfo = location.state.id;
   console.log(chpInfo['mcq'])
   const data = chpInfo['mcq']
-
+  console.log('here')
   const fetchMcq = async () => {
     console.log(location.state.id)
     // setStContent(location.state.id)
@@ -349,7 +350,7 @@ const Mcq = () => {
                   ansArr[key].sort( ()=>Math.random()-0.5 ).map((ans, keyAns) => {                   
                     return (
                       <div class="form-check">
-                        <input class="form-check-input" type="radio" name={"flexRadioDefault"+key} id={"flexRadioDefault"+keyAns} onChange={handleSelection(key, keyAns)}/>
+                        <input class="form-check-input" type="radio" name={"flexRadioDefault"+key} id={"flexRadioDefault"+keyAns}/>
                           <label class="form-check-label" for={"flexRadioDefault"+keyAns} style={{"font-weight": "500"}}>
                             {ans}
                           </label>
