@@ -125,6 +125,10 @@ function AdminHomePage() {
                             "name": name,
                             "country": country
                         }).then((res) => {
+                            axios.post('http://localhost:5001/api/dialogflow/jsonConvertor',{toLang:code}).then((res)=>{
+                            }).catch((err)=>{
+                                console.log(err)
+                            })
                             if (res.data.status_code) {
                                 window.location.reload()
                             }

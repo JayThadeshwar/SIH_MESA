@@ -195,6 +195,10 @@ const Grammar = () => {
 
           {svoInfo}
         </div>
+
+        <div className="my-4 text-end">
+          <button type="button" class="btn btn-primary btn-lg" onClick={()=>navigate("/assessment")}>PROCEED</button>
+        </div>
       </div>
       <Footer />
     </>
