@@ -22,8 +22,9 @@ So, the main objective of developing this project is to aid the students of the 
 
 ` Database: MySQL `
 
-# Results
+## Branches to execute project
 
-https://drive.google.com/file/d/1BgZLUibHK0MuaHvkUvk-ESbr22sw-c1U/view?usp=drivesdk
+`main-frontend`
 
+`main-backend`
 
