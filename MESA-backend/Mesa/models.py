@@ -8,6 +8,7 @@ class User(models.Model):
     password = models.CharField(max_length=500)
     dateOfBirth = models.DateField()
     markForDelete = models.BooleanField(default=False)
+    isAdmin=models.BooleanField(default=False)
 
 class Chapter(models.Model):
     userId = models.IntegerField()
@@ -17,5 +18,12 @@ class Chapter(models.Model):
     vocabularyDevelopment = models.JSONField()
     summaryNTranslation = models.JSONField()
     grammarInformation = models.JSONField()
-    # mcq = models.JSONField()
+    mcq = models.JSONField()
     creationDate = models.DateTimeField(auto_now=True)
+
+class Languages(models.Model):
+    code=models.CharField(max_length=500)
+    name=models.CharField(max_length=500)
+    country=models.CharField(max_length=500)
+    
+
