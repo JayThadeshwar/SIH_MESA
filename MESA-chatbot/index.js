@@ -13,6 +13,8 @@ app.use(bodyParser.json());
 app.use('/api/dialogflow', require('./server/routes/dialogflow'));
 console.log(translate)
 const googleTTS = require('google-tts-api');
+const textToSpeech = require('@google-cloud/text-to-speech');
+const client = new textToSpeech.TextToSpeechClient();
 
 // load all the libraries for the Dialogflow part
 const uuid = require('uuid');
@@ -139,7 +141,31 @@ io.on('connect', (client) => {
       });
     }
   });
+  client.on('tts-message', async function (text) {
+    textToAudioBuffer(text).then(function (results) {
+      console.log(results);
+      client.emit('results', results);
+    }).catch(function (e) {
+      console.log(e);
+    });
+  });
 });
+/*
+ * TTS text to an audio buffer
+ * @param text - string written text
+ */
+async function textToAudioBuffer(text) {
+  const request = {
+    input: {
+      text: text
+    },
+    voice: { languageCode: 'en-IN', ssmlGender: 'MALE' },
+    audioConfig: { audioEncoding: 'MP3',"speakingRate": 0.85 },
+  };
+  // Performs the Text-to-Speech request
+  const response = await client.synthesizeSpeech(request);
+  return response[0].audioContent;
+}
 
 
 

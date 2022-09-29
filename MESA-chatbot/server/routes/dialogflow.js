@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const dialogflow = require('dialogflow');
+const dialogflow = require('@google-cloud/dialogflow').v2beta1;
 const config = require('../config/dev.js');
 const sessionId = config.dialogFlowSessionID
 const languageCode = config.dialogFlowSessionLanguageCode
@@ -18,7 +18,7 @@ router.post('/textQuery', async (req, res) => {
     //We need to send some information that comes from the client to Dialogflow API 
     // The text query request.
     const request = {
-        session: sessionClient.sessionPath(req.body.projectId, sessionId),
+        session: sessionClient.projectAgentSessionPath(req.body.projectId, sessionId),
         queryInput: {
             text: {
                 // The query to send to the dialogflow agent
@@ -27,6 +27,8 @@ router.post('/textQuery', async (req, res) => {
                 languageCode: languageCode,
             },
         },
+        voice: { languageCode: 'en-IN', ssmlGender: 'MALE' },
+        audioConfig: { audioEncoding: 'MP3' },
     };
 
     // Send request and log result
@@ -168,7 +170,7 @@ router.post('/eventQuery', async (req, res1) => {
     //We need to send some information that comes from the client to Dialogflow API 
     // The text query request.
     const request = {
-        session: sessionClient.sessionPath(req.body.projectId, sessionId),
+        session: sessionClient.projectAgentSessionPath(req.body.projectId, sessionId),
         queryInput: {
             event: {
                 // The query to send to the dialogflow agent
@@ -176,6 +178,9 @@ router.post('/eventQuery', async (req, res1) => {
                 // The language used by the client (en-US)
                 languageCode: languageCode,
             },
+        },
+        outputAudioConfig: {
+            audioEncoding: 'OUTPUT_AUDIO_ENCODING_LINEAR_16',
         },
     };
     var aa;

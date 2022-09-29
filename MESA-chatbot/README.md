@@ -4,7 +4,7 @@
 
 write this command on root directory of this project
 
------> set GOOGLE_APPLICATION_CREDENTIALS=< KEY_PATH_TO_THIS_JSON >/dinning-out-8cda72a005b5.json
+-----> set GOOGLE_APPLICATION_CREDENTIALS=< KEY_PATH_TO_THIS_JSON >/maptest-362211-f96658b8509f.json
 
 -----> npm start
 
