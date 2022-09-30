@@ -144,7 +144,7 @@ io.on('connect', (client) => {
   client.on('tts-message', async function (text) {
     textToAudioBuffer(text).then(function (results) {
       console.log(results);
-      client.emit('results', results);
+      client.emit('results-tts', results);
     }).catch(function (e) {
       console.log(e);
     });
@@ -160,7 +160,7 @@ async function textToAudioBuffer(text) {
       text: text
     },
     voice: { languageCode: 'en-IN', ssmlGender: 'MALE' },
-    audioConfig: { audioEncoding: 'MP3',"speakingRate": 0.85 },
+    audioConfig: { audioEncoding: 'MP3', "speakingRate": 0.85 },
   };
   // Performs the Text-to-Speech request
   const response = await client.synthesizeSpeech(request);
