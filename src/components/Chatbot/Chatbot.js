@@ -3,14 +3,14 @@ import Axios from 'axios';
 import Card from "./Sections/Card";
 import io from 'socket.io-client';
 import RecordRTC from 'recordrtc';
-import { useSpeechSynthesis } from "react-speech-kit";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import suggestions from './suggestion';
 import MessageBot from './Sections/MessageBot';
 import MessageHuman from './Sections/MessageHuman';
 import SuggestionMsg from './Sections/SuggestionMsg';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import "../../css/Chatbot.css"
+import playOutput from '../Commons/PlayAudio';
 
 
 const socketio = io.connect("http://localhost:5001");
@@ -26,7 +26,6 @@ function Chatbot() {
     const [suggestArr, setSuggestArr] = useState([])
     const [projectId, setProjectId] = useState(location.state.projectId || 'dinning-out')
     // const [projectId, setProjectId] = useState('dinning-out')
-    const { speak } = useSpeechSynthesis();
 
     useEffect(() => {
         if (projectId !== 'stt-ewll') { eventQuery('firstMsg') }
@@ -78,31 +77,11 @@ function Chatbot() {
             messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
             playOutput(data[0].outputAudio);
         });
-        return () => {
-
-        }
+        socketio.on('results-tts', function (data) {
+            playOutput(data);
+        });
+        return () => { }
     }, [])
-    function playOutput(arrayBuffer) {
-        let audioContext = new AudioContext();
-        let outputSource;
-        try {
-            if (arrayBuffer.byteLength > 0) {
-                audioContext.decodeAudioData(arrayBuffer,
-                    function (buffer) {
-                        audioContext.resume();
-                        outputSource = audioContext.createBufferSource();
-                        outputSource.connect(audioContext.destination);
-                        outputSource.buffer = buffer;
-                        outputSource.start(0);
-                    },
-                    function () {
-                        console.log(arguments);
-                    });
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    }
     const keyPressHanlder = (e, bln) => {
         if (e.key === "Enter" || bln) {
             e.preventDefault()
@@ -450,7 +429,7 @@ function Chatbot() {
                                         console.log(data)
                                         return (
                                             <>
-                                                <SuggestionMsg suggestion={data}></SuggestionMsg>
+                                                <SuggestionMsg suggestion={data} socketio={socketio}></SuggestionMsg>
                                             </>)
                                     }
                                     )}
@@ -522,7 +501,7 @@ function Chatbot() {
                                         <p>
                                             {data}
                                         </p>
-                                        <button onClick={() => speak({ text: data })}>Listen</button>
+                                        <button onClick={() => socketio.emit('tts-message', data)}>Listen</button>
                                     </>
                                 )
                             })}

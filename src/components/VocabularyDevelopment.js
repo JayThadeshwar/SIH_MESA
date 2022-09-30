@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../utility/LoadingSpinner";
 import * as con from "../constants";
-import { useSpeechSynthesis } from 'react-speech-kit';
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
 import styles from "./VocabularyDevelopment.module.scss";
@@ -11,6 +10,9 @@ import lightblue from "@material-ui/core/colors/lightBlue";
 import { makeStyles } from "@material-ui/styles";
 import cx from "classnames";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import io from 'socket.io-client';
+import playOutput from "./Commons/PlayAudio";
+const socketio = io.connect("http://localhost:5001");
 
 const useStyles = makeStyles((theme) => ({
   vocabdevelopment: {
@@ -37,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 const VocabularyDevelopment = () => {
 
   const [value, setValue] = useState('');
-  const { speak } = useSpeechSynthesis();
   const location = useLocation();
   const chpId = location.state.id
 
@@ -62,19 +63,23 @@ const VocabularyDevelopment = () => {
     setChpData(chpDet)
   };
 
-  useEffect(()=>{
-    if(Object.keys(chpData).length !== 0){
+  useEffect(() => {
+    socketio.on('connect', function () {
+      console.log('connected')
+    });
+    socketio.on('results-tts', function (data) {
+      playOutput(data);
+    });
+    if (Object.keys(chpData).length !== 0) {
       fetchChp();
       fetchVocab();
       setclickableArr(chpData["content"].split('.'))
-    }    
+    }
   }, [chpData]);
 
-  const fetchChp = async () => {  
-    console.log("IN")  
-    setChapterContent(chpData['content']);    
+  const fetchChp = async () => {
+    setChapterContent(chpData['content']);
   };
-
   const fetchVocab = async () => {
     const data = chpData['vocabularyDevelopment'];
     console.log("Data:" + data)
@@ -104,8 +109,10 @@ const VocabularyDevelopment = () => {
                     <div className="d-flex align-items-center gap-3">
                       <h1>
                         <span onClick={() => {
-                          const audio = new Audio(item["audioLink"][0]);
-                          audio.play();
+                          console.log(item.word)
+                          socketio.emit('tts-message', item.word)
+                          // const audio = new Audio(item["audioLink"][0]);
+                          // audio.play();
                         }}><VolumeUpIcon /></span> {item.word}:
                       </h1>
                       <h3>
@@ -172,7 +179,7 @@ const VocabularyDevelopment = () => {
     setVocabContent(renderData);
   }
 
-  useEffect(() => {    
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -184,7 +191,7 @@ const VocabularyDevelopment = () => {
         <h1 className={"title"}>Chapter Details</h1>
         <div className={cx(styles.chapDetail, "")}>
           {isChapterLoading && clickableArr.length !== 0 ? <LoadingSpinner /> : clickableArr.map((item) => {
-            return <span id='clickHover' className={classes.clickHover} onClick={() => speak({ text: item })}>{item + ". "}</span>
+            return <span id='clickHover' className={classes.clickHover} onClick={() => socketio.emit('tts-message', item)}>{item + ". "}</span>
           })}
         </div>
       </div>

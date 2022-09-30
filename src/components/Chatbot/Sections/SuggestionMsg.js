@@ -2,8 +2,7 @@ import React from 'react'
 import { useSpeechSynthesis } from "react-speech-kit";
 
 
-function SuggestionMsg({ suggestion }) {
-    const { speak } = useSpeechSynthesis();
+function SuggestionMsg({ suggestion, socketio }) {
     return (
         <>
             {suggestion && <div class="suggestion suggestion-0" data-ember-action="" data-ember-action-143="143" style={{ visibility: "visible", opacity: 1, transform: "translateX(0%)", margin: '5px 0 10px 0', color: 'white' }}>
@@ -13,7 +12,7 @@ function SuggestionMsg({ suggestion }) {
                         {suggestion}
                     </span>
                 </div>
-                {suggestion && <button type='button' class="btn speaker" onClick={() => { speak({ text: suggestion }) }}></button>
+                {suggestion && <button type='button' class="btn speaker" onClick={() => { socketio.emit('tts-message', suggestion) }}></button>
                 }                <div id="ember147" class="ripple-container ember-view"></div>
             </div>}
         </>
