@@ -4,19 +4,16 @@ const app = express();
 const http = require('http');
 const cors = require('cors');
 const { Server } = require('socket.io');
-const fs = require('fs');
-const tts = require('google-translate-tts');
 const translate = require('@iamtraction/google-translate');
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use('/api/dialogflow', require('./server/routes/dialogflow'));
-console.log(translate)
+// console.log(translate)
 const googleTTS = require('google-tts-api');
 const textToSpeech = require('@google-cloud/text-to-speech');
 const client = new textToSpeech.TextToSpeechClient();
 
-// load all the libraries for the Dialogflow part
 const uuid = require('uuid');
 const df = require('dialogflow').v2beta1;
 var server;
@@ -39,8 +36,9 @@ function setupDialogflow(projectid, langCode) {
       "audioConfig": {
         "audioEncoding": "AUDIO_ENCODING_LINEAR_16",
         "sampleRateHertz": 16000,
-        "languageCode": langCode
-      }
+        "languageCode": "en-IN",
+      },
+
     }
   }
 }
@@ -141,8 +139,9 @@ io.on('connect', (client) => {
       });
     }
   });
-  client.on('tts-message', async function (text) {
-    textToAudioBuffer(text).then(function (results) {
+  client.on('tts-message', async function (payload) {
+    // console.log(payload)
+    textToAudioBuffer(payload).then(function (results) {
       console.log(results);
       client.emit('results-tts', results);
     }).catch(function (e) {
@@ -154,13 +153,13 @@ io.on('connect', (client) => {
  * TTS text to an audio buffer
  * @param text - string written text
  */
-async function textToAudioBuffer(text) {
+async function textToAudioBuffer(payload) {
   const request = {
     input: {
-      text: text
+      text: payload['text']
     },
-    voice: { languageCode: 'en-IN', ssmlGender: 'MALE' },
-    audioConfig: { audioEncoding: 'MP3', "speakingRate": 0.85 },
+    voice: { languageCode: payload['language_code'], ssmlGender: payload['gender'] },
+    audioConfig: { audioEncoding: 'MP3', "speakingRate": payload['speed'] },
   };
   // Performs the Text-to-Speech request
   const response = await client.synthesizeSpeech(request);
@@ -171,5 +170,5 @@ async function textToAudioBuffer(text) {
 
 
 server.listen(port, () => {
-  console.log(`Server Running at ${port}`)
+  console.log(`Server Running at ${port}`);
 });

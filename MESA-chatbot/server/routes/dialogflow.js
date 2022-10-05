@@ -9,11 +9,66 @@ const util = require('util');
 const sessionClient = new dialogflow.SessionsClient();
 let sessionPath;
 const translate = require('@iamtraction/google-translate');
+// const googleTTS = require('google-tts-api');
+const textToSpeech = require('@google-cloud/text-to-speech');
+const client = new textToSpeech.TextToSpeechClient();
+const country_codes = require('../routes/countryCodes.json')
 
 
+async function retrieveLangCode() {
+    const [result] = await client.listVoices({});
+    const voices = result.voices;
+
+    let langDict = {}
+    for (let i = 0; i < voices.length; i++) {
+        // console.log(voices[i].languageCodes[0].split('-')[0])
+        let key = voices[i].languageCodes[0]
+        let key_lang = voices[i].languageCodes[0].split('-')[0]
+        let key_origin = voices[i].languageCodes[0].split('-')[1]
+        if (key_lang in translate.languages && !(key_lang in langDict)) {
+            console.log(country_codes[key_origin])
+            console.log(key_origin)
+
+            langDict[key_lang] = { language: translate.languages[key_lang], origins: [{ language_code: key, origin: key_origin, origin_name: country_codes[key_origin], gender: [voices[i]['ssmlGender']] }] }
+
+
+        }
+        else if (key_lang in langDict) {
+            let originFound = 0
+            let boolFound = 0
+            for (let z = 0; z < langDict[key_lang]['origins'].length; z++) {
+                if (langDict[key_lang]['origins'][z]['origin'] === key_origin) {
+                    originFound = 1;
+                    for (let j = 0; j < langDict[key_lang]['origins'][z]['gender'].length; j++) {
+                        if (langDict[key_lang]['origins'][z]['gender'][j] === voices[i]['ssmlGender']) {
+                            boolFound = 1;
+                            break
+                        }
+                    }
+                    if (!boolFound) {
+                        langDict[key_lang]['origins'][z]['gender'].push(voices[i]['ssmlGender'])
+                    }
+                    break
+                }
+            }
+            if (!originFound) {
+                langDict[key_lang]['origins'].push({ language_code: key, origin: key_origin, origin_name: country_codes[key_origin], gender: [voices[i]['ssmlGender']] })
+            }
+
+
+
+        }
+    }
+    // console.log(langDict)
+
+    return langDict;
+}
 
 // Text Query Route
-
+router.get('/languageOptions', async (req, res) => {
+    const langCodes = await retrieveLangCode()
+    res.send(langCodes)
+});
 router.post('/textQuery', async (req, res) => {
     //We need to send some information that comes from the client to Dialogflow API 
     // The text query request.
