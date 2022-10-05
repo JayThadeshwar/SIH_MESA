@@ -4,15 +4,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ollp from '../images/online learning login.png';
 import TextField from '@mui/material/TextField';
-import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
+import LangChgDropDown from './common/LangChgDropDown';
 const Login = () => {
   const { t } = useTranslation()
   const navigate = useNavigate();
 
   // useEffect(()=>{
-  //   const lCode = localStorage.getItem('code') || 'en'
+  //   const lCode = localStorage.getItem('i18nextLng') || 'en'
   //   i18next.changeLanguage(lCode);
   // },[])
 
@@ -42,6 +42,7 @@ const Login = () => {
 
   return (
     <div className="Login">
+      <LangChgDropDown></LangChgDropDown>
       <div className="container-fluid">
         <div className="row m-0">
           <div className="d-none d-lg-block col-lg-6 col-md-0 col-sm-0 col-xs-0 d-flex align-items-center justify-content-content">

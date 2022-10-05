@@ -8,10 +8,10 @@ import { makeStyles } from "@material-ui/styles";
 import lightblue from "@material-ui/core/colors/lightBlue";
 import Grid from '@material-ui/core/Grid';
 import Header from "./Header"
-import Footer from "./common/Footer"
+import Footer from "./common/Footer/Footer"
 import LoadingSpinner from "../utility/LoadingSpinner";
 import * as con from '../constants'
-import Navbar from "./common/Navbar";
+import Navbar from "./common/Navbar/Navbar";
 import styles from "./Summarization.module.scss";
 import cx from "classnames";
 

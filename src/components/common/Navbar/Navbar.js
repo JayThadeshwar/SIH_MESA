@@ -2,9 +2,10 @@ import React from 'react';
 import cx from "classnames";
 import styles from "./Navbar.module.scss"
 import { t } from 'i18next';
-import logo from "../../images/open-book.png"
+import logo from "../../../images/open-book.png"
 import { useNavigate } from 'react-router-dom';
-
+import LangChgDropDown from '../LangChgDropDown';
+import NavbarDropdown from './NavbarDropdown';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const Navbar = () => {
 
   const UserIcon = () => {
     const component = (
-      <a className="dropdown-item nav-link" href="#" onClick={()=>navigate('/logout')}>
+      <a className="dropdown-item nav-link" href="#" onClick={() => navigate('/logout')}>
         {/* <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
           <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
           <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
@@ -61,7 +62,7 @@ const Navbar = () => {
   return (
     <nav className={cx("navbar navbar-expand-lg navbar-dark  sticky-top shadow", styles.navCol)}>
       <div className="container-fluid">
-        <a className="navbar-brand fs-3" onClick={() => navigate('/home')} style={{cursor: "pointer"}}>
+        <a className="navbar-brand fs-3" onClick={() => navigate('/home')} style={{ cursor: "pointer" }}>
           <img src={logo} alt="" width="30" height="24" class="d-inline-block align-text-top" />
           MESA
         </a>
@@ -70,14 +71,15 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse gap-5" id="navbarSupportedContent" style={{ "flexGrow": 0 }}>
           <Search />
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+          <NavbarDropdown></NavbarDropdown>
+          {/* <ul className="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
             <li className="nav-item">
-              {/* <DropDown /> */}
+              <DropDown />
             </li>
             <li className="nav-item">
               <UserIcon />
             </li>
-          </ul>
+          </ul> */}
         </div>
       </div>
     </nav>

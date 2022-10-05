@@ -3,15 +3,17 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../utility/LoadingSpinner";
 import * as con from "../constants";
-import Navbar from "../components/common/Navbar";
-import Footer from "../components/common/Footer";
+import Navbar from "./common/Navbar/Navbar";
+import Footer from "./common/Footer/Footer";
 import styles from "./VocabularyDevelopment.module.scss";
 import lightblue from "@material-ui/core/colors/lightBlue";
 import { makeStyles } from "@material-ui/styles";
 import cx from "classnames";
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import io from 'socket.io-client';
-import playOutput from "./Commons/PlayAudio";
+import playOutput from "./common/PlayAudio";
+import voiceApiFunction from "./common/voiceApiFunction";
+
 const socketio = io.connect("http://localhost:5001");
 
 const useStyles = makeStyles((theme) => ({
@@ -40,7 +42,7 @@ const VocabularyDevelopment = () => {
 
   const [value, setValue] = useState('');
   const location = useLocation();
-  const chpId = location.state.id
+  const chpId = location.state.id;
 
   const [chapterContent, setChapterContent] = useState("");
   const [vocabContent, setVocabContent] = useState([]);
@@ -64,6 +66,7 @@ const VocabularyDevelopment = () => {
   };
 
   useEffect(() => {
+
     socketio.on('connect', function () {
       console.log('connected')
     });
@@ -110,7 +113,9 @@ const VocabularyDevelopment = () => {
                       <h1>
                         <span onClick={() => {
                           console.log(item.word)
-                          socketio.emit('tts-message', item.word)
+                          let payload = voiceApiFunction.voicePostFunction()
+                          payload['text'] = item.word
+                          socketio.emit('tts-message', payload)
                           // const audio = new Audio(item["audioLink"][0]);
                           // audio.play();
                         }}><VolumeUpIcon /></span> {item.word}:
@@ -191,7 +196,11 @@ const VocabularyDevelopment = () => {
         <h1 className={"title"}>Chapter Details</h1>
         <div className={cx(styles.chapDetail, "")}>
           {isChapterLoading && clickableArr.length !== 0 ? <LoadingSpinner /> : clickableArr.map((item) => {
-            return <span id='clickHover' className={classes.clickHover} onClick={() => socketio.emit('tts-message', item)}>{item + ". "}</span>
+            return <span id='clickHover' className={classes.clickHover} onClick={() => {
+              let payload = voiceApiFunction.voicePostFunction()
+              payload['text'] = item
+              socketio.emit('tts-message', payload)
+            }}>{item + ". "}</span>
           })}
         </div>
       </div>

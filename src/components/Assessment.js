@@ -52,18 +52,18 @@
 
 
 import React from 'react';
-import Navbar from "../components/common/Navbar";
-import Footer from "../components/common/Footer";
+import Navbar from "./common/Navbar/Navbar";
+import Footer from "./common/Footer/Footer";
 import SelfEvalComp from "./Mcq";
 
 const Assessment = () => {
   return (
     <>
-        <Navbar />
-        <div>
-            <SelfEvalComp />
-        </div>
-        <Footer />
+      <Navbar />
+      <div>
+        <SelfEvalComp />
+      </div>
+      <Footer />
     </>
   )
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import Footer from './common/Footer'
-import Navbar from './common/Navbar'
-import TextField from '@mui/material/TextField';
+import Footer from './common/Footer/Footer'
+import Navbar from './common/Navbar/Navbar'
+// import TextField from '@mui/material/TextField';
 import * as con from '../constants';
 import { useNavigate } from 'react-router-dom';
 import LoadingSpinner from "../utility/LoadingSpinner";
@@ -34,11 +34,11 @@ const AddChapter = () => {
     setLoad(true);
     event.preventDefault();
     let requestOptions = {}
-    if (typeBtn == 'text') {} else if (typeBtn == 'video') {
-      var video_id = videoLink.split("v=")[1].substring(0, 11);            
-      
-      fetch(con.BASE_URI + '/video?id=' + video_id).then((res) => {        
-        res.json().then((resp)=>{                    
+    if (typeBtn == 'text') { } else if (typeBtn == 'video') {
+      var video_id = videoLink.split("v=")[1].substring(0, 11);
+
+      fetch(con.BASE_URI + '/video?id=' + video_id).then((res) => {
+        res.json().then((resp) => {
           setContent(resp.content);
           setShowContent(true);
         })
@@ -50,10 +50,10 @@ const AddChapter = () => {
   };
 
   const handleSubmitMain = (event) => {
-    console.log("HEREEEEe:"+content)
+    console.log("HEREEEEe:" + content)
     setLoad(true)
     var requestOptions = {}
-    if (typeBtn == 'text'){
+    if (typeBtn == 'text') {
       requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -63,21 +63,21 @@ const AddChapter = () => {
           content: message
         })
       };
-  
+
       fetch(con.BASE_URI + "/chapters", requestOptions)
-      .then(
-        response => {
-        setLoad(false);
-        console.log(response)
-        if (response.status === 201)
-          navigate("/home");
-        else
-          sethasErr(true)
-      }).catch(err => {
-        setLoad(false);
-        console.log(err)
-        sethasErr(true)
-      })
+        .then(
+          response => {
+            setLoad(false);
+            console.log(response)
+            if (response.status === 201)
+              navigate("/home");
+            else
+              sethasErr(true)
+          }).catch(err => {
+            setLoad(false);
+            console.log(err)
+            sethasErr(true)
+          })
     } else {
       requestOptions = {
         method: 'POST',
@@ -88,22 +88,22 @@ const AddChapter = () => {
           content: content
         })
       };
-  
+
       fetch(con.BASE_URI + "/chapters", requestOptions)
-      .then(
-        response => {
-          setLoad(false)
-        console.log(response)
-        if (response.status === 201)
-          navigate("/home");
-        else
-          sethasErr(true)
-      }).catch(err => {
-        setLoad(false)
-        console.log(err)
-        sethasErr(true)
-      })
-    } 
+        .then(
+          response => {
+            setLoad(false)
+            console.log(response)
+            if (response.status === 201)
+              navigate("/home");
+            else
+              sethasErr(true)
+          }).catch(err => {
+            setLoad(false)
+            console.log(err)
+            sethasErr(true)
+          })
+    }
   }
 
   const btnOptions = [
@@ -127,12 +127,12 @@ const AddChapter = () => {
   const handleVideoChange = event => {
     console.log('Hello')
     console.log(event.target.value);
-    setVideoLink(event.target.value);    
+    setVideoLink(event.target.value);
   };
 
   const saveFile = (e) => {
-      setFile(e.target.files[0]);
-      setFileName(e.target.files[0].name);
+    setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name);
   };
 
   const uploadFile = async (e) => {
@@ -148,7 +148,7 @@ const AddChapter = () => {
         formData
       );
       let brve = values.content
-      
+
       setContent(brve + "\n" + res.data.ParsedResults[0]?.ParsedText || "" + "\n" + res.data.ParsedResults[1]?.ParsedText || "" + "\n" + res.data.ParsedResults[2]?.ParsedText || "" + "\n")
       setShowContent(true)
     } catch (ex) {
@@ -286,7 +286,7 @@ const AddChapter = () => {
               </div>
             </>
           )
-        }      
+        }
       </div>
       <Footer />
 

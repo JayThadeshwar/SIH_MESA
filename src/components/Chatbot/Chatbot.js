@@ -10,7 +10,7 @@ import MessageHuman from './Sections/MessageHuman';
 import SuggestionMsg from './Sections/SuggestionMsg';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import "../../css/Chatbot.css"
-import playOutput from '../Commons/PlayAudio';
+import playOutput from '../common/PlayAudio';
 
 
 const socketio = io.connect("http://localhost:5001");
@@ -262,7 +262,7 @@ function Chatbot() {
                         // project_id:'dinning-out'
                         project_id: projectId,
                         fromLangCode: 'en',
-                        toLangCode: localStorage.getItem('code'),
+                        toLangCode: localStorage.getItem('i18nextLng'),
 
                     };
                     socketio.emit('message', files)
@@ -495,16 +495,25 @@ function Chatbot() {
 
                                 </div>
                             </div>
-                            {suggestArr?.length !== 0 && suggestArr !== undefined && suggestArr.map((data) => {
+                            {/* {suggestArr?.length !== 0 && suggestArr !== undefined && suggestArr.map((data) => {
                                 return (
                                     <>
                                         <p>
                                             {data}
                                         </p>
-                                        <button onClick={() => socketio.emit('tts-message', data)}>Listen</button>
+                                        <button onClick={() =>{
+                                            let payload = {
+                                                'text':data,
+                                                'gender':'FEMALE',
+                                                'language_code':'en-IN',
+                                                'speed':0.85
+                                            }
+                                            console.log(payload)
+                                            socketio.emit('tts-message', payload)
+                                        }}>Listen</button>
                                     </>
                                 )
-                            })}
+                            })} */}
                         </div>
                     </div>
                     <hr></hr>

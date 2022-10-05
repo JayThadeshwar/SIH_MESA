@@ -18,9 +18,30 @@ import Scenarios from './components/Scenarios';
 import "./App.css";
 import Logout from './components/Logout';
 import AdminHomePage from './components/Admin/AdminHomePage';
+import i18n from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import { initReactI18next } from "react-i18next";
+import HttpApi from "i18next-http-backend";
 // import Trials from './components/Trials';
 // import HindiTrial from './components/HindiTrial';
 
+i18n
+  .use(initReactI18next)
+  .use(LanguageDetector)
+  .use(HttpApi)
+  .init({
+    supportedLngs: ['en', 'hi', 'mr'],
+    fallbackLng: "en",
+    detection: {
+      order: ['localStorage', 'htmlTag', 'cookie', 'path', 'subdomain'],
+      caches: ['localStorage'],
+    },
+    backend: {
+      loadPath: '/assets/locales/{{lng}}/translation.json'
+    }
+  });
+// NOTE: Dont use this variable by default `i18nextLng` this variable is available
+// localStorage.setItem('code', 'en'); 
 
 function App(props) {
   return (

@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
+// import Typography from "@material-ui/core/Typography";
+// import Box from "@material-ui/core/Box";
 import LoadingSpinner from "../utility/LoadingSpinner";
 import { makeStyles } from "@material-ui/styles";
 import lightblue from "@material-ui/core/colors/lightBlue";
-import Footer from "./common/Footer";
-import head from "../images/Home.png";
-import carouselCardImg from "../images/chapterImg.png";
+import Footer from "./common/Footer/Footer";
+// import head from "../images/Home.png";
+// import carouselCardImg from "../images/chapterImg.png";
 import Carousel from "better-react-carousel";
 import "react-multi-carousel/lib/styles.css"
 
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import * as con from "../constants";
-import Navbar from "./common/Navbar";
-import HomePageCard from "./Carousel/HomePageCard"
+import Navbar from "./common/Navbar/Navbar";
+// import HomePageCard from "./Carousel/HomePageCard"
 import GameSection from "./GameSection/GameSection"
-import Grid from '@mui/material/Grid'; // Grid version 1
-import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea, CardActions } from "@mui/material";
+// import Grid from '@mui/material/Grid'; // Grid version 1
+// import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
+// import Card from "@mui/material/Card";
+// import CardContent from "@mui/material/CardContent";
+// import CardMedia from "@mui/material/CardMedia";
+// import { CardActionArea, CardActions } from "@mui/material";
 import HomePageChat from "./HomepageChat/HomePageChat";
-import i18next from 'i18next';
-import {useTranslation} from 'react-i18next';
-import { useLocation } from "react-router-dom";
+// import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
+// import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   homepage: {
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Homepage() {
-  const {t} = useTranslation()
+  const { t } = useTranslation()
   const classes = useStyles();
   const navigate = useNavigate();
   const userId = localStorage.getItem('userId')
@@ -69,7 +69,7 @@ function Homepage() {
   const fetchChps = async () => {
     setIsChapterLoading(true);
     const response = await fetch(con.BASE_URI + "/chapters?userId=" + userId);
-    const data = await response.json();    
+    const data = await response.json();
     let carouselItem = data['chapterInfo'].map((item) => {
       return (
         <Carousel.Item>

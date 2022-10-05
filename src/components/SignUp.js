@@ -1,7 +1,7 @@
 // import * as React from 'react';
 import * as con from '../constants'
 import i18next from 'i18next';
-import {useTranslation} from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 // import { Link, useNavigate } from 'react-router-dom';
 // import Button from '@mui/material/Button';
 // import TextField from '@mui/material/TextField';
@@ -128,11 +128,12 @@ import TextField from '@mui/material/TextField';
 import olsp from '../images/online learning signup.png';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import LangChgDropDown from './common/LangChgDropDown';
 
 const SignUp = () => {
-    const {t} = useTranslation()
-    const navigate = useNavigate();
-    const handleSubmit = (event) => {
+  const { t } = useTranslation()
+  const navigate = useNavigate();
+  const handleSubmit = (event) => {
     event.preventDefault();
     var data = {
       "userName": event.target.username.value,
@@ -150,6 +151,7 @@ const SignUp = () => {
   };
   return (
     <div className="Signup">
+      <LangChgDropDown></LangChgDropDown>
       <div className="container-fluid pt-3">
         <div className="row m-0">
           <div className="d-none d-lg-block col-lg-6 col-md-0 col-sm-0 col-xs-0">
@@ -160,9 +162,9 @@ const SignUp = () => {
 
               <h1 className="font-weight-bold">{t("Register_Here")}</h1>
 
-              <form onSubmit={handleSubmit} className="d-flex flex-column gap-3 w-75"> 
+              <form onSubmit={handleSubmit} className="d-flex flex-column gap-3 w-75">
 
-                <TextField 
+                <TextField
                   // style={{ width: '80%' }}
                   required
                   id="fullname"
@@ -170,14 +172,14 @@ const SignUp = () => {
                   name="fname"
                   autoFocus
                 />
-                <TextField 
+                <TextField
                   // style={{ width: '80%' }}
                   required
                   id="uname"
                   label={t("UserName")}
                   name="username"
                 />
-                <TextField 
+                <TextField
                   // style={{ width: '80%' }}
                   required
                   fullWidth
@@ -186,7 +188,7 @@ const SignUp = () => {
                   name="email"
                   autoComplete="email"
                 />
-                <TextField 
+                <TextField
                   // style={{ width: '80%' }}
                   required
                   fullWidth
@@ -202,7 +204,7 @@ const SignUp = () => {
 
 
               <div>
-                <p className='lead'>{t("AlreadyRegistered")} <Link to="/login">{t("loginAccount")}</Link></p>                
+                <p className='lead'>{t("AlreadyRegistered")} <Link to="/login">{t("loginAccount")}</Link></p>
               </div>
             </div>
           </div>

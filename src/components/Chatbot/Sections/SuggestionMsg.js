@@ -12,7 +12,16 @@ function SuggestionMsg({ suggestion, socketio }) {
                         {suggestion}
                     </span>
                 </div>
-                {suggestion && <button type='button' class="btn speaker" onClick={() => { socketio.emit('tts-message', suggestion) }}></button>
+                {suggestion && <button type='button' class="btn speaker" onClick={() => {
+                    let payload = {
+                        'text': suggestion,
+                        'gender': 'FEMALE',
+                        'language_code': 'en-IN',
+                        'speed': 1
+                    }
+                    console.log(payload)
+                    socketio.emit('tts-message', payload)
+                }}></button>
                 }                <div id="ember147" class="ripple-container ember-view"></div>
             </div>}
         </>

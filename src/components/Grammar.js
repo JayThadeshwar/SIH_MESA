@@ -131,8 +131,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import cx from "classnames";
 import styles from "./Grammar.module.scss";
-import Navbar from "../components/common/Navbar"
-import Footer from "../components/common/Footer"
+import Navbar from "./common/Navbar/Navbar"
+import Footer from "./common/Footer/Footer"
 import { useTranslation } from 'react-i18next';
 import GmCard from "../utility/GrammarCard";
 import SvoCard from "../utility/SvoCard";
@@ -151,7 +151,7 @@ const Grammar = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    navigate("/assessment",{ state: { id: chpInfo } });
+    navigate("/assessment", { state: { id: chpInfo } });
   };
 
   const fetchGrammar = async () => {
@@ -180,13 +180,13 @@ const Grammar = () => {
       <Navbar />
       <div className={cx('container-fluid', styles.Grammer)}>
         <h1 className="display-4 mt-5 mb-3" style={{ "fontWeight": "900", color: "#383A3D" }}>
-          {t("Grammar")} 
+          {t("Grammar")}
         </h1>
 
         <div className={cx('container-fluid', styles.pos)}>
           <h3 className="display-7 text-capitalize mt-5 mb-3" style={{ "fontWeight": "600", color: "#383A3D" }}>{t("POS")}</h3>
 
-          {grammarUnderstanding}          
+          {grammarUnderstanding}
 
         </div>
 

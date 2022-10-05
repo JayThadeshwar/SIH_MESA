@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import Footer from '../common/Footer'
-import Navbar from '../common/Navbar'
-import Header from "../Header"
+import Footer from '../common/Footer/Footer'
+import Navbar from '../common/Navbar/Navbar'
 import { MDBDataTableV5 } from "mdbreact";
 import axios from 'axios';
 import { BASE_URI } from '../../constants';
@@ -125,8 +124,8 @@ function AdminHomePage() {
                             "name": name,
                             "country": country
                         }).then((res) => {
-                            axios.post('http://localhost:5001/api/dialogflow/jsonConvertor',{toLang:code}).then((res)=>{
-                            }).catch((err)=>{
+                            axios.post('http://localhost:5001/api/dialogflow/jsonConvertor', { toLang: code }).then((res) => {
+                            }).catch((err) => {
                                 console.log(err)
                             })
                             if (res.data.status_code) {
