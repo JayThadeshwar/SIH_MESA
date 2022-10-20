@@ -288,6 +288,7 @@ def extractKeywordsFromContent(content):
         translatedWord = {}
 
         for code in langSupported:
+            print(word)
             translatedWord[code] = translator.translate(word, src='en', dest=code).text   
 
         al = ''

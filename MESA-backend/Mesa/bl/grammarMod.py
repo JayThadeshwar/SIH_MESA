@@ -273,7 +273,7 @@ def generateGrammarDetails(content, k):
         if('subject' in res and 'verb' in res and 'object' in res):            
             svo.append(res)
 
-    finalResp = {"grammarticalInfo": response, "svoInfo": svo}    
+    finalResp = {"grammarticalInfo": response, "svoInfo": svo[:5]}    
     return finalResp
 
 # -------------------------------------------------------------------------

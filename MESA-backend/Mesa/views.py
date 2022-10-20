@@ -14,7 +14,7 @@ from Mesa.serializers import UserSerializer, ChapterSerializer
 from Mesa.bl.vocabularyDev import extractKeywordsFromContent
 from Mesa.bl.summaryNTranslation import summarizemethod
 from Mesa.bl.grammarMod import generateGrammarDetails
-# from Mesa.bl.mcq import extractMCQ
+from Mesa.bl.mcq import extractMCQ
 from Mesa.bl.game import mixNMatch
 from Mesa.bl.game import flyingBallon
 
@@ -49,7 +49,7 @@ class ChapterViewSet(viewsets.ModelViewSet):
         chapterDetails['summaryNTranslation'] = summarizemethod(chpContent)
         chapterDetails['grammarInformation'] = generateGrammarDetails(
             chpContent, 3)
-        # chapterDetails['mcq'] = extractMCQ(chpContent, chapterDetails['summaryNTranslation']['summary'])        
+        chapterDetails['mcq'] = extractMCQ(chpContent, chapterDetails['summaryNTranslation']['summary'])        
         Chapter.objects.create(**chapterDetails)
         return Response(status=status.HTTP_201_CREATED)
 
@@ -95,9 +95,9 @@ def validateUserApi(request, id=0):
             msg = "Either username or password is invalid"
         else:
             info = user[0].userId
-            isAdmin=True
-
-        resp = {"msg": msg, "isValid": isValid, "info": info,"isAdmin":isAdmin}
+            isAdmin= False if user[0].isAdmin == None else user[0].isAdmin      
+              
+        resp = {"msg": msg, "isValid": isValid, "info": info,"isAdmin": isAdmin}
         return JsonResponse(resp, safe=False)
 
 @csrf_exempt
