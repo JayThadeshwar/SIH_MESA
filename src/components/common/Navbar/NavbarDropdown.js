@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Dropdown from 'react-multilevel-dropdown';
 import { Form, Row, Col } from 'react-bootstrap';
 import i18next from 'i18next';
@@ -8,25 +8,7 @@ import RangeSlider from 'react-bootstrap-range-slider';
 import axios from 'axios';
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
-
-const languages = [
-    {
-        code: 'hi',
-        name: 'हिंदी',
-        country: 'IN'
-    },
-    {
-        code: 'mr',
-        name: 'मराठी',
-        country: 'IN'
-    },
-    {
-        code: 'en',
-        name: 'English',
-        country: 'IN'
-    }
-]
-
+import { LangContext } from '../../Context/LangContext';
 
 const UserIcon = () => {
     const navigate = useNavigate();
@@ -49,6 +31,7 @@ const UserIcon = () => {
 }
 
 function NavbarDropdown() {
+    const { langApiData } = useContext(LangContext)
     const [show, setShow] = useState(false);
     const [speed, setSpeed] = useState(1);
     const [isMaleVoice, setIsMaleVoice] = useState(false);
@@ -63,10 +46,9 @@ function NavbarDropdown() {
 
     useEffect(() => {
         let langCode = localStorage.getItem('i18nextLng')
-        if (langCode) {
+        if (langCode && langApiData.length !== 0) {
             let lang_options = [];
-
-            languages.map(({ code, name, country }) => {
+            langApiData.map(({ code, name, country }) => {
                 if (langCode === code) {
                     localStorage.setItem('voice_language', JSON.stringify({ value: langCode, label: name }))
                     setSelectedLangOption({ value: langCode, label: name })
@@ -113,13 +95,13 @@ function NavbarDropdown() {
                 }
 
             });
-        } 
+        }
         // else {
         //     alert('No lang Code set')
         // }
 
         return () => { }
-    }, [])
+    }, [langApiData])
 
     function settingOriginOptions(data, changeLang) {
         let options = [];
@@ -281,8 +263,8 @@ function NavbarDropdown() {
                 <Dropdown.Item onClick={() => { setShow(true) }}>
                     Voice Assistant
                 </Dropdown.Item>
-                <Dropdown.Item>                
-                    <UserIcon />                    
+                <Dropdown.Item>
+                    <UserIcon />
                 </Dropdown.Item>
             </DropdownButton>
 
