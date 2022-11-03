@@ -9,6 +9,7 @@ urlpatterns=[
      path('', include(router.urls)),
      re_path(r'^user$',views.userApi),
      re_path(r'^user/validate$',views.validateUserApi),          
+     re_path(r'^lang$',views.langApi),          
      re_path(r'^video$',views.videoContent),          
      re_path(r'^game/(?P<game_no>\d+)$', views.gameApi, name='game'),
      re_path(r'^chapter/(?P<chapter_id>\d+)/$', views.chapterApi, name='chapter'),
