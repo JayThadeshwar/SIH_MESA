@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Axios from 'axios';
 import Card from "./Sections/Card";
 import io from 'socket.io-client';
@@ -11,10 +11,12 @@ import SuggestionMsg from './Sections/SuggestionMsg';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import "../../css/Chatbot.css"
 import playOutput from '../common/PlayAudio';
-
+import i18next from 'i18next';
+import { LangContext } from '../Context/LangContext';
 
 const socketio = io.connect("http://localhost:5001");
 function Chatbot() {
+    const { langApiData } = useContext(LangContext)
     const location = useLocation()
     const [isRecording, setIsRecording] = useState(false)
     const [fromInput, setFromInput] = useState()
@@ -344,11 +346,16 @@ function Chatbot() {
                         setFromInput(e.target.value)
                     }}
                 >
-                    <MenuItem value={'en'}>English</MenuItem>
+                    {langApiData.length !== 0 && langApiData.map(({ code, name, country }) => {
+                        return (
+                            <MenuItem value={code}>{name}</MenuItem>
+                        )
+                    })}
+                    {/* <MenuItem value={'en'}>English</MenuItem>
                     <MenuItem value={'hi'}>Hindi</MenuItem>
                     <MenuItem value={'mr'}>Marathi</MenuItem>
                     <MenuItem value={'kn'}>Kannda</MenuItem>
-                    <MenuItem value={'ta'}>Tamil</MenuItem>
+                    <MenuItem value={'ta'}>Tamil</MenuItem> */}
                 </Select>
             </FormControl>}
             <div className="learn-main">
@@ -536,11 +543,16 @@ function Chatbot() {
                         setToInput(e.target.value)
                     }}
                 >
-                    <MenuItem value={'en'}>English</MenuItem>
+                    {langApiData.length !== 0 && langApiData.map(({ code, name, country }) => {
+                        return (
+                            <MenuItem value={code}>{name}</MenuItem>
+                        )
+                    })}
+                    {/* <MenuItem value={'en'}>English</MenuItem>
                     <MenuItem value={'hi'}>Hindi</MenuItem>
                     <MenuItem value={'mr'}>Marathi</MenuItem>
                     <MenuItem value={'kn'}>Kannda</MenuItem>
-                    <MenuItem value={'ta'}>Tamil</MenuItem>
+                    <MenuItem value={'ta'}>Tamil</MenuItem> */}
                 </Select>
             </FormControl>}
         </div>
