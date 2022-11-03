@@ -159,20 +159,21 @@ def extractMCQ(content, summaryText):
     key_distractor_list = {}
 
     for keyword in keyword_sentence_mapping:
-        print("Above wordsense")
-        wordsense = get_wordsense(keyword_sentence_mapping[keyword][0],keyword)
-        print(wordsense)
-        if wordsense:
-            distractors = get_distractors_wordnet(wordsense,keyword)
-            if len(distractors) ==0:
+        print("Above wordsense", keyword)
+        if(len(keyword_sentence_mapping[keyword]) > 0):
+            wordsense = get_wordsense(keyword_sentence_mapping[keyword][0],keyword)
+            print(wordsense)
+            if wordsense:
+                distractors = get_distractors_wordnet(wordsense,keyword)
+                if len(distractors) ==0:
+                    distractors = get_distractors_conceptnet(keyword)
+                if len(distractors) != 0:
+                    key_distractor_list[keyword] = distractors
+            else:
+                
                 distractors = get_distractors_conceptnet(keyword)
-            if len(distractors) != 0:
-                key_distractor_list[keyword] = distractors
-        else:
-            
-            distractors = get_distractors_conceptnet(keyword)
-            if len(distractors) != 0:
-                key_distractor_list[keyword] = distractors
+                if len(distractors) != 0:
+                    key_distractor_list[keyword] = distractors
 
     mcq=[]
     listofoptions=[]
