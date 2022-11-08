@@ -12,16 +12,20 @@
   },
   "dependencies": {
     "@google-cloud/dialogflow": "^5.2.1",
+    "@google-cloud/speech": "^5.1.0",
+    "@google-cloud/storage": "^6.7.0",
     "@google-cloud/text-to-speech": "^4.0.3",
     "@iamtraction/google-translate": "^1.1.2",
-    "body-parser": "^1.18.3",
+    "body-parser": "^1.20.1",
     "dialogflow": "^0.8.2",
     "dialogflow-fulfillment": "^0.6.1",
     "express": "^4.16.4",
     "google-translate-tts": "^0.4.0-dev",
     "google-tts-api": "^2.0.2",
+    "multer": "^1.4.5-lts.1",
     "socket.io": "^4.5.1",
     "socket.io-stream": "^0.9.1",
+    "stream-buffers": "^3.0.2",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

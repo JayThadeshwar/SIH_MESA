@@ -167,8 +167,8 @@ router.post('/jsonConvertor', async (req, res) => {
                 console.log(data1)
                 bl = true
                 let data = JSON.stringify(data1);
-                fs.mkdirSync(`D:/CHAITANYA/web/React/25082022/SIH_MESA/public/assets/locales/${req.body.toLang}`);
-                fs.writeFileSync(`D:/CHAITANYA/web/React/25082022/SIH_MESA/public/assets/locales/${req.body.toLang}/translation.json`, data);
+                fs.mkdirSync(`D:/CHAITANYA/web/React/finalSIHFrontend/SIH_MESA/public/assets/locales/${req.body.toLang}`);
+                fs.writeFileSync(`D:/CHAITANYA/web/React/finalSIHFrontend/SIH_MESA/public/assets/locales/${req.body.toLang}/translation.json`, data);
 
                 res.send(true)
             }
@@ -287,11 +287,5 @@ router.post('/eventQuery', async (req, res1) => {
 
 
 })
-
-
-
-
-
-
 
 module.exports = router;
