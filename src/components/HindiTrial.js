@@ -12,6 +12,9 @@ function HindiTrial() {
         socketio.on('results', function (data) {
             console.log(data)
         });
+        return () => {
+            socketio.close()
+        }
     }, [])
 
     function stopRecordingF() {

@@ -186,6 +186,9 @@ const VocabularyDevelopment = () => {
 
   useEffect(() => {
     fetchData();
+    return () => {
+      socketio.close()
+    }
   }, []);
 
 

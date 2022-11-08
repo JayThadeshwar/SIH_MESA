@@ -82,7 +82,7 @@ function Chatbot() {
         socketio.on('results-tts', function (data) {
             playOutput(data);
         });
-        return () => { }
+        return () => { socketio.close() }
     }, [])
     const keyPressHanlder = (e, bln) => {
         if (e.key === "Enter" || bln) {
