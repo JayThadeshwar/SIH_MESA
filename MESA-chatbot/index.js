@@ -99,7 +99,7 @@ io.on('connect', (client) => {
     console.log('------------------------------------------------------------')
     console.log(results)
     console.log(results[0].queryResult.fulfillmentText)
-    console.log('------------------------------------------------------------')
+    console.log('------------------------^^---------------------')
     if (results[0].queryResult.fulfillmentText !== "") {
       translate(results[0].queryResult.fulfillmentText, { from: fromLangCode, to: toLangCode }).then(res => {
         // console.log(res.text); // OUTPUT: Je vous remercie
@@ -111,6 +111,8 @@ io.on('connect', (client) => {
       }).catch(err => {
         console.error(err);
       });
+    }else if (results[0].queryResult.fulfillmentText === ""){
+        client.emit('results-error', "Please try again");
     }
   });
   client.on('message_translate', async function (data) {
@@ -124,10 +126,10 @@ io.on('connect', (client) => {
     let fileBuffer = Buffer.from(dataURL, 'base64');
     // run the simple detectIntent() function
     let results = await detectIntent(fileBuffer);
-    console.log('------------------------------------------------------------')
+    console.log('-------------------------------------------')
     console.log(results)
     console.log(results[0].queryResult.queryText)
-    console.log('------------------------------------------------------------')
+    console.log('------------------$$------------------')
     if (results[0].queryResult.queryText !== "") {
       translate(results[0].queryResult.queryText, { from: langCode, to: output_langCode }).then(async res => {
         console.log(res.text); // OUTPUT: Je vous remercie
@@ -153,12 +155,14 @@ io.on('connect', (client) => {
       }).catch(err => {
         console.error(err);
       });
+    }else if (results[0].queryResult.fulfillmentText === ""){
+        client.emit('results-error', "Please try again");
     }
   });
   client.on('tts-message', async function (payload) {
-    // console.log(payload)
+     console.log(payload)
     textToAudioBuffer(payload).then(function (results) {
-      console.log(results);
+    //  console.log(results);  //Buffer
       client.emit('results-tts', results);
     }).catch(function (e) {
       console.log(e);
@@ -206,7 +210,7 @@ router.post('/audioTranscript', upload.single('file'), async (req, res) => {
     const [response] = await operation.promise();
     const transcription = response.results
       .map(result => result.alternatives[0].transcript).join(' ')
-    // console.log(`Transcription: ${transcription}`);
+     console.log(`Transcription: ${transcription}`);
     io.to(req.body.clientId).emit('sst_message', transcription)
     const storage = new Storage();
     try {
