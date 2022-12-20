@@ -135,7 +135,7 @@ function NavbarDropdown() {
             >
                 <Modal.Header>
                     <Modal.Title >
-                        Voice Assistant Settings
+                        Language Settings
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -159,7 +159,7 @@ function NavbarDropdown() {
                         </Form.Group>
                         <Form.Group className="mb-3">
 
-                            <Form.Label>Origin</Form.Label>
+                            <Form.Label>Voice Assistant Origin</Form.Label>
 
                             <Select
                                 value={selectedOriginOption}
